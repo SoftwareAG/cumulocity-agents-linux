@@ -13,7 +13,7 @@ Cumulocity Linux agent is a generic agent for connecting to Cumulocity, which ru
 
 ### How to build the agent? ###
 
-* First download and build the [Cumulocity C++ library](https://bitbucket.org/m2m/cumulocity-sdk-c).
+* Build the [Cumulocity C++ library](https://bitbucket.org/m2m/cumulocity-sdk-c) with the default *Makefile* and *common.mk* as *init.mk*.
 * Download the agent source code:
 
 ```
