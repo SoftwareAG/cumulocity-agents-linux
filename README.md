@@ -4,8 +4,8 @@ Cumulocity Linux agent is a generic agent for connecting to Cumulocity, which ru
 
 ### Current Features ###
 
-* Periodically report device memory usage to Cumulocity.
-* Periodically report device system load to Cumulocity.
+* Periodically report memory usage to Cumulocity.
+* Periodically report system load to Cumulocity.
 * Send log files (syslog, journald, agent log) to Cumulocity on demand.
 
 ### Features in Planning ###
