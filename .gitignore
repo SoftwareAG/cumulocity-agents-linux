@@ -2,3 +2,4 @@ lib/
 build/
 bin/
 runagent
+lua/a.lua
