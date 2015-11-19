@@ -38,7 +38,7 @@ export C8Y_LIB_PATH=/library/root/path
 
 make
 ```
-* Build the agent in *release* mode:
+* Or build the agent in *release* mode:
 
 ```
 #!bash
