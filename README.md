@@ -14,13 +14,21 @@ Cumulocity Linux agent is a generic agent for connecting to Cumulocity, which ru
 ### How to build the agent? ###
 
 * First download and build the [Cumulocity C++ library](https://bitbucket.org/m2m/cumulocity-sdk-c).
-* Copy the compiled library files to the lib/ directory under the agent root directory.
-* Export the Cumulocity C++ library path (add the following code to your ~/.bashrc if you don't want to set it every time after reboot):
+* Download the agent source code:
+
+```
+#!bash
+git clone git@bitbucket.org:m2m/cumulocity-agent-linux.git
+
+```
+
+* Copy the compiled library files to the *lib/* directory under the agent root directory.
+* Export the Cumulocity C++ library path (add the following code to your ~/.bashrc for permanence):
 
 ```
 #!bash
 
-export export C8Y_LIB_PATH=/library/root/path
+export C8Y_LIB_PATH=/library/root/path
 ```
 
 * Build the agent in *debug* mode:
