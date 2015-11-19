@@ -1,0 +1,33 @@
+demoagent_1
+
+10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
+
+10,301,POST,/inventory/managedObjects,application/json,application/json,%%,UNSIGNED,"{""name"":""Demo-Agent"",""type"":""c8y_demo"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%},""c8y_SupportedOperations"":[""c8y_Relay"",""c8y_Restart"",""c8y_LogfileRequest"",""c8y_SoftwareList""]}"
+
+10,302,POST,/identity/globalIds/%%/externalIds,application/json,,%%,STRING STRING,"{""externalId"":""%%"", ""type"":""c8y_Serial""}"
+
+10,303,PUT,/devicecontrol/operations/%%,application/json,,%%,UNSIGNED STRING,"{""status"":""%%""}"
+
+10,304,PUT,/devicecontrol/operations/%%,application/json,,%%,UNSIGNED STRING,"{""status"":""FAILED"",""failureReason"":""%%""}"
+
+10,305,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,NOW UNSIGNED UNSIGNED NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_MemUsage"",""c8y_MemUsage"":{""usage"":{""value"":%%,""unit"":""MB""},""percent"":{""value"":%%,""unit"":""%""}}}"
+
+10,306,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,NOW UNSIGNED NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_SystemLoad"",""c8y_SystemLoad"":{""load"":{""value"":%%,""unit"":""%""}}}"
+
+10,307,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SupportedLogs"":[%%]}"
+
+10,308,PUT,/devicecontrol/operations/%%,application/json,,%%,UNSIGNED STRING STRING STRING INTEGER STRING STRING,"{""status"":""SUCCESSFUL"",""c8y_LogfileRequest"":{""logFile"":""%%"",""dateFrom"":""%%"",""dateTo"":""%%"",""maximumLines"":%%,""searchText"":""%%"",""file"":""%%""}}"
+
+10,309,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SoftwareList"":[%%]}"
+
+10,310,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING,"{""c8y_Hardware"":{""model"":""%%"",""serialNumber"":""%%""}}"
+
+
+11,800,$.managedObject,,$.id
+11,801,,$.c8y_IsDevice,$.id
+11,802,,$.deviceId,$.id,$.status
+11,803,,$.c8y_Restart,$.id
+11,804,,$.c8y_LogfileRequest,$.id,$.c8y_LogfileRequest.logFile,$.c8y_LogfileRequest.dateFrom,$.c8y_LogfileRequest.dateTo,$.c8y_LogfileRequest.maximumLines,$.c8y_LogfileRequest.searchText
+11,805,$.c8y_SoftwareList,,$.name,$.version,$.url
+11,806,,$.c8y_SoftwareList,$.id,$.status
+11,807,,$.c8y_Relay,$.id,$.c8y_Relay.relayState
