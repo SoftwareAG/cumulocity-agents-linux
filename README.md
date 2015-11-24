@@ -22,7 +22,6 @@ git clone git@bitbucket.org:m2m/cumulocity-agent-linux.git
 
 ```
 
-* Copy the compiled library files to the *lib/* directory under the agent root directory.
 * Export the Cumulocity C++ library path (add the following code to your ~/.bashrc for permanence):
 
 ```
@@ -30,19 +29,24 @@ git clone git@bitbucket.org:m2m/cumulocity-agent-linux.git
 
 export C8Y_LIB_PATH=/library/root/path
 ```
+* Copy the compiled library files to the *lib/* directory under the agent root directory.
+
+```
+#!bash
+cd cumulocity-agent-linux
+cp -rP $C8Y_LIB_PATH/lib .
+```
 
 * Build the agent in *debug* mode:
 
 ```
 #!bash
-
 make
 ```
 * Or build the agent in *release* mode:
 
 ```
 #!bash
-
 make release
 ```
 
@@ -50,6 +54,5 @@ make release
 
 ```
 #!bash
-
 ./runagent
 ```
