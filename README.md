@@ -18,7 +18,7 @@ Cumulocity Linux agent is a generic agent for connecting to Cumulocity, which ru
 
 ```
 #!bash
-git clone git@bitbucket.org:m2m/cumulocity-agent-linux.git
+git clone git@bitbucket.org:m2m/cumulocity-agents-linux.git
 
 ```
 
