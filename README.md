@@ -33,7 +33,7 @@ export C8Y_LIB_PATH=/library/root/path
 
 ```
 #!bash
-cd cumulocity-agent-linux
+cd cumulocity-agents-linux
 cp -rP $C8Y_LIB_PATH/lib .
 ```
 
