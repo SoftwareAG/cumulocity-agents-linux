@@ -6,17 +6,19 @@ OBJ:=$(addprefix $(BUILD_DIR)/,$(notdir $(SRC:.cc=.o)))
 
 BIN_DIR:=bin
 BIN:=c8ydemo-agent
-CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11\
-		  -I$(C8Y_LIB_PATH)/include -MMD\
+CPPFLAGS+=-I$(C8Y_LIB_PATH)/include\
 		  -I$(C8Y_LIB_PATH)/ext/LuaBridge/Source/LuaBridge
+CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11 -MMD
 LDFLAGS:=-Llib
 LDLIBS:=-lsera
 
 ifeq ($(BUILD), release)
-CXXFLAGS+=-O2 -DNDEBUG
+CPPFLAGS+=-DNDEBUG
+CXXFLAGS+=-O2
 LDFLAGS+=-O2 -s -flto
 else
-CXXFLAGS+=-O0 -g -DDEBUG
+CPPFLAGS+=-DDEBUG
+CXXFLAGS+=-O0 -g
 LDFLAGS+=-O0 -g
 endif
 
@@ -33,7 +35,7 @@ $(BIN): $(OBJ)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CXXFLAGS) $< -c -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -c -o $@
 
 clean:
 	@rm -f $(BUILD_DIR)/*.o $(BUILD_DIR)/*.d $(BIN_DIR)/$(BIN)
