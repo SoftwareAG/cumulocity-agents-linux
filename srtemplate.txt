@@ -4,7 +4,7 @@ demoagent_1
 
 10,301,POST,/inventory/managedObjects,application/json,application/json,%%,UNSIGNED,"{""name"":""Demo-Agent"",""type"":""c8y_demo"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%},""c8y_SupportedOperations"":[""c8y_Relay"",""c8y_Restart"",""c8y_LogfileRequest"",""c8y_SoftwareList""]}"
 
-10,302,POST,/identity/globalIds/%%/externalIds,application/json,,%%,STRING STRING,"{""externalId"":""%%"", ""type"":""c8y_Serial""}"
+10,302,POST,/identity/globalIds/%%/externalIds,application/json,,%%,STRING STRING,"{""externalId"":""%%"",""type"":""c8y_Serial""}"
 
 10,303,PUT,/devicecontrol/operations/%%,application/json,,%%,UNSIGNED STRING,"{""status"":""%%""}"
 
