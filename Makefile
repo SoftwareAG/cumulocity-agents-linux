@@ -10,7 +10,7 @@ CPPFLAGS+=-I$(C8Y_LIB_PATH)/include\
 		  -I$(C8Y_LIB_PATH)/ext/LuaBridge/Source/LuaBridge
 CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11 -MMD
 LDFLAGS:=-Llib
-LDLIBS:=-lsera
+LDLIBS:=-lsera $(shell pkg-config --libs lua)
 
 ifeq ($(BUILD), release)
 CPPFLAGS+=-DNDEBUG
