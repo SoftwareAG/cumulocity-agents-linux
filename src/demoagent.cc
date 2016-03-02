@@ -2,42 +2,37 @@
 #include <sragent.h>
 #include <srdevicepush.h>
 #include <srreporter.h>
-#include <srluapluginmanager.h>
 #include <srlogger.h>
 #include "integrate.h"
+#include "luamanager.h"
 using namespace std;
 
-// static const string &server = "http://management.tindi.solutions";
-static const string server = "http://developer.cumulocity.com";
-static const char *srpath = "srtemplate.txt";
 static const char *deviceID = "123123";
-static const char *credpath = "/tmp/c8ydemo";
-static const string luapath = "lua/";
-
+static SrLogLevel getLogLevel(const string &lvl);
 static void printInfo(const SrAgent &agent);
-static int integrate(SrAgent &agent);
+static int integrate(SrAgent &agent, ConfigDB &cdb);
+static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb);
 
 
 int main()
 {
-        // srLogSetDest("/var/log/demoagent.log");
-        srLogSetQuota(1024);
-        srLogSetLevel(SRLOG_DEBUG);
+        ConfigDB cdb("c8ydemo.conf");
+        srLogSetDest(cdb.get("log.path"));
+        srLogSetQuota(strtoul(cdb.get("log.quota").c_str(), NULL, 10));
+        srLogSetLevel(getLogLevel(cdb.get("log.level")));
+        const string server = cdb.get("server");
         Integrate igt;
         SrAgent agent(server, deviceID, &igt);
         srInfo("Bootstrap to " + server);
-        if (agent.bootstrap(credpath)) {
+        if (agent.bootstrap(cdb.get("credpath"))) {
                 srCritical("Bootstrap failed.");
                 return 0;
         }
-        if (integrate(agent) == -1)
+        if (integrate(agent, cdb) == -1)
                 return 0;
         printInfo(agent);
-        SrLuaPluginManager lua(agent);
-        lua.addLibPath(luapath + "?.lua");
-        lua.load(luapath + "system.lua");
-        lua.load(luapath + "logview.lua");
-        // lua.load(luapath + "software.lua");
+        LuaManager lua(agent, cdb);
+        loadLuaPlugins(lua, cdb);
         SrReporter reporter(server, agent.XID(), agent.auth(),
                             agent.egress, agent.ingress);
         SrDevicePush push(server, agent.XID(), agent.auth(),
@@ -46,6 +41,18 @@ int main()
                 return 0;
         agent.loop();
         return 0;
+}
+
+
+static SrLogLevel getLogLevel(const string &lvl)
+{
+        if (lvl == "debug") return SRLOG_DEBUG;
+        else if (lvl == "info") return SRLOG_INFO;
+        else if (lvl == "notice") return SRLOG_NOTICE;
+        else if (lvl == "warning") return SRLOG_WARNING;
+        else if (lvl == "error") return SRLOG_ERROR;
+        else if (lvl == "critical") return SRLOG_CRITICAL;
+        else return SRLOG_INFO;
 }
 
 
@@ -58,11 +65,11 @@ static void printInfo(const SrAgent &agent)
 }
 
 
-static int integrate(SrAgent &agent)
+static int integrate(SrAgent &agent, ConfigDB &cdb)
 {
         string srv, srt;
         srDebug("Read SmartRest template...");
-        if (readSrTemplate(srpath, srv, srt)) {
+        if (readSrTemplate(cdb.get("path") + "/srtemplate.txt", srv, srt)) {
                 srCritical("Read SmartRest failed.");
                 return -1;
         }
@@ -72,4 +79,14 @@ static int integrate(SrAgent &agent)
                 return -1;
         }
         return 0;
+}
+
+
+static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb)
+{
+        const string luapath = cdb.get("path") + "/lua/";
+        lua.addLibPath(luapath + "?.lua");
+        istringstream iss(cdb.get("lua.plugins"));
+        for (string sub; getline(iss, sub, ',');)
+                lua.load(luapath + sub + ".lua");
 }
