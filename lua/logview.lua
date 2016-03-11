@@ -93,7 +93,10 @@ function _log(logtype, start, stop, match, limit)
    local tbl = {}
    for line in file:lines() do
       if bf(line, start) then
-         if ef(line, stop) then tbl[index] = line end
+         if ef(line, stop) then
+            tbl[index] = line
+            index = 2
+         end
          break
       end
    end
