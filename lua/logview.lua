@@ -1,15 +1,11 @@
 require('logfilter')
-local tfmt = '(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)([+-]%d+)'
 local jfmt = 'journalctl -q --no-pager --since %q --until %q|grep %q|tail -%d'
-local urlmatch = '"self":"([%w%.:/-]+/inventory/)managedObjects/(%d+)"'
-local months = {Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6,
-                Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12}
 local logtable = {
    pacman = {'/var/log/pacman.log', pacman_b_filter, pacman_e_filter},
-   syslog = {'/var/log/syslog.log', syslog_b_filter, syslog_e_filter},
-   journald = {'/usr/bin/journalctl'},
-   dmesg = {'/usr/bin/dmesg'},
-   c8yagent = {'/var/log/c8ydemoagent.log', syslog_b_filter, syslog_e_filter},
+   syslog = {'/var/log/syslog', syslog_b_filter, syslog_e_filter},
+   journald = {'/bin/journalctl'},
+   dmesg = {'/bin/dmesg'},
+   c8yagent = {cdb:get('log.path'), syslog_b_filter, syslog_e_filter},
 }
 
 
@@ -31,6 +27,7 @@ end
 
 -- Convert ISO time (2011-05-12T13:12:32+0001) to utc seconds since epoch
 function utc_time(time)
+   local tfmt = '(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)([+-]%d+)'
    local tbl = {string.match(time, tfmt)}
    local st = os.time{year=tbl[1], month=tbl[2], day=tbl[3],
                       hour=tbl[4], min=tbl[5], sec=tbl[6]}
@@ -95,11 +92,14 @@ function _log(logtype, start, stop, match, limit)
    local index = 1
    local tbl = {}
    for line in file:lines() do
-      if bf(line, start) then break end
+      if bf(line, start) then
+         if ef(line, stop) then tbl[index] = line end
+         break
+      end
    end
    for line in file:lines() do
+      if not ef(line, stop) then break end
       if string.match(line, match) then
-         if not ef(line, stop) then break end
          tbl[index] = line
          index = index % limit + 1
       end
@@ -110,6 +110,7 @@ end
 
 
 function getFileUrl(json)
+   local urlmatch = '"self":"([%w%.:/-]+/inventory/)managedObjects/(%d+)"'
    local prefix, id = string.match(json, urlmatch)
    if prefix and id then
       return prefix .. 'binaries/' .. id
