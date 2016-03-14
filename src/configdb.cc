@@ -10,7 +10,7 @@ int ConfigDB::load(const string &fpath)
 {
         ifstream in(fpath);
         if (!in) {
-                srError(fpath + ": open file for read.");
+                srWarning(fpath + ": Cannot read.");
                 return -1;
         }
         int c = 0;
@@ -21,8 +21,8 @@ int ConfigDB::load(const string &fpath)
                         db[line.substr(0, pos)] = line.substr(pos + 1);
                 } else {
                         c = -1;
-                        srError(fpath + " [" + to_string(num) +
-                                "]: delimiter '=' not found");
+                        srWarning(fpath + " [" + to_string(num) +
+                                  "]: delimiter '=' not found");
                 }
         }
         return c;
@@ -33,7 +33,7 @@ int ConfigDB::save(const string &fpath) const
 {
         ofstream out(fpath, ios_base::binary | ios_base::trunc);
         if (!out) {
-                srError(fpath + ": open file for write.");
+                srError(fpath + ": Cannot write.");
                 return -1;
         }
         for (auto &item: db)
