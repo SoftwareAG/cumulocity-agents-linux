@@ -1,3 +1,4 @@
+#include <fstream>
 #include <srutils.h>
 #include <sragent.h>
 #include <srdevicepush.h>
@@ -7,7 +8,7 @@
 #include "luamanager.h"
 using namespace std;
 
-static const char *deviceID = "123123";
+static string getDeviceID();
 static SrLogLevel getLogLevel(const string &lvl);
 static void printInfo(const SrAgent &agent);
 static int integrate(SrAgent &agent, ConfigDB &cdb);
@@ -18,9 +19,19 @@ int main()
 {
         ConfigDB cdb("c8ydemo.conf");
         srLogSetDest(cdb.get("log.path"));
-        srLogSetQuota(strtoul(cdb.get("log.quota").c_str(), NULL, 10));
+        const uint32_t quota = strtoul(cdb.get("log.quota").c_str(), NULL, 10);
+        srLogSetQuota(quota ? quota : 1024); // Default 1024 KB when not set.
         srLogSetLevel(getLogLevel(cdb.get("log.level")));
         const string server = cdb.get("server");
+        if (server.empty()) {
+                srCritical("No server URL.");
+                return 0;
+        }
+        const string deviceID = getDeviceID();
+        if (deviceID.empty()) {
+                srCritical("Cannot read deviceID");
+                return 0;
+        }
         Integrate igt;
         SrAgent agent(server, deviceID, &igt);
         srInfo("Bootstrap to " + server);
@@ -41,6 +52,14 @@ int main()
                 return 0;
         agent.loop();
         return 0;
+}
+
+
+static string getDeviceID()
+{
+        ifstream in("/sys/devices/virtual/dmi/id/product_serial");
+        auto beg = istreambuf_iterator<char>(in);
+        return string(beg, istreambuf_iterator<char>());
 }
 
 
