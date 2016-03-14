@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <fstream>
 #include <srutils.h>
 #include <sragent.h>
@@ -59,7 +60,10 @@ static string getDeviceID()
 {
         ifstream in("/sys/devices/virtual/dmi/id/product_serial");
         auto beg = istreambuf_iterator<char>(in);
-        return string(beg, istreambuf_iterator<char>());
+        string s;
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s),
+                [](char c){return isalnum(c);});
+        return s;
 }
 
 
