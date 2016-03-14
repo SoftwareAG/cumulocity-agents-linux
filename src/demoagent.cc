@@ -18,7 +18,8 @@ static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb);
 
 int main()
 {
-        ConfigDB cdb("c8ydemo.conf");
+        ConfigDB cdb("/usr/share/c8ydemo/c8ydemo.conf");
+        cdb.load("/etc/c8ydemo.conf");
         srLogSetDest(cdb.get("log.path"));
         const uint32_t quota = strtoul(cdb.get("log.quota").c_str(), NULL, 10);
         srLogSetQuota(quota ? quota : 1024); // Default 1024 KB when not set.
@@ -60,9 +61,20 @@ static string getDeviceID()
 {
         ifstream in("/sys/devices/virtual/dmi/id/product_serial");
         auto beg = istreambuf_iterator<char>(in);
+        auto pred = [](char c){return isalnum(c);};
         string s;
-        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s),
-                [](char c){return isalnum(c);});
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), pred);
+        if (!s.empty())
+                return s;
+        in.close();
+        in.open("/proc/cpuinfo");
+        for (string sub; getline(in, sub);) {
+                if (sub.compare(0, 6, "Serial") == 0) {
+                        copy_if(sub.begin() + 6, sub.end(),
+                                back_inserter(s), pred);
+                        break;
+                }
+        }
         return s;
 }
 
