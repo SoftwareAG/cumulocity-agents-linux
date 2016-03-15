@@ -1,0 +1,10 @@
+[Unit]
+Description=c8ydemo-agent
+After=network.target
+
+[Service]
+Type=idle
+ExecStart=$PREFIX/bin/srwatchdogd $PREFIX/bin/c8ydemo-agent 240
+
+[Install]
+WantedBy=multi-user.target
