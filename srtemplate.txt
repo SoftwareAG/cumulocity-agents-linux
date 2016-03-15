@@ -1,8 +1,8 @@
-demoagent_1
+demoagent_2
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
-10,301,POST,/inventory/managedObjects,application/json,application/json,%%,UNSIGNED,"{""name"":""Demo-Agent"",""type"":""c8y_demo"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%},""c8y_SupportedOperations"":[""c8y_Relay"",""c8y_Restart"",""c8y_LogfileRequest"",""c8y_SoftwareList""]}"
+10,301,POST,/inventory/managedObjects,application/json,application/json,%%,UNSIGNED,"{""name"":""Demo-Agent"",""type"":""c8y_demo"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%}}"
 
 10,302,POST,/identity/globalIds/%%/externalIds,application/json,,%%,STRING STRING,"{""externalId"":""%%"",""type"":""c8y_Serial""}"
 
@@ -21,6 +21,8 @@ demoagent_1
 10,309,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SoftwareList"":[%%]}"
 
 10,310,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING,"{""c8y_Hardware"":{""model"":""%%"",""serialNumber"":""%%""}}"
+
+10,311,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SupportedOperations"":[%%]}"
 
 
 11,800,$.managedObject,,$.id

@@ -7,7 +7,11 @@
 #include <srlogger.h>
 #include "integrate.h"
 #include "luamanager.h"
+#define Q(x) ",\"\""#x"\"\""
+#define Q2(x) "\"\""#x"\"\""
 using namespace std;
+
+const char *ops = ",\"" Q2(c8y_LogfileRequest) "\"";
 
 static string getDeviceID();
 static SrLogLevel getLogLevel(const string &lvl);
@@ -44,6 +48,7 @@ int main()
         if (integrate(agent, cdb) == -1)
                 return 0;
         printInfo(agent);
+        agent.send(SrNews("311," + agent.ID() + ops));
         LuaManager lua(agent, cdb);
         loadLuaPlugins(lua, cdb);
         SrReporter reporter(server, agent.XID(), agent.auth(),
