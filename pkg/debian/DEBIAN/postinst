@@ -1,0 +1,2 @@
+ldconfig
+! test -d && touch /etc/c8ydemo.conf
