@@ -6,6 +6,7 @@
 #include <srreporter.h>
 #include <srlogger.h>
 #include "integrate.h"
+#include "helper.h"
 #include "luamanager.h"
 #define Q(x) ",\"\""#x"\"\""
 #define Q2(x) "\"\""#x"\"\""
@@ -22,6 +23,8 @@ static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb);
 
 int main()
 {
+        SrWatchdogTimer wdt;
+        wdt.start();
         ConfigDB cdb(PKG_DIR"/c8ydemo.conf");
         cdb.load("/etc/c8ydemo.conf");
         srLogSetDest(cdb.get("log.path"));
@@ -51,6 +54,7 @@ int main()
         agent.send(SrNews("311," + agent.ID() + ops));
         LuaManager lua(agent, cdb);
         loadLuaPlugins(lua, cdb);
+        Helper helper(agent, wdt);
         SrReporter reporter(server, agent.XID(), agent.auth(),
                             agent.egress, agent.ingress);
         SrDevicePush push(server, agent.XID(), agent.auth(),
