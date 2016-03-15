@@ -18,7 +18,7 @@ static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb);
 
 int main()
 {
-        ConfigDB cdb("/usr/share/c8ydemo/c8ydemo.conf");
+        ConfigDB cdb(PKG_DIR"/c8ydemo.conf");
         cdb.load("/etc/c8ydemo.conf");
         srLogSetDest(cdb.get("log.path"));
         const uint32_t quota = strtoul(cdb.get("log.quota").c_str(), NULL, 10);
@@ -37,7 +37,7 @@ int main()
         Integrate igt;
         SrAgent agent(server, deviceID, &igt);
         srInfo("Bootstrap to " + server);
-        if (agent.bootstrap(cdb.get("credpath"))) {
+        if (agent.bootstrap(cdb.get("path") + "/credentials")) {
                 srCritical("Bootstrap failed.");
                 return 0;
         }
