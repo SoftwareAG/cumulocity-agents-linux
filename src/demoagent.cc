@@ -41,7 +41,7 @@ int main()
                 srCritical("Cannot read deviceID");
                 return 0;
         }
-        Integrate igt;
+        Integrate igt(wdt);
         SrAgent agent(server, deviceID, &igt);
         srInfo("Bootstrap to " + server);
         if (agent.bootstrap(cdb.get("path") + "/credentials")) {
