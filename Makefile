@@ -71,9 +71,10 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -c -o $@
 
-remove:
+uninstall:
 	@rm -f $(PREFIX)/bin/srwatchdogd $(PREFIX)/bin/$(BIN)
 	@rm -rf $(PREFIX)/lib/libsera* $(PKG_DIR) /etc/c8ydemo.conf
+	@rm -f /lib/systemd/system/c8ydemo.service
 
 clean:
 	@rm -rf build/* $(BIN_DIR)/$(BIN)
