@@ -10,11 +10,6 @@ function init()
    cpuTimer = c8y:addTimer(10*1000, 'sendSystemLoad')
    memTimer:start()
    cpuTimer:start()
-   local model = command("dmidecode -s system-product-name")
-   local sn = command("dmidecode -s system-serial-number")
-   if model and sn then
-      c8y:send(table.concat({'310', c8y.ID, model, sn}, ','))
-   end
    return 0
 end
 
