@@ -1,4 +1,4 @@
-demoagent_2
+demoagent_3
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -20,7 +20,7 @@ demoagent_2
 
 10,309,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SoftwareList"":[%%]}"
 
-10,310,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING,"{""c8y_Hardware"":{""model"":""%%"",""serialNumber"":""%%""}}"
+10,310,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_Hardware"":{""model"":""%%"",""serialNumber"":""%%"",""revision"":""%%""}}"
 
 10,311,PUT,/inventory/managedObjects/%%,application/json,,%%,,"{""c8y_SupportedOperations"":[%%]}"
 

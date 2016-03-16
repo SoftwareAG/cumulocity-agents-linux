@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <fstream>
 #include <srnethttp.h>
 #include <srutils.h>
 #include "integrate.h"
@@ -5,6 +7,30 @@
                       x == CURLE_COULDNT_RESOLVE_HOST ||    \
                       x == CURLE_COULDNT_CONNECT)
 using namespace std;
+
+
+static void getHardware(string &model, string &revision)
+{
+        ifstream in("/sys/devices/virtual/dmi/id/product_name");
+        in >> model;
+        in.close();
+        in.open("/sys/devices/virtual/dmi/id/product_version");
+        in >> revision;
+        in.close();
+        if (model.empty()) {
+                in.open("/proc/cpuinfo");
+                auto foo = [](char c){return isalnum(c);};
+                for (string line; getline(in, line);) {
+                        if (line.compare(0, 8, "Hardware") == 0) {
+                                copy_if(line.begin() + 8, line.end(),
+                                        back_inserter(model), foo);
+                        } else if (line.compare(0, 8, "Revision") == 0) {
+                                copy_if(line.begin() + 8, line.end(),
+                                        back_inserter(revision), foo);
+                        }
+                }
+        }
+}
 
 
 int Integrate::integrate(const SrAgent &agent, const string &srv,
@@ -32,6 +58,11 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
                 if (r.size() == 3 && r[0].second == "801") {
                         id = r[2].second;
                         string s = "302," + id + "," + agent.deviceID();
+                        string model, revision;
+                        getHardware(model, revision);
+                        if (!model.empty())
+                                s += "\n310," + id + "," + model + ","
+                                        + agent.deviceID() + "," + revision;
                         if (http.post(s) <= 0)
                                 return -1;
                         return 0;
