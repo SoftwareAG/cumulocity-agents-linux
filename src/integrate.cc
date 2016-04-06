@@ -3,9 +3,10 @@
 #include <srnethttp.h>
 #include <srutils.h>
 #include "integrate.h"
-#define NOCONNECT(x) (x == CURLE_COULDNT_RESOLVE_PROXY ||   \
-                      x == CURLE_COULDNT_RESOLVE_HOST ||    \
-                      x == CURLE_COULDNT_CONNECT)
+#define NOCONNECT(x) (x == CURLE_COULDNT_RESOLVE_PROXY ||\
+                      x == CURLE_COULDNT_RESOLVE_HOST ||\
+                      x == CURLE_COULDNT_CONNECT ||\
+                      x == CURLE_OPERATION_TIMEDOUT)
 using namespace std;
 
 
@@ -37,6 +38,7 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
                          const string &srt)
 {
         SrNetHttp http(agent.server()+"/s", srv, agent.auth());
+        http.setTimeout(60);
         int c = 0;
         while ((c = registerSrTemplate(http, xid, srt) == -1) &&
                NOCONNECT(http.errNo)) {
