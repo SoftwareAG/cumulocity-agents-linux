@@ -113,7 +113,7 @@ end
 
 
 function getFileUrl(json)
-   local urlmatch = '"self":"([%w%.:/-]+/inventory/)managedObjects/(%d+)"'
+   local urlmatch = '"self":"([^ {},?]+/inventory/)%w+/(%d+)"'
    local prefix, id = string.match(json, urlmatch)
    if prefix and id then
       return prefix .. 'binaries/' .. id
