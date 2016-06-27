@@ -10,6 +10,10 @@ endif
 
 OBJ:=$(addprefix $(BUILD_DIR)/,$(notdir $(SRC:.cc=.o)))
 
+ifeq ($(PREFIX),)
+PREFIX:=/usr
+endif
+
 BIN_DIR:=bin
 STAGE_DIR:=build/staging
 PKG_DIR:=$(PREFIX)/share/c8ydemo
@@ -22,10 +26,6 @@ LDLIBS:=-lsera $(shell pkg-config --libs lua libmodbus) -pthread
 
 ifeq ($(PLUGIN_MODBUS),1)
 CPPFLAGS+=-DPLUGIN_MODBUS
-endif
-
-ifeq ($(PREFIX),)
-PREFIX:=/usr
 endif
 
 ifeq ($(BUILD), release)
@@ -47,6 +47,7 @@ release:
 	@make -s "BUILD=release"
 
 install:
+	@echo -n "Installing to $(PREFIX)/share... "
 	@mkdir -p $(PREFIX)/bin
 	@cp $(BIN_DIR)/$(BIN) $(BIN_DIR)/srwatchdogd $(PREFIX)/bin
 	@cp -rP lib/ $(PREFIX)
@@ -55,6 +56,7 @@ install:
 	@sed -e 's#\$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf > $(PKG_DIR)/c8ydemo.conf
 	@test -d /lib/systemd/system && sed 's#$$PREFIX#$(PREFIX)#g' utils/c8ydemo.service > /lib/systemd/system/c8ydemo.service
 	@touch /etc/c8ydemo.conf
+	@echo 'OK!'
 
 debian:
 	@mkdir -p $(STAGE_DIR)/$@$(PREFIX)/bin
