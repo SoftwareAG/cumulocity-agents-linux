@@ -1,22 +1,32 @@
+PLUGIN_MODBUS:=0
 BUILD:=debug
 SRC_DIR:=src
 BUILD_DIR:=build/obj
 SRC:=$(wildcard $(SRC_DIR)/*.cc)
+
+ifeq ($(PLUGIN_MODBUS),1)
+SRC+=$(wildcard $(SRC_DIR)/modbus/*.cc)
+endif
+
 OBJ:=$(addprefix $(BUILD_DIR)/,$(notdir $(SRC:.cc=.o)))
 
-ifeq ($(PREFIX),)
-PREFIX:=/usr
-endif
 BIN_DIR:=bin
 STAGE_DIR:=build/staging
 PKG_DIR:=$(PREFIX)/share/c8ydemo
 BIN:=c8ydemo-agent
-CPPFLAGS+=-I$(C8Y_LIB_PATH)/include $(shell pkg-config --cflags lua)\
-		  -I$(C8Y_LIB_PATH)/ext/LuaBridge/Source/LuaBridge\
+CPPFLAGS+=-I$(C8Y_LIB_PATH)/include $(shell pkg-config --cflags lua libmodbus)\
 		  -DPKG_DIR='"$(PKG_DIR)"'
 CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11 -MMD
 LDFLAGS:=-Llib
-LDLIBS:=-lsera $(shell pkg-config --libs lua)
+LDLIBS:=-lsera $(shell pkg-config --libs lua libmodbus) -pthread
+
+ifeq ($(PLUGIN_MODBUS),1)
+CPPFLAGS+=-DPLUGIN_MODBUS
+endif
+
+ifeq ($(PREFIX),)
+PREFIX:=/usr
+endif
 
 ifeq ($(BUILD), release)
 CPPFLAGS+=-DNDEBUG
@@ -34,7 +44,7 @@ all: $(BIN_DIR)/$(BIN)
 	@:
 
 release:
-	make "BUILD=release"
+	@make -s "BUILD=release"
 
 install:
 	@mkdir -p $(PREFIX)/bin
@@ -65,11 +75,18 @@ debian:
 
 $(BIN_DIR)/$(BIN): $(OBJ)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
+	@echo "(LD) $@"
+	@$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -c -o $@
+	@echo "(CXX) $@"
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -c -o $@
+
+$(BUILD_DIR)/%.o: $(SRC_DIR)/modbus/%.cc
+	@mkdir -p $(BUILD_DIR)
+	@echo "(CXX) $@"
+	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) $< -c -o $@
 
 uninstall:
 	@rm -f $(PREFIX)/bin/srwatchdogd $(PREFIX)/bin/$(BIN)

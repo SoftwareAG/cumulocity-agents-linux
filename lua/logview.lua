@@ -10,8 +10,8 @@ local logtable = {
 
 
 function init()
-   c8y:addMsgHandler(804, 'logview')
-   c8y:send('307,' .. c8y.ID .. ',' .. probe_logs())
+   c8y:addMsgHandler(813, 'logview')
+   c8y:send('317,' .. c8y.ID .. ',' .. probe_logs())
    return 0
 end
 
@@ -131,7 +131,7 @@ function logview(r)
       if no >= 0 then
          local url = getFileUrl(c8y.resp)
          if url then
-            c8y:send(table.concat({'308', r:value(2), r:value(3), r:value(4),
+            c8y:send(table.concat({'318', r:value(2), r:value(3), r:value(4),
                                    r:value(5), r:value(6), r:value(7), url}, ','))
             return
          else

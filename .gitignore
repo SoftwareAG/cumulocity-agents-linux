@@ -6,3 +6,6 @@ lua/a.lua
 .dir-locals.el
 credentials*
 *~
+makefile
+*.deb
+*.rpm

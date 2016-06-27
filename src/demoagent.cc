@@ -12,7 +12,9 @@
 #define Q2(x) "\"\""#x"\"\""
 using namespace std;
 
-const char *ops = ",\"" Q2(c8y_LogfileRequest) "\"";
+const char *ops = ",\"" Q2(c8y_Command) Q(c8y_ModbusDevice) Q(c8y_SetCoil)
+        Q(c8y_ModbusConfiguration) Q(c8y_SerialConfiguration)
+        Q(c8y_LogfileRequest) Q(c8y_SetRegister) "\"";
 
 static string getDeviceID();
 static SrLogLevel getLogLevel(const string &lvl);
@@ -51,7 +53,7 @@ int main()
         if (integrate(agent, cdb) == -1)
                 return 0;
         printInfo(agent);
-        agent.send(SrNews("311," + agent.ID() + ops));
+        agent.send(SrNews("327," + agent.ID() + ops));
         LuaManager lua(agent, cdb);
         loadLuaPlugins(lua, cdb);
         Helper helper(agent, wdt);
