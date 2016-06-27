@@ -70,20 +70,47 @@ static string getDeviceID()
 {
         ifstream in("/sys/devices/virtual/dmi/id/product_serial");
         auto beg = istreambuf_iterator<char>(in);
-        auto pred = [](char c){return isalnum(c);};
         string s;
-        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), pred);
-        if (!s.empty())
+        auto isAlnum = [](char c){return isalnum(c);};
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+        auto isValid = [](string id){
+                return any_of(id.begin(), id.end(), ::isdigit)
+                        && id.find_first_not_of("0") != string::npos;
+        };
+        if (isValid(s))
                 return s;
         in.close();
+        s.clear();
         in.open("/proc/cpuinfo");
         for (string sub; getline(in, sub);) {
                 if (sub.compare(0, 6, "Serial") == 0) {
                         copy_if(sub.begin() + 6, sub.end(),
-                                back_inserter(s), pred);
+                                back_inserter(s), isAlnum);
                         break;
                 }
         }
+        if (!s.empty())
+                return s;
+        in.close();
+        in.open("/sys/devices/virtual/dmi/id/product_uuid");
+        beg = istreambuf_iterator<char>(in);
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+        if (isValid(s))
+                return s;
+        in.close();
+        s.clear();
+        in.open("/var/lib/dbus/machine-id");
+        beg = istreambuf_iterator<char>(in);
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+        if (isValid(s))
+                return s;
+        in.close();
+        s.clear();
+        in.open("/etc/machine-id");
+        beg = istreambuf_iterator<char>(in);
+        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+        if (!isValid(s))
+                s.clear();
         return s;
 }
 
