@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <fstream>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <srutils.h>
 #include <sragent.h>
 #include <srdevicepush.h>
@@ -46,7 +48,8 @@ int main()
         Integrate igt(wdt);
         SrAgent agent(server, deviceID, &igt);
         srInfo("Bootstrap to " + server);
-        if (agent.bootstrap(cdb.get("path") + "/credentials")) {
+        mkdir(cdb.get("datapath").c_str(), 0750);
+        if (agent.bootstrap(cdb.get("datapath") + "/credentials")) {
                 srCritical("Bootstrap failed.");
                 return 0;
         }

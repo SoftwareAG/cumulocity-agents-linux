@@ -4,6 +4,7 @@ SRC_DIR:=src
 BUILD_DIR:=build/obj
 SRC:=$(wildcard $(SRC_DIR)/*.cc)
 PREFIX:=/usr
+DATAPATH:=/var/lib/c8ydemo
 
 ifeq ($(PLUGIN_MODBUS),1)
 SRC+=$(wildcard $(SRC_DIR)/modbus/*.cc)
@@ -49,9 +50,9 @@ install:
 	@mkdir -p $(PREFIX)/bin
 	@cp $(BIN_DIR)/$(BIN) $(BIN_DIR)/srwatchdogd $(PREFIX)/bin
 	@cp -rP lib/ $(PREFIX)
-	@mkdir -p $(PKG_DIR)
+	@mkdir -p $(PKG_DIR) $(DATAPATH)
 	@cp -rP lua srtemplate.txt COPYRIGHT $(PKG_DIR)
-	@sed -e 's#\$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf > $(PKG_DIR)/c8ydemo.conf
+	@sed -e 's#\$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf | sed -e 's#\$$DATAPATH#$(DATAPATH)#g' > $(PKG_DIR)/c8ydemo.conf
 	@test -d /lib/systemd/system && sed 's#$$PREFIX#$(PREFIX)#g' utils/c8ydemo.service > /lib/systemd/system/c8ydemo.service
 	@touch /etc/c8ydemo.conf
 	@echo 'OK!'
@@ -64,7 +65,7 @@ debian:
 	@chmod -x $(STAGE_DIR)/$@$(PREFIX)/lib/*
 	@mkdir -p $(STAGE_DIR)/$@$(PKG_DIR)
 	@cp -rP lua srtemplate.txt $(STAGE_DIR)/$@$(PKG_DIR)
-	@sed 's#$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf > $(STAGE_DIR)/$@$(PKG_DIR)/c8ydemo.conf
+	@sed -e 's#\$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf | sed -e 's#\$$DATAPATH#$(DATAPATH)#g' > $(STAGE_DIR)/$@$(PKG_DIR)/c8ydemo.conf
 	@mkdir -p $(STAGE_DIR)/$@$(PREFIX)/share/doc/c8ydemo/
 	@cp COPYRIGHT $(STAGE_DIR)/$@$(PREFIX)/share/doc/c8ydemo/copyright
 	@cp -r pkg/$@/DEBIAN $(STAGE_DIR)/$@
@@ -72,6 +73,16 @@ debian:
 	@sed 's#$$PREFIX#$(PREFIX)#g' utils/c8ydemo.service > $(STAGE_DIR)/$@/lib/systemd/system/c8ydemo.service
 	@find $(STAGE_DIR)/$@ -type d | xargs chmod 755
 	@fakeroot dpkg-deb --build $(STAGE_DIR)/$@ build
+
+snap:
+	@mkdir -p $(STAGE_DIR)/$@/bin $(STAGE_DIR)/$@/lib
+	@cp $(BIN_DIR)/$(BIN) $(BIN_DIR)/srwatchdogd $(STAGE_DIR)/$@/bin
+	@cp -P lib/libsera.so.1* $(STAGE_DIR)/$@/lib
+	@chmod -x $(STAGE_DIR)/$@/lib/*
+	@cp -rP lua srtemplate.txt $(STAGE_DIR)/$@
+	@sed -e 's#\$$PKG_DIR#$(PKG_DIR)#g' c8ydemo.conf | sed -e 's#\$$DATAPATH#$(DATAPATH)#g' > $(STAGE_DIR)/$@/c8ydemo.conf
+	@cp pkg/$@/snapcraft.yaml $(STAGE_DIR)/$@
+	@cd $(STAGE_DIR)/$@ && snapcraft clean && snapcraft
 
 $(BIN_DIR)/$(BIN): $(OBJ)
 	@mkdir -p $(BIN_DIR)
