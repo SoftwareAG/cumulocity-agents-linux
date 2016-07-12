@@ -71,9 +71,12 @@ end
 function saveConfigure(r)
    local a, b = tonumber(r:value(3)), tonumber(r:value(4))
    if a and b then
+      cdb:set(keyPollingRate, r:value(3))
+      cdb:set(keyTransmitRate, r:value(4))
       pollingRate, transmitRate = a, b
-      rdbSet(keyPollingRate, pollingRate)
-      rdbSet(keyTransmitRate, transmitRate)
+      timer0.interval, timer1.interval = pollingRate * 1000, transmitRate * 1000
+      timer0:start()
+      timer1:start()
       c8y:send(table.concat({'321', c8y.ID, r:value(3), r:value(4)}, ','))
       c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL')
    else
@@ -87,10 +90,10 @@ function saveSerialConfiguration(r)
    local par, stop = r:value(5), tonumber(r:value(6))
    if  baud ~= serBaud or  data ~= serData or par ~= serPar or
    stop ~= serStop then
-      rdbSet(keySerBaud, baud)
-      rdbSet(keySerData, data)
-      rdbSet(keySerPar, par)
-      rdbSet(keySerStop, stop)
+      cdb:set(keySerBaud, r:value(3))
+      cdb:set(keySerData, r:value(4))
+      cdb:set(keySerPar, r:value(5))
+      cdb:set(keySerStop, r:value(6))
       serBaud, serData, serPar, serStop = baud, data, par, stop
       local obj = MB:newRTU(serPort, baud, par, data, stop)
       obj:setConf(serPort, baud, par, data, stop)
