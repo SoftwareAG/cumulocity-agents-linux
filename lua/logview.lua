@@ -132,7 +132,8 @@ function logview(r)
          local url = getFileUrl(c8y.resp)
          if url then
             c8y:send(table.concat({'318', r:value(2), r:value(3), r:value(4),
-                                   r:value(5), r:value(6), r:value(7), url}, ','))
+                                   r:value(5), r:value(6), r:value(7), url},
+                        ','), 1)
             return
          else
             reason = ',"Cannot find log ID"'
@@ -141,5 +142,5 @@ function logview(r)
          reason = ',"Cannot upload log"'
       end
    end
-   c8y:send('304,' .. r:value(2) .. reason)
+   c8y:send('304,' .. r:value(2) .. reason, 1)
 end

@@ -37,13 +37,13 @@ local keySerStop = 'modbus.serial.stopbits'
 function addDevice(r)
    local slave, device = tonumber(r:value(3)), tonumber(r:value(4))
    if MBDEVICES[device] then
-      if r.size >= 7 then c8y:send('303,' .. r:value(6) .. ',SUCCESSFUL') end
+      if r.size >= 7 then c8y:send('303,' .. r:value(6) .. ',SUCCESSFUL', 1) end
       return
    elseif r:value(2) == 'TCP' then
       return
    elseif r:value(2) == 'RTU' and serPort == '' then
       if r.size >= 7 then
-         c8y:send('304,' .. r:value(6) .. ',"serial port unspecified"')
+         c8y:send('304,' .. r:value(6) .. ',"serial port unspecified"', 1)
       end
       return
    end
@@ -61,7 +61,7 @@ function addDevice(r)
       c8y:send('309,' .. DTYPE)
    end
    if r.size >= 7 then
-      c8y:send('303,' .. r:value(6) .. ',SUCCESSFUL')
+      c8y:send('303,' .. r:value(6) .. ',SUCCESSFUL', 1)
    else
       c8y:send('311,'..device..',ACTIVE\n311,'..device..',ACKNOWLEDGED')
    end
@@ -78,9 +78,9 @@ function saveConfigure(r)
       timer0:start()
       timer1:start()
       c8y:send(table.concat({'321', c8y.ID, r:value(3), r:value(4)}, ','))
-      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL')
+      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL', 1)
    else
-      c8y:send('304,' .. r:value(2) .. ',Invalid_Number')
+      c8y:send('304,' .. r:value(2) .. ',Invalid_Number', 1)
    end
 end
 
@@ -99,7 +99,7 @@ function saveSerialConfiguration(r)
       obj:setConf(serPort, baud, par, data, stop)
       c8y:send(table.concat({'335', c8y.ID, baud, data, par, stop}, ','))
    end
-   c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL')
+   c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL', 1)
 end
 
 
@@ -370,46 +370,46 @@ end
 
 function setCoil(r)
    if cdb:get(keyReadonly) == '1' then
-      c8y:send('304,' .. r:value(2) .. ',Permission_Denied')
+      c8y:send('304,' .. r:value(2) .. ',Permission_Denied', 1)
       return
    end
    local device = tonumber(r:value(3))
    local mbd = MBDEVICES[device]
    if not mbd then
-      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Device')
+      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Device', 1)
       return
    end
 
    local obj, coil = mbd[dobjno], tonumber(r:value(4)) - 1
    if obj:updateCO(mbd[dslaveno], coil, tonumber(r:value(5))) == -1 then
-      c8y:send('304,' .. r:value(2) .. ',"' .. obj:errMsg() .. '"')
+      c8y:send('304,' .. r:value(2) .. ',"' .. obj:errMsg() .. '"', 1)
    else
       pollDevice(device)
-      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL')
+      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL', 1)
    end
 end
 
 
 function setRegister(r)
    if cdb:get(keyReadonly) == '1' then
-      c8y:send('304,' .. r:value(2) .. ',Permission_Denied')
+      c8y:send('304,' .. r:value(2) .. ',Permission_Denied', 1)
       return
    end
    local device, reg = tonumber(r:value(3)), tonumber(r:value(4))
    local mbd = MBDEVICES[device]
    if not mbd then
-      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Device')
+      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Device', 1)
       return
    end
    local dtype = mbd[dtypeno]
    if not HR[dtype] then
-      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Type')
+      c8y:send('304,' .. r:value(2) .. ',Unknown_Modbus_Type', 1)
       return
    end
    local sb, nb = tonumber(r:value(5)), tonumber(r:value(6))
    local index = bsearch(HR[dtype], {[no] = reg, [rsbno] = sb}, cmp2)
    if not index then
-      c8y:send('304,' .. r:value(2) .. ',Register_Not_Found')
+      c8y:send('304,' .. r:value(2) .. ',Register_Not_Found', 1)
       return
    end
    local regtbl = HR[dtype][index]
@@ -421,17 +421,17 @@ function setRegister(r)
       isoutrange = value < 0 or value >= 2 ^ nb
    end
    if isoutrange then
-      c8y:send('304,' .. r:value(2) .. ',Value_Range_Error')
+      c8y:send('304,' .. r:value(2) .. ',Value_Range_Error', 1)
       return
    end
    value = regtbl[rsino] and complement(value, nb) or value
 
    local obj = mbd[dobjno]
    if obj:updateHRBits(mbd[dslaveno], reg - 1, value, sb, nb) == -1 then
-      c8y:send('304,' .. r:value(2) .. ',"' .. obj:errMsg() .. '"')
+      c8y:send('304,' .. r:value(2) .. ',"' .. obj:errMsg() .. '"', 1)
    else
       pollDevice(device)
-      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL')
+      c8y:send('303,' .. r:value(2) .. ',SUCCESSFUL', 1)
    end
 end
 
