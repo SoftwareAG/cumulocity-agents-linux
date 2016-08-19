@@ -36,7 +36,7 @@ export C8Y_LIB_PATH=/library/root/path
 
 ```bash
 cd cumulocity-agents-linux
-cp -rP $C8Y_LIB_PATH/lib .
+cp -rP $C8Y_LIB_PATH/lib $C8Y_LIB_PATH/bin .
 ```
 
 * Build the agent: 
