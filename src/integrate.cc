@@ -41,7 +41,7 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
         http.setTimeout(60);
         int c = 0;
         while ((c = registerSrTemplate(http, xid, srt) == -1) &&
-               NOCONNECT(http.errNo)) {
+                NOCONNECT(http.errNo)) {
                 sleep(2);
                 wdt.kick();
         }
@@ -53,15 +53,22 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
         SrRecord r = sr.next();
         if (r.size() && r[0].second == "50") {
                 http.clear();
-                if (http.post("301,20") <= 0)
+                string s = "301,";
+                string model, revision;
+                getHardware(model, revision);
+                if (!model.empty())
+                        s += revision + " " + model;
+                else
+                        s += "demo-agent";
+                s += " (" + agent.deviceID() + "),20";
+                if (http.post(s) <= 0)
                         return -1;
                 sr.reset(http.response());
                 r = sr.next();
                 if (r.size() == 3 && r[0].second == "801") {
                         id = r[2].second;
-                        string s = "302," + id + "," + agent.deviceID();
-                        string model, revision;
-                        getHardware(model, revision);
+                        s.clear();
+                        s = "302," + id + "," + agent.deviceID();
                         if (!model.empty())
                                 s += "\n310," + id + "," + model + ","
                                         + agent.deviceID() + "," + revision;
