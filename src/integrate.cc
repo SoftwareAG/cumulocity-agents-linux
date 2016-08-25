@@ -56,10 +56,7 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
                 string s = "301,";
                 string model, revision;
                 getHardware(model, revision);
-                if (!model.empty())
-                        s += revision + " " + model;
-                else
-                        s += "demo-agent";
+                s += model.empty() ? "demo-agent" : model + " " + revision;
                 s += " (" + agent.deviceID() + "),20";
                 if (http.post(s) <= 0)
                         return -1;
@@ -67,7 +64,6 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
                 r = sr.next();
                 if (r.size() == 3 && r[0].second == "801") {
                         id = r[2].second;
-                        s.clear();
                         s = "302," + id + "," + agent.deviceID();
                         if (!model.empty())
                                 s += "\n310," + id + "," + model + ","
