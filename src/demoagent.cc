@@ -68,22 +68,25 @@ int main()
 }
 
 
-static string getDeviceID()
+static string searchPathForDeviceID(const string &path)
 {
-        ifstream in("/sys/devices/virtual/dmi/id/product_serial");
+        ifstream in(path);
         auto beg = istreambuf_iterator<char>(in);
         string s;
         auto isAlnum = [](char c){return isalnum(c);};
+
         copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
-        auto isValid = [](string id){
-                return any_of(id.begin(), id.end(), ::isdigit)
-                        && id.find_first_not_of("0") != string::npos;
-        };
-        if (isValid(s))
-                return s;
-        in.close();
-        s.clear();
-        in.open("/proc/cpuinfo");
+
+        return s;
+}
+
+
+static string searchTextForSerial(const string &path)
+{
+        ifstream in(path);
+        string s;
+        auto isAlnum = [](char c){return isalnum(c);};
+
         for (string sub; getline(in, sub);) {
                 if (sub.compare(0, 6, "Serial") == 0) {
                         copy_if(sub.begin() + 6, sub.end(),
@@ -91,28 +94,44 @@ static string getDeviceID()
                         break;
                 }
         }
+
+        return s;
+}
+
+
+static string getDeviceID()
+{
+        string s;
+        auto isValid = [](string id){
+                return any_of(id.begin(), id.end(), ::isdigit)
+                        && id.find_first_not_of("0") != string::npos;
+        };
+
+        // Devices with BIOS
+        s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_serial");
+        if (isValid(s))
+                return s;
+
+        // Raspberry PI
+        s = searchTextForSerial("/proc/cpuinfo");
         if (!s.empty())
                 return s;
-        in.close();
-        in.open("/sys/devices/virtual/dmi/id/product_uuid");
-        beg = istreambuf_iterator<char>(in);
-        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+
+        // Virtual Machine
+        s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
         if (isValid(s))
                 return s;
-        in.close();
-        s.clear();
-        in.open("/var/lib/dbus/machine-id");
-        beg = istreambuf_iterator<char>(in);
-        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+
+        // dbus - interprocess communication (IPC) devices
+        s = searchPathForDeviceID("/var/lib/dbus/machine-id");
         if (isValid(s))
                 return s;
-        in.close();
-        s.clear();
-        in.open("/etc/machine-id");
-        beg = istreambuf_iterator<char>(in);
-        copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
+
+        // systemd (init system)
+        s = searchPathForDeviceID("/etc/machine-id");
         if (!isValid(s))
                 s.clear();
+
         return s;
 }
 
