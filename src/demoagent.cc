@@ -74,9 +74,7 @@ static string searchPathForDeviceID(const string &path)
         auto beg = istreambuf_iterator<char>(in);
         string s;
         auto isAlnum = [](char c){return isalnum(c);};
-
         copy_if(beg, istreambuf_iterator<char>(), back_inserter(s), isAlnum);
-
         return s;
 }
 
@@ -94,7 +92,6 @@ static string searchTextForSerial(const string &path)
                         break;
                 }
         }
-
         return s;
 }
 
@@ -109,30 +106,23 @@ static string getDeviceID()
 
         // Devices with BIOS
         s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_serial");
-        if (isValid(s))
-                return s;
+        if (isValid(s)) return s;
 
         // Raspberry PI
         s = searchTextForSerial("/proc/cpuinfo");
-        if (!s.empty())
-                return s;
+        if (!s.empty()) return s;
 
         // Virtual Machine
         s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
-        if (isValid(s))
-                return s;
+        if (isValid(s)) return s;
 
         // dbus - interprocess communication (IPC) devices
         s = searchPathForDeviceID("/var/lib/dbus/machine-id");
-        if (isValid(s))
-                return s;
+        if (isValid(s)) return s;
 
         // systemd (init system)
         s = searchPathForDeviceID("/etc/machine-id");
-        if (!isValid(s))
-                s.clear();
-
-        return s;
+        return isValid(s) ? s : "";
 }
 
 
