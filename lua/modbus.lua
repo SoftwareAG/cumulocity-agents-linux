@@ -261,7 +261,7 @@ local function pollData(device, num, msgtbl, flags)
 
    local datatbl, dtype = {CO, DI, HR, IR}, MBDEVICES[device][dtypeno]
    local old, new = MBDEVICES[device][num], {}
-   local index, addr = 0, 1
+   local index, addr = -1, 0
    for k, v in pairs(datatbl[num][dtype]) do
       if addr ~= v[no] then addr, index = v[no], index + 1 end
       if num < 3 then
