@@ -1,3 +1,5 @@
+#include <iomanip>
+#include <sstream>
 #include "mbbase.h"
 using namespace std;
 
@@ -28,6 +30,26 @@ static int comm(modbus_t *ctx, int c, int addr, int nb, void *d, string &emsg)
         if (ret == -1) {
                 emsg = pf(c, addr, nb) + " ";
                 srError(emsg + modbus_strerror(errno));
+        } else {
+                stringstream debug("modbus: ", ios::out | ios::ate);
+                switch (c) {
+                case 0:
+                case 1: if (srLogIsEnabledFor(SRLOG_DEBUG)) {
+                                for (auto i = 0; i < ret; ++i) {
+                                        debug << '<' << setw(2) << setfill('0')
+                                              << hex<< int(d1[i]) << '>';
+                                }
+                                srDebug(debug.str());
+                        }
+                        break;
+                case 2:
+                case 3: if (srLogIsEnabledFor(SRLOG_DEBUG)) {
+                                for (auto i = 0; i < ret; ++i)
+                                        debug << '<' << setw(4) << setfill('0')
+                                              << hex<< int(d2[i]) << '>';
+                                srDebug(debug.str());
+                        }
+                }
         }
         return ret;
 }
