@@ -67,3 +67,16 @@ sudo c8ydemo-agent
 ```bash
 sudo make uninstall
 ```
+
+* How to build the snap agent?
+  The requirements are the same as above, but the build requires special treatment because the snap uses its own file system structure, instead do:
+```bash
+make release  PREFIX=/snap/c8ydemo-agent/current/usr DATAPATH=/var/snap/c8ydemo-agent/common
+make snap PREFIX=/snap/c8ydemo-agent/current/usr DATAPATH=/var/snap/c8ydemo-agent/common
+```
+* This will create the snap package. Then the agent needs to be installed in developer mode, since snap sandboxing is currently too restrictive. To install use:
+```bash
+sudo snap install <agent.snap> --devmode
+```
+* The agent starts automatically after installation, also at every time the machine boots.
+  NOTE: packing requires snapcraft >= 2.10 because lower versions do not support the confinement property, which is required for packing the agent as a snap.
