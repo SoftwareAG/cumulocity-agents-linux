@@ -1,1 +1,1 @@
-systemctl disable c8ydemo
+systemctl disable $AGENT_NAME

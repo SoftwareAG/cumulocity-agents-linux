@@ -1,3 +1,3 @@
 ldconfig
-! test -e /etc/c8ydemo.conf && touch /etc/c8ydemo.conf
-systemctl enable c8ydemo
+! test -e /etc/$AGENT_NAME.conf && touch /etc/$AGENT_NAME.conf
+systemctl enable $AGENT_NAME

@@ -1,0 +1,10 @@
+[Unit]
+Description=$AGENT_NAME
+After=network.target
+
+[Service]
+Type=idle
+ExecStart=$PREFIX/bin/srwatchdogd $PREFIX/bin/$AGENT_NAME 240
+
+[Install]
+WantedBy=multi-user.target

@@ -1,4 +1,4 @@
-name: c8ydemo-agent
+name: $AGENT-NAME
 version: 1.0.1
 confinement: devmode
 summary: Cumulocity Linux agent
@@ -6,7 +6,7 @@ description: Generic Linux agent for Cumulocity IoT integration.
 
 apps:
   c8ydemo-agent:
-    command: usr/bin/srwatchdogd $SNAP/usr/bin/c8ydemo-agent 240
+    command: usr/bin/srwatchdogd $SNAP/usr/bin/$AGENT_NAME 240
     plugs: [network]
     daemon: simple
 
@@ -15,9 +15,9 @@ parts:
     plugin: copy
     files:
       bin: usr/bin
-      lua: usr/share/c8ydemo/lua
-      srtemplate.txt: usr/share/c8ydemo/srtemplate.txt
-      c8ydemo.conf: usr/share/c8ydemo/c8ydemo.conf
+      lua: usr/share/$AGENT_NAME/lua
+      srtemplate.txt: usr/share/$AGENT_NAME/srtemplate.txt
+      c8ydemo.conf: usr/share/$AGENT_NAME/$AGENT_NAME.conf
   libsera:
     plugin: copy
     files:
