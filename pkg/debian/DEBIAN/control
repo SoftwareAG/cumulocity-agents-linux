@@ -1,9 +1,9 @@
-Source: $AGENT_NAME
+Source: cumulocity-agent
 Version: 0.1-1
 Priority: optional
 Section: embedded
 Maintainer: Cumulocity <support@cumulocity.com>
-Package: $AGENT_NAME
+Package: cumuloctiy-agent
 Architecture: armhf
 Depends: liblua5.2-0, libstdc++6, libc6, libcurl3
 Description: Generic demo agent for Cumulocity IoT integration.

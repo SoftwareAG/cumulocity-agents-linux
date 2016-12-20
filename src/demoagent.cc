@@ -29,8 +29,8 @@ int main()
 {
         SrWatchdogTimer wdt;
         wdt.start();
-        ConfigDB cdb(PKG_DIR "/" AGENT_NAME ".conf");
-        cdb.load("/etc/" AGENT_NAME ".conf");
+        ConfigDB cdb(PKG_DIR "/cumulocity-agent.conf");
+        cdb.load("/etc/cumulocity-agent.conf");
         srLogSetDest(cdb.get("log.path"));
         const uint32_t quota = strtoul(cdb.get("log.quota").c_str(), NULL, 10);
         srLogSetQuota(quota ? quota : 1024); // Default 1024 KB when not set.

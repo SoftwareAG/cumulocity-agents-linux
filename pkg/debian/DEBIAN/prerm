@@ -1,1 +1,1 @@
-systemctl disable $AGENT_NAME
+systemctl disable cumulocity-agent

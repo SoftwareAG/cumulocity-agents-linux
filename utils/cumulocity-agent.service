@@ -1,10 +1,10 @@
 [Unit]
-Description=$AGENT_NAME
+Description=cumulocity-agent
 After=network.target
 
 [Service]
 Type=idle
-ExecStart=$PREFIX/bin/srwatchdogd $PREFIX/bin/$AGENT_NAME 240
+ExecStart=$PREFIX/bin/srwatchdogd $PREFIX/bin/cumulocity-agent 240
 
 [Install]
 WantedBy=multi-user.target
