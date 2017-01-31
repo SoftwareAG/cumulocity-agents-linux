@@ -54,9 +54,9 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
         if (r.size() && r[0].second == "50") {
                 http.clear();
                 string s = "301,";
-                string model, revision;
-                getHardware(model, revision);
-                s += model.empty() ? "demo-agent" : model + " " + revision;
+                string model, rev;
+                getHardware(model, rev);
+                s += model.empty() ? "Cumulocity-Agent" : model + " " + rev;
                 s += " (" + agent.deviceID() + "),20";
                 if (http.post(s) <= 0)
                         return -1;
@@ -67,7 +67,7 @@ int Integrate::integrate(const SrAgent &agent, const string &srv,
                         s = "302," + id + "," + agent.deviceID();
                         if (!model.empty())
                                 s += "\n310," + id + "," + model + ","
-                                        + agent.deviceID() + "," + revision;
+                                        + agent.deviceID() + "," + rev;
                         if (http.post(s) <= 0)
                                 return -1;
                         return 0;

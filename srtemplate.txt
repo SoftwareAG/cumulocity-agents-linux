@@ -1,9 +1,9 @@
-demoagent_5
+cumulocity_agent_1
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
 # Device Capability
-10,301,POST,/inventory/managedObjects,application/json,application/json,%%,STRING UNSIGNED,"{""name"":""%%"",""type"":""c8y_demo"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%}}"
+10,301,POST,/inventory/managedObjects,application/json,application/json,%%,STRING UNSIGNED,"{""name"":""%%"",""type"":""c8y_cumulocity_agent"",""c8y_IsDevice"":{},""com_cumulocity_model_Agent"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%}}"
 
 10,302,POST,/identity/globalIds/%%/externalIds,application/json,,%%,STRING STRING,"{""externalId"":""%%"",""type"":""c8y_Serial""}"
 

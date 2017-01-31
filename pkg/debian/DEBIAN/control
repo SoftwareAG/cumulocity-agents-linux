@@ -6,4 +6,4 @@ Maintainer: Cumulocity <support@cumulocity.com>
 Package: cumuloctiy-agent
 Architecture: armhf
 Depends: liblua5.2-0, libstdc++6, libc6, libcurl3
-Description: Generic demo agent for Cumulocity IoT integration.
+Description: Generic Linux agent for Cumulocity IoT integration.

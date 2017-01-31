@@ -5,7 +5,7 @@ local logtable = {
    syslog = {'/var/log/syslog', syslog_b_filter, syslog_e_filter},
    journald = {'/bin/journalctl'},
    dmesg = {'/bin/dmesg'},
-   c8ydemo = {cdb:get('log.path'), syslog_b_filter, syslog_e_filter},
+   cumulocityagent= {cdb:get('log.path'), syslog_b_filter, syslog_e_filter},
 }
 
 

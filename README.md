@@ -58,7 +58,7 @@ sudo make install
 * Run the agent:
 
 ```bash
-sudo c8ydemo-agent
+sudo cumulocity-agent
 ```
 
 ### FAQ ###
@@ -73,8 +73,8 @@ sudo make uninstall
 
   The requirements are the same as above, but the build requires special treatment because Ubuntu Snap Core uses its own file system structure, instead do:
 ```bash
-make release  PREFIX=/snap/c8ydemo-agent/current/usr DATAPATH=/var/snap/c8ydemo-agent/common
-make snap PREFIX=/snap/c8ydemo-agent/current/usr DATAPATH=/var/snap/c8ydemo-agent/common
+make release  PREFIX=/snap/cumulocity-agent/current/usr DATAPATH=/var/snap/cumulocity-agent/common
+make snap PREFIX=/snap/cumulocity-agent/current/usr DATAPATH=/var/snap/cumulocity-agent/common
 ```
 
 This will create the snap package. Then the agent needs to be installed in developer mode, since snap sandboxing is currently too restrictive. To install it run:
