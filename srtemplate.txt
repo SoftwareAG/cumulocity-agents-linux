@@ -1,4 +1,4 @@
-cumulocity_agent_1
+cumulocity_agent_4
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -74,6 +74,9 @@ cumulocity_agent_1
 
 10,336,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_RDBDump"":{""name"":""%%"",""description"":""%%"",""url"":""%%""}}"
 
+10,337,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_TemperatureMeasurement"",""c8y_TemperatureMeasurement"":{""CPU"":{""value"":%%,""unit"":""C""}}}"
+
+10,338,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED STRING NUMBER STRING NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_NetworkStatistics"",""c8y_NetworkStatistics"":{""%%"":{""value"":%%,""unit"":""KB/s""},""%%"":{""value"":%%,""unit"":""KB/s""}}}"
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
