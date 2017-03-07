@@ -119,6 +119,10 @@ static string getDeviceID()
         s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
         if (isValid(s)) return s;
 
+        // AWS Paravirtual Instance
+        s = searchPathForDeviceID("/sys/hypervisor/uuid");
+        if (isValid(s)) return s;
+
         // dbus - interprocess communication (IPC) devices
         s = searchPathForDeviceID("/var/lib/dbus/machine-id");
         if (isValid(s)) return s;
