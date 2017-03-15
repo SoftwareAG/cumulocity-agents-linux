@@ -60,12 +60,12 @@ int main()
         LuaManager lua(agent, cdb);
         loadLuaPlugins(lua, cdb);
         Helper helper(agent, wdt);
-        SrReporter reporter(server, agent.XID(), agent.auth(),
-                            agent.egress, agent.ingress);
-        SrDevicePush push(server, agent.XID(), agent.auth(),
-                          agent.ID(), agent.ingress);
-        if (reporter.start() || push.start())
-                return 0;
+        const bool isssl = server.substr(0, 5) == "https";
+        const string port =  isssl ? ":8883" : ":1883";
+        SrReporter reporter(server + port, agent.deviceID(), agent.XID(),
+                            agent.tenant() + '/' + agent.username(),
+                            agent.password(), agent.egress, agent.ingress);
+        if (reporter.start()) return 0;
         agent.loop();
         return 0;
 }
