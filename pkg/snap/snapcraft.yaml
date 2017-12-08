@@ -1,0 +1,27 @@
+name: cumulocity-agent
+version: 2.0
+confinement: devmode
+grade: stable
+summary: Cumulocity Linux agent
+description: Generic Linux agent for Cumulocity IoT integration.
+
+apps:
+  cumulocity-agent:
+    command: usr/bin/srwatchdogd $SNAP/usr/bin/cumulocity-agent 240
+    plugs: [network]
+    daemon: simple
+
+parts:
+  cumulocity:
+    plugin: dump
+    source: .
+    organize:
+      bin: usr/bin
+      lua: usr/share/cumulocity-agent/lua
+      srtemplate.txt: usr/share/cumulocity-agent/srtemplate.txt
+      cumulocity-agent.conf: usr/share/cumulocity-agent/cumulocity-agent.conf
+  libsera:
+    plugin: dump
+    source: .
+    organize:
+      lib: usr/lib

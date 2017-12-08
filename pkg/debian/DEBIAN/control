@@ -1,0 +1,9 @@
+Source: cumulocity-agent
+Version: 2.0
+Priority: optional
+Section: embedded
+Maintainer: Cumulocity <support@cumulocity.com>
+Package: cumuloctiy-agent
+Architecture: armhf
+Depends: liblua5.2-0, libstdc++6, libc6, libcurl3
+Description: Generic Linux agent for Cumulocity IoT integration.
