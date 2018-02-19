@@ -1,4 +1,4 @@
-cumulocity_agent_1
+cumulocity_agent_1m
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -78,6 +78,21 @@ cumulocity_agent_1
 10,337,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_ReactMeasurement"",""c8y_ReactMeasurement"":{""start"":{""value"":%%}}}"
 
 10,338,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_ReactTime"",""c8y_ReactTime"":{""duration"":{""value"":%%,""unit"":""s""}}}"
+
+# Monitoring extension related
+10,339,GET,/identity/externalIds/c8y_Host/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
+
+10,340,POST,/inventory/managedObjects,application/json,application/json,%%,STRING UNSIGNED,"{""name"":""%%"",""type"":""c8y_MonitoredHost"",""c8y_IsDevice"":{},""c8y_IsMonitoredHost"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%}}"
+
+10,341,POST,/identity/globalIds/%%/externalIds,application/json,,%%,UNSIGNED STRING,"{""externalId"":""%%"",""type"":""c8y_Host""}"
+
+10,342,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,NOW UNSIGNED STRING STRING NUMBER STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""%%"":{""value"":%%,""unit"":""%%""}},""type"":""%%""}"
+
+10,343,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,NOW UNSIGNED STRING NUMBER STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""exit_code"":{""value"":%%}},""type"":""%%""}"
+
+10,344,POST,/alarm/alarms,application/json,,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
+
+10,345,POST,/alarm/alarms,application/json,,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
 
 
 11,800,$.managedObject,,$.id
