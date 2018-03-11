@@ -145,7 +145,8 @@ rpmbuild -ba $RPM_BASE/SPECS/cumulocity-agent.spec
 
 # Rescue the RPM
 
-cp -v $RPM_BASE/RPMS/*/cumulocity-agent*.rpm ../../build/rpm
+mkdir -p build/rpm
+cp -v $RPM_BASE/RPMS/*/cumulocity-agent*.rpm build/rpm/
 
 # Cleanup
 
