@@ -97,6 +97,9 @@ snap:
 	@cp pkg/$@/snapcraft.yaml $(STAGE_DIR)/$@
 	@cd $(STAGE_DIR)/$@ && snapcraft clean && snapcraft
 
+rpm:
+	@pkg/rpm/build_rpm.sh
+
 $(BIN_DIR)/$(BIN): $(OBJ)
 	@mkdir -p $(dir $@)
 	@echo "(LD) $@"
@@ -127,5 +130,5 @@ clean:
 
 clean_all:
 	@rm -rf $(BUILD_DIR)/* $(BIN_DIR)/* $(LIB_DIR)/*
-	
+
 -include $(OBJ:.o=.d)
