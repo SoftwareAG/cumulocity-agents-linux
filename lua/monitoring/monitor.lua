@@ -208,7 +208,8 @@ function monitor:new()
          end
 
          local result, n = string.gsub(output:sub(1, 128), '\n' ,' ')
-         return result --return first 128 chars of output without newline
+         --return first 128 chars of output without newline
+         return string.format("%s%s%s",'"',result,'"')
       end
 
       function private:sendFragment(exec_unit_id, exit_code, ms_tbl, output)
