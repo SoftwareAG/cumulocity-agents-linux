@@ -39,7 +39,7 @@ cd cumulocity-agents-linux
 cp -rP $C8Y_LIB_PATH/lib $C8Y_LIB_PATH/bin .
 ```
 
-* Build the agent: 
+* Build the agent:
 ```bash
 make # in *debug* mode:
 ```
@@ -61,6 +61,13 @@ sudo make install
 sudo cumulocity-agent
 ```
 
+Or for Linux distributions with systemd:
+
+```bash
+sudo systemctl enable cumulocity-agent
+sudo systemctl start cumulocity-agent
+```
+
 ### FAQ ###
 * How can I uninstall the agent?
 
@@ -68,6 +75,14 @@ sudo cumulocity-agent
 ```bash
 sudo make uninstall
 ```
+
+* How can I build RPM of the agent?
+
+  After building of the agent run:
+```bash
+sudo make rpm -v 0.1 # replace 0.1 with required version number
+```
+The RPM is saved in folder build/rpm.
 
 * How to build and package the agent as a Ubuntu snap?
 
