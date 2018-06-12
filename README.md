@@ -69,22 +69,23 @@ sudo systemctl start cumulocity-agent
 ```
 
 ### FAQ ###
-* How can I uninstall the agent?
 
-  Run:
+#### How can I uninstall the agent? ####
+
+Run:
 ```bash
 sudo make uninstall
 ```
 
-* How can I build RPM of the agent?
+#### How can I build RPM of the agent? ####
 
-  After building of the agent run:
+After building of the agent run:
 ```bash
 sudo make rpm -v 0.1 # replace 0.1 with required version number
 ```
 The RPM is saved in folder build/rpm.
 
-* How to build and package the agent as a Ubuntu snap?
+#### How can I build and package the agent as a Ubuntu snap? ####
 
   The requirements are the same as above, but the build requires special treatment because Ubuntu Snap Core uses its own file system structure, instead do:
 ```bash
@@ -100,3 +101,23 @@ sudo snap install <agent.snap> --devmode
 The agent starts automatically after installation, also at every time the machine boots.
 
 NOTE: packaging requires snapcraft >= 2.10 because lower versions do not support the confinement property, which is required for packaging the agent as a snap.
+
+#### How can I add Modbus support? ####
+
+Edit the *Makefile* and set `PLUGIN_MODBUS:=1`. On the build machine, install [libmodbus-devel](http://libmodbus.org/download/):
+```bash
+yum install libmodbus-devel
+```
+
+Run the build as described. When you run the agent, make sure that [libmodbus](http://libmodbus.org/download/) is installed:
+```bash
+yum install libmodbus
+```
+
+Edit *cumulocity-agent.conf* and add the modbus plugin:
+```
+lua.plugins=system,logview,software,modbus
+```
+
+
+
