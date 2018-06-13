@@ -102,22 +102,3 @@ The agent starts automatically after installation, also at every time the machin
 
 NOTE: packaging requires snapcraft >= 2.10 because lower versions do not support the confinement property, which is required for packaging the agent as a snap.
 
-#### How can I add Modbus support? ####
-
-Edit the *Makefile* and set `PLUGIN_MODBUS:=1`. On the build machine, install [libmodbus-devel](http://libmodbus.org/download/):
-```bash
-yum install libmodbus-devel
-```
-
-Run the build as described. When you run the agent, make sure that [libmodbus](http://libmodbus.org/download/) is installed:
-```bash
-yum install libmodbus
-```
-
-Edit *cumulocity-agent.conf* and add the modbus plugin:
-```
-lua.plugins=system,logview,software,modbus
-```
-
-
-
