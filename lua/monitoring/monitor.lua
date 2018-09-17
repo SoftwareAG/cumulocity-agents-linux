@@ -1,9 +1,5 @@
 require ("monitoring/devel/utilities")
 
--- TODO
--- reorganize sequence of functions so the code is more readable
--- get rid of sync/async stuff
-
 --class
 monitor = {}
 
@@ -149,23 +145,19 @@ function monitor:new()
          local host_tbl = private.hostsTable[host_id]
          local plugin_tbl = private.pluginsTable[plugin_id]
          local exec_unit = {}
+
          exec_unit.host = host_id
          exec_unit.plugin = plugin_id
-         exec_unit.use_exit_code = plugin_tbl.use_exit_code
+         exec_unit.use_exit_code = plugin_tbl.use_exit_code or false
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series
          exec_unit.command_with_path_and_params, exec_unit.final_command =
             private:compileFinalCommand(host_id, plugin_id, exec_unit_id)
 
-         --TODO
-         if (private.hostName and host_tbl.plugins_with_observer_hostname) then
-            for i, p in ipairs(host_tbl.plugins_with_observer_hostname) do
-               if p == plugin_id then
-                  exec_unit.add_observer_hostname = true
-                  break
-               end
-            end
+         if private.hostName and plugin_tbl.add_observer_hostname then
+            exec_unit.add_observer_hostname = true
          end
+
          return exec_unit
       end
 
@@ -232,10 +224,11 @@ function monitor:new()
          local exec_unit = private.execTable[exec_unit_id]
          local host_id = exec_unit.host
          local c8y_id = private.hostsTable[host_id]["c8y_id"]
+         local timestamp = private:getTimestamp(exec_unit, ms_tbl)
 
          local fragmentName
          local typeName = "c8y_"..exec_unit.plugin
-         if exec_unit.add_observer_hostname == true then
+         if exec_unit.add_observer_hostname then
             fragmentName = typeName.."_from_"..private.hostName
          else
             fragmentName = typeName
@@ -258,7 +251,7 @@ function monitor:new()
             end
          end
 
-         if (exec_unit.use_exit_code == true) then
+         if exec_unit.use_exit_code then
             c8y:send(table.concat({
                   '343',
                   c8y_id,
@@ -282,6 +275,39 @@ function monitor:new()
                }, ','), 1)
             end
          end
+      end
+
+      -- retrieves a timestamp if exists
+      function private:getTimestamp(exec_unit, ms_tbl)
+         -- for i=1, #exec_unit.values do
+         --
+         --    if (exec_unit["values"][i]["use_as_timestamp"]) then
+         --       if (exec_unit["values"][i]["unit"] == "ms") then
+         --          local seconds,decimal = math.modf(ms_tbl[i])
+         --          local millisec = math.floor(decimal * 1000 + 0.5)
+         --          local utcdate = os.date("*t", seconds)
+         --          return string.format('%04d-%02d-%02dT%02d:%02d:%02d.%03d+0000',
+         --             utcdate.year,
+         --             utcdate.month,
+         --             utcdate.day,
+         --             utcdate.hour,
+         --             utcdate.min,
+         --             utcdate.sec,
+         --             ms)
+         --       elseif (exec_unit["values"][i]["unit"] == "s") then
+         --          local utcdate = os.date("*t", ms_tbl[i])
+         --          return = string.format('%04d-%02d-%02dT%02d:%02d:%02d+0000',
+         --             utcdate.year,
+         --             utcdate.month,
+         --             utcdate.day,
+         --             utcdate.hour,
+         --             utcdate.min,
+         --             utcdate.sec)
+         --       else
+         --          srError("MONITORING wrong unit for timestamp")
+         --       end
+         --    end
+         -- end
       end
 
       function private:getAlarmDescription(exec_unit_id, exit_code, output)

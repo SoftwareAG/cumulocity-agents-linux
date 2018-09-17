@@ -7,15 +7,15 @@ return {
          "DiskUsageMountedOnRootDisk",
          "SystemUptime",
          "ProcessesCount",
-         "SwapUsage",
+         "SwapUsage"
       }
    },
 
    --example of monitoring of a remote host
-   -- ["www.google.com"] = {
-   --    plugins_to_run={
-   --       "ContentAvailability",
-   --    }
-   -- },
+   ["www.google.com"] = {
+      plugins_to_run={
+         "ContentAvailability",
+      },
+   },
 
 }

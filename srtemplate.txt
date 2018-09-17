@@ -98,6 +98,15 @@ cumulocity_agent_35
 
 10,347,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED UNSIGNED STRING UNSIGNED STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_CANopenAvailabilityAlarm"",""c8y_CANopenAvailabilityAlarm"":{""nodeId"":%%,""index"":""%%"",""subIndex"":%%},""status"":""ACTIVE"",""severity"":""MAJOR"",""text"":""%%""}"
 
+10,348,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,DATE UNSIGNED STRING STRING NUMBER STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""%%"":{""value"":%%,""unit"":""%%""}},""type"":""%%""}"
+
+10,349,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,DATE UNSIGNED STRING NUMBER STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""exit_code"":{""value"":%%}},""type"":""%%""}"
+
+10,350,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
+
+10,351,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
+
+
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
 11,802,,$.deviceId,$.id,$.status
