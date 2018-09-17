@@ -106,6 +106,19 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+
+      --uncomment the following to add the hostname
+      --of the observer to the fragment's name
+
+      --add_observer_hostname=true,
+
+      --uncomment the following to define
+      --the alarm text in case of warning and critical alarms
+
+      -- alarmtext={
+      --    warning="Some text in case of warning alarm",
+      --    critical="Some text in case of critical alarm"
+      -- },
    },
 
    ["CumulocityApiTests"] = {
@@ -114,7 +127,7 @@ return {
       use_exit_code=true,
       regex="Ran %d+ tests in (%d+%.?%d-)s",
       series={
-         {name="time", unit="s"},
+         {name="execution_time", unit="s"},
       },
    },
 
@@ -124,8 +137,30 @@ return {
       use_exit_code=true,
       regex="Average response time: (%d+%.?%d-)ms",
       series={
-         {name="CumulocityApiResponse", unit="ms"},
+         {name="response_time", unit="ms"},
       },
    },
+
+   -- for debugging
+   ["ValueWithTimestampInSeconds"] = {
+      command="valueWithTimestamp_sec.lua",
+      regex="(%d+.?%d-)%s+(-?%d+.?%d-)%s+",
+      values={
+         {name="value"},
+         {unit="s", use_as_timestamp=true}
+      },
+   },
+
+   -- for debugging
+   ["ValueWithTimestampInMilliseconds"] = {
+      command="valueWithTimestamp_ms.lua",
+      regex="(%d+.?%d-)%s+(-?%d+.?%d-)%s+",
+      values={
+         {name="value"},
+         {unit="ms", use_as_timestamp=true}
+      },
+   },
+
+
 
 }
