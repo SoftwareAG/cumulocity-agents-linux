@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 cumulocity_agent_35
+=======
+cumulocity_agent_1.1
+>>>>>>> [CP-1062]cumulocity-agent: added error handling within the monitoring.lua plugin
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 

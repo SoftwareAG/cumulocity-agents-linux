@@ -144,23 +144,21 @@ return {
    -- for debugging
    ["ValueWithTimestampInSeconds"] = {
       command="valueWithTimestamp_sec.lua",
-      regex="(%d+.?%d-)%s+(-?%d+.?%d-)%s+",
-      values={
-         {name="value"},
-         {unit="s", use_as_timestamp=true}
+      regex="(%d+.?%d-)%D+(%d+.?%d-)%D-$",
+      series={
+         {use_as_timestamp=true, unit="s"},
+         {name="value"}
       },
    },
 
    -- for debugging
    ["ValueWithTimestampInMilliseconds"] = {
       command="valueWithTimestamp_ms.lua",
-      regex="(%d+.?%d-)%s+(-?%d+.?%d-)%s+",
-      values={
-         {name="value"},
-         {unit="ms", use_as_timestamp=true}
+      regex="(%d+.?%d-)%D+(%d+.?%d+)%D-$",
+      series={
+         {use_as_timestamp=true, unit="ms"},
+         {name="value"}
       },
-   },
-
-
+   }
 
 }
