@@ -7,7 +7,9 @@ return {
          "DiskUsageMountedOnRootDisk",
          "SystemUptime",
          "ProcessesCount",
-         "SwapUsage"
+         "SwapUsage",
+         "ValueWithTimestampInSeconds",
+         "ValueWithTimestampInMilliseconds"
       }
    },
 

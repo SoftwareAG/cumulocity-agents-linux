@@ -166,10 +166,10 @@ function monitor:new()
          local cwp --command with path
          local cwpap --command with path and parameters
          local fc --final command with path, params and exit code
-         local params = plugin_tbl.params or ""
+         local params = plugin_tbl.params
 
          --replacement of placeholders
-         if (params ~= "") then
+         if params then
             local host_tbl = private.hostsTable[host_id]
 
             params = params:gsub(private.hostPlaceholder, host_id)
@@ -185,7 +185,12 @@ function monitor:new()
             srError("MONITORING Plugin "..cwp.." is not accessible")
          end
 
-         cwpap = cwp.." "..params
+         if params then
+            cwpap = cwp.." "..params
+         else
+            cwpap = cwp
+         end
+
          fc = cwpap.." 2>&1; echo $?"
          return cwpap, fc
       end
@@ -205,7 +210,7 @@ function monitor:new()
          return output, exit_code
       end
 
-      function private:getFragment(output, exec_unit_id)
+      function private:getMeasurements(output, exec_unit_id)
          local exec_unit = private.execTable[exec_unit_id]
          local results = {}
 
@@ -220,94 +225,144 @@ function monitor:new()
          return {}
       end
 
-      function private:sendFragment(exec_unit_id, exit_code, ms_tbl, output)
+      function private:sendMeasurementsAndAlarms(exec_unit_id, exit_code,
+         ms_tbl, output)
+
          local exec_unit = private.execTable[exec_unit_id]
          local host_id = exec_unit.host
          local c8y_id = private.hostsTable[host_id]["c8y_id"]
+
          local timestamp = private:getTimestamp(exec_unit, ms_tbl)
 
-         local fragmentName
-         local typeName = "c8y_"..exec_unit.plugin
+         if (timestamp == -1) then --there is a timestamp but the unit is wrong
+            return
+         end
+
+         local fragment_name
+         local type_name = "c8y_"..exec_unit.plugin
          if exec_unit.add_observer_hostname then
-            fragmentName = typeName.."_from_"..private.hostName
+            fragment_name = type_name.."_from_"..private.hostName
          else
-            fragmentName = typeName
+            fragment_name = type_name
          end
 
          for i=1, #ms_tbl do
             local series_id = exec_unit.series[i]["name"]
-            local unit = exec_unit.series[i]["unit"]
+            local unit = exec_unit.series[i]["unit"] or ""
 
-            if ms_tbl[i] and series_id and unit then
-               c8y:send(table.concat({
-                     '342',
-                     c8y_id,
-                     fragmentName,
-                     series_id,
-                     ms_tbl[i],
-                     unit,
-                     typeName
-                  }, ','), 0)
+            if ms_tbl[i] and series_id then
+               if timestamp then
+                  c8y:send(table.concat({
+                        '346',
+                        timestamp,
+                        c8y_id,
+                        fragment_name,
+                        series_id,
+                        ms_tbl[i],
+                        unit,
+                        type_name
+                     }, ','), 0)
+               else
+                  c8y:send(table.concat({
+                        '342',
+                        c8y_id,
+                        fragment_name,
+                        series_id,
+                        ms_tbl[i],
+                        unit,
+                        type_name
+                     }, ','), 0)
+               end
             end
          end
 
          if exec_unit.use_exit_code then
-            c8y:send(table.concat({
-                  '343',
-                  c8y_id,
-                  fragmentName,
+            private:sendExitCodeAndAlarms(
+                  timestamp,
                   exit_code,
-                  typeName
-               }, ','), 0)
-            if (exit_code == 1) then
-               c8y:send(table.concat({
-                  '344',
                   c8y_id,
-                  "c8y_"..exec_unit.plugin.."Alarm",
+                  fragment_name,
+                  type_name,
+                  "c8y_"..exec_unit.plugin.."Alarm", --alarm type
                   private:getAlarmDescription(exec_unit_id, exit_code, output)
-               }, ','), 1)
-            elseif (exit_code > 1) then
-               c8y:send(table.concat({
-                  '345',
-                  c8y_id,
-                  "c8y_"..exec_unit.plugin.."Alarm",
-                  private:getAlarmDescription(exec_unit_id, exit_code, output)
-               }, ','), 1)
-            end
+               )
          end
       end
 
       -- retrieves a timestamp if exists
       function private:getTimestamp(exec_unit, ms_tbl)
-         -- for i=1, #exec_unit.values do
-         --
-         --    if (exec_unit["values"][i]["use_as_timestamp"]) then
-         --       if (exec_unit["values"][i]["unit"] == "ms") then
-         --          local seconds,decimal = math.modf(ms_tbl[i])
-         --          local millisec = math.floor(decimal * 1000 + 0.5)
-         --          local utcdate = os.date("*t", seconds)
-         --          return string.format('%04d-%02d-%02dT%02d:%02d:%02d.%03d+0000',
-         --             utcdate.year,
-         --             utcdate.month,
-         --             utcdate.day,
-         --             utcdate.hour,
-         --             utcdate.min,
-         --             utcdate.sec,
-         --             ms)
-         --       elseif (exec_unit["values"][i]["unit"] == "s") then
-         --          local utcdate = os.date("*t", ms_tbl[i])
-         --          return = string.format('%04d-%02d-%02dT%02d:%02d:%02d+0000',
-         --             utcdate.year,
-         --             utcdate.month,
-         --             utcdate.day,
-         --             utcdate.hour,
-         --             utcdate.min,
-         --             utcdate.sec)
-         --       else
-         --          srError("MONITORING wrong unit for timestamp")
-         --       end
-         --    end
-         -- end
+         for i=1, #exec_unit.series do
+            if (exec_unit.series[i]["use_as_timestamp"]) then
+               if (exec_unit.series[i]["unit"] == "ms") then
+                  local seconds,decimal = math.modf(tonumber(ms_tbl[i]))
+                  local millisec = math.floor(decimal * 1000 + 0.5)
+                  local utcdate = os.date("*t", seconds)
+
+                  return string.format('%04d-%02d-%02dT%02d:%02d:%02d.%03d+0000',
+                     utcdate.year,
+                     utcdate.month,
+                     utcdate.day,
+                     utcdate.hour,
+                     utcdate.min,
+                     utcdate.sec,
+                     millisec)
+               elseif (exec_unit.series[i]["unit"] == "s") then
+                  local utcdate = os.date("*t", tonumber(ms_tbl[i]))
+
+                  return string.format('%04d-%02d-%02dT%02d:%02d:%02d+0000',
+                     utcdate.year,
+                     utcdate.month,
+                     utcdate.day,
+                     utcdate.hour,
+                     utcdate.min,
+                     utcdate.sec)
+               else
+                  srError("MONITORING wrong unit for timestamp")
+                  return -1
+               end
+            end
+         end
+      end
+
+      function private:sendExitCodeAndAlarms(timestamp, exit_code, c8y_id,
+         fragment_name, type_name, alarm_type, alarm_description)
+
+         if timestamp then
+            c8y:send(table.concat({
+                  '347',
+                  timestamp,
+                  c8y_id,
+                  fragment_name,
+                  exit_code,
+                  type_name
+               }, ','), 0)
+
+            if (exit_code >= 1) then
+               c8y:send(table.concat({
+                     exit_code == 1 and '348' or '349',
+                     c8y_id,
+                     alarm_type,
+                     alarm_description
+                  }, ','), 1)
+            end
+         else --no explicit timestamp
+            c8y:send(table.concat({
+                  '343',
+                  c8y_id,
+                  fragment_name,
+                  exit_code,
+                  type_name
+               }, ','), 0)
+
+            if (exit_code >= 1) then
+               c8y:send(table.concat({
+                     exit_code == 1 and '344' or '345',
+                     c8y_id,
+                     alarm_type,
+                     alarm_description
+                  }, ','), 1)
+            end
+         end
       end
 
       function private:getAlarmDescription(exec_unit_id, exit_code, output)
@@ -352,9 +407,10 @@ function monitor:new()
 
                local output, exit_code = private:runExecUnit(exec_unit_id)
 
-               local ms_tbl = private:getFragment(output, exec_unit_id)
+               local ms_tbl = private:getMeasurements(output, exec_unit_id)
 
-               private:sendFragment(exec_unit_id, exit_code, ms_tbl, output)
+               private:sendMeasurementsAndAlarms(exec_unit_id, exit_code,
+                  ms_tbl, output)
             end
          end
       end
