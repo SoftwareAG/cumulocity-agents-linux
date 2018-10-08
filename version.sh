@@ -13,6 +13,9 @@ elif [ "$1" == "ask" ]; then
     grep Version: pkg/debian/DEBIAN/control | cut -c 10-
 else
     sed -i "/Version:/c\Version: $1" pkg/debian/DEBIAN/control
+    sed -i "/AGENT_VERSION=/c\AGENT_VERSION='$1'" pkg/rpm/build_rpm.sh
+    sed -i "/version:/c\version: $1" pkg/snap/snapcraft.yaml
+    sed -i "/local agentVersion/c\local agentVersion = '$1'" lua/software.lua
 fi
 exit 0
 
