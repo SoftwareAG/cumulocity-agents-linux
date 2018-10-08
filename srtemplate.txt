@@ -49,13 +49,13 @@ cumulocity_agent_35
 
 10,323,GET,/inventory/managedObjects/%%/childDevices?pageSize=100,,application/json,%%,UNSIGNED,
 
-10,324,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_RelayArray"":""%%"",""%%"",""%%""]}"
+10,324,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_RelayArray"":[""%%"",""%%"",""%%""]}"
 
 10,325,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED NUMBER NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_MemoryMeasurement"",""c8y_MemoryMeasurement"":{""Used"":{""value"":%%,""unit"":""MB""},""Total"":{""value"":%%,""unit"":""MB""}}}"
 
 10,326,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_CPUMeasurement"",""c8y_CPUMeasurement"":{""Workload"":{""value"":%%,""unit"":""%""}}}"
 
-10,327,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING,"{""c8y_SupportedOperations"":%%]}"
+10,327,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING,"{""c8y_SupportedOperations"":[%%]}"
 
 10,328,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED NUMBER NUMBER NUMBER,"{""c8y_Position"":{""alt"":%%,""lat"":%%,""lng"":%%},""c8y_MotionTracking"":{""active"":true}}"
 
