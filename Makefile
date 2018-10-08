@@ -1,4 +1,4 @@
-PLUGIN_MODBUS:=0
+PLUGIN_MODBUS:=1
 BUILD:=debug
 
 SRC_DIR:=src
@@ -98,7 +98,7 @@ snap:
 	@cd $(STAGE_DIR)/$@ && snapcraft clean && snapcraft
 
 rpm:
-	@pkg/rpm/build_rpm.sh
+	@pkg/rpm/build_rpm.sh ${args}
 
 $(BIN_DIR)/$(BIN): $(OBJ)
 	@mkdir -p $(dir $@)

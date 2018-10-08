@@ -1,8 +1,12 @@
 local tbl = {}
+local agentName = "cumulocity-agent"
+local agentVersion = '2.1.0'
+local agentUrl = ''
 
 function init()
    c8y:addMsgHandler(805, 'aggregate')
    c8y:addMsgHandler(806, 'perform')
+   updateAgentVersion()
    return 0
 end
 
@@ -19,4 +23,16 @@ function perform(r)
    end
    tbl = {}
    c8y:send('304,' .. r:value(2) .. ',"Not supported yet."')
+end
+
+
+function updateAgentVersion()
+   c8y:send(table.concat({
+         '350',
+         c8y.ID,
+         agentName,
+         agentVersion,
+         agentUrl
+      }, ','), 1)
+   srInfo("Agent version: " .. agentVersion)
 end

@@ -6,15 +6,26 @@ TARGET_BASE=/usr/share/cumulocity-agent
 DATAPATH=/var/lib/cumulocity-agent
 PREFIX=/usr
 RPM_BASE=/tmp/rpmbuild
-RPM_VERSION='1.0'
+AGENT_VERSION='2.1.0'
+RPM_RELEASE='1'
+
 
 # Handle commandline arguments
 
-while getopts "nv:" opt; do
-    case "$opt" in
-    v)  RPM_VERSION=$OPTARG
-        ;;
-    esac
+while getopts ":r:" opt; do
+  case "$opt" in
+    r)
+      RPM_RELEASE=$OPTARG
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+    :)
+      echo "Option -$OPTARG requires an argument." >&2
+      exit 1
+      ;;
+  esac
 done
 
 # Cleanup and create working directory
@@ -39,8 +50,8 @@ cat <<EOF > $RPM_BASE/SPECS/cumulocity-agent.spec
 
 Summary: Cumulocity Linux Agent
 Name: cumulocity-agent
-Version: $RPM_VERSION
-Release: 1
+Version: $AGENT_VERSION
+Release: $RPM_RELEASE
 License: Commercial
 Group: Development/Tools
 URL: http://www.cumulocity.com/
