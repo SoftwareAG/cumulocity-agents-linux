@@ -9,7 +9,7 @@ function monitor:new()
    local private = {}
 
       --private properties
-      private.pluginsDir = nil
+      private.pluginsPath = {}
       private.hostsTable = nil
       private.execTable = {}
       private.pluginsFile = nil
@@ -33,21 +33,24 @@ function monitor:new()
 
          private.pluginsFile = cdb:get('monitoring.plugins.table')
          private.hostsFile = cdb:get('monitoring.hosts.table')
-         private.pluginsDir = cdb:get('monitoring.plugins.directory')
+         private.pluginsPath = private:getAndVerifyPluginsPath()
 
          if not private:fileExists(private.pluginsFile) then
             private.isInitError = true
             srError("MONITORING File with plugins table is not accessible")
+            return
          end
 
          if not private:fileExists(private.hostsFile) then
             private.isInitError = true
             srError("MONITORING File with hosts table is not accessible")
+            return
          end
 
-         if not private:fileExists(private.pluginsDir) then
+         if #private.pluginsPath == 0 then
             private.isInitError = true
-            srError("MONITORING Directory with plugins is not accessible")
+            srError("MONITORING No path to plugins is accessible")
+            return
          end
 
          private.pluginsTable = dofile(private.pluginsFile)
@@ -60,10 +63,32 @@ function monitor:new()
          private:getExternalIdsForHosts()
          private:getHostName()
          private:compileExecTable()
+
+         if #private.execTable == 0 then
+            private.isInitError = true
+            srError("MONITORING No plugins to run")
+         end
+      end
+
+      function private:getAndVerifyPluginsPath()
+         local path_str = cdb:get('monitoring.plugins.path')
+         local path={}
+
+         for capture in path_str:gmatch("([^,]+)") do
+            table.insert(path, capture)
+         end
+
+         for i, value in ipairs(path) do
+            if not private:fileExists(value) then
+               table.remove(path, i)
+            end
+         end
+
+         return path
       end
 
       function private:fileExists(filename)
-         local f = io.open(filename,"r")
+         local f = io.open(filename, "r")
          if f then
             io.close(f)
             return true
@@ -127,14 +152,15 @@ function monitor:new()
             if host_tbl.c8y_id then
                for i, plugin_id in ipairs(host_tbl.plugins_to_run) do
                   if not private.pluginsTable[plugin_id] then
-                     private.isInitError = true
-                     srError("MONITORING Plugin "..plugin_id
+                     srWarning("MONITORING Plugin "..plugin_id
                         .." is not specified in ".. private.pluginsFile)
                   else
                      local exec_unit =
                         private:compileExecUnit(host_id, plugin_id, exec_unit_id)
-                     table.insert(private.execTable, exec_unit_id, exec_unit)
-                     exec_unit_id = exec_unit_id + 1
+                     if exec_unit then
+                        table.insert(private.execTable, exec_unit_id, exec_unit)
+                        exec_unit_id = exec_unit_id + 1
+                     end
                   end
                end
             end
@@ -146,13 +172,18 @@ function monitor:new()
          local plugin_tbl = private.pluginsTable[plugin_id]
          local exec_unit = {}
 
+         exec_unit.command_with_path_and_params, exec_unit.final_command =
+            private:compileFinalCommand(host_id, plugin_id, exec_unit_id)
+
+         if not exec_unit.command_with_path_and_params then
+            return nil
+         end
+
          exec_unit.host = host_id
          exec_unit.plugin = plugin_id
          exec_unit.use_exit_code = plugin_tbl.use_exit_code or false
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series
-         exec_unit.command_with_path_and_params, exec_unit.final_command =
-            private:compileFinalCommand(host_id, plugin_id, exec_unit_id)
 
          if private.hostName and plugin_tbl.add_observer_hostname then
             exec_unit.add_observer_hostname = true
@@ -168,6 +199,20 @@ function monitor:new()
          local fc --final command with path, params and exit code
          local params = plugin_tbl.params
 
+         for i, value in ipairs(private.pluginsPath) do
+            cwp = value.."/"..plugin_tbl.command
+
+            if private:fileExists(cwp) then
+               break
+            end
+         end
+
+         if not cwp then
+            --private.isInitError = true
+            srWarning("MONITORING Plugin "..plugin_id.." is not accessible")
+            return nil
+         end
+
          --replacement of placeholders
          if params then
             local host_tbl = private.hostsTable[host_id]
@@ -176,13 +221,6 @@ function monitor:new()
             params = params:gsub(private.tenantPlaceholder, host_tbl.tenant or "")
             params = params:gsub(private.usernamePlaceholder, host_tbl.username or "")
             params = params:gsub(private.passwordPlaceholder, host_tbl.password or "")
-         end
-
-         cwp = private.pluginsDir.."/"..plugin_tbl.command
-
-         if not private:fileExists(cwp) then
-            private.isInitError = true
-            srError("MONITORING Plugin "..cwp.." is not accessible")
          end
 
          if params then
