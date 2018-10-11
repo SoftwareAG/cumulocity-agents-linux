@@ -34,5 +34,5 @@ function updateAgentVersion()
          agentVersion,
          agentUrl
       }, ','), 1)
-   srInfo("Agent version: " .. agentVersion)
+   srNotice("Agent version: " .. agentVersion)
 end
