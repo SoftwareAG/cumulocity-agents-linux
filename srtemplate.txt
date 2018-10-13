@@ -104,7 +104,8 @@ cumulocity_agent_35
 
 10,350,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
 
-10,351,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
+10,351,POST,/inventory/managedObjects/%%/childDevices,application/json,,%%,UNSIGNED UNSIGNED,"{""managedObject"":{""id"":""%%""}}"
+
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
