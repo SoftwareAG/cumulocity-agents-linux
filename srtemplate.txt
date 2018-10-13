@@ -104,6 +104,8 @@ cumulocity_agent_1
 
 10,350,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_SoftwareList"":[{""name"":""%%"",""version"":""%%"",""url"":""%%""}]}"
 
+10,351,POST,/inventory/managedObjects/%%/childDevices,application/json,,%%,UNSIGNED UNSIGNED,"{""managedObject"":{""id"":""%%""}}"
+
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id

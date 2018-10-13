@@ -18,6 +18,7 @@ return {
       plugins_to_run={
          "ContentAvailability",
       },
+      is_child_device=true,
    },
 
 }

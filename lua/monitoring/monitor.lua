@@ -124,7 +124,13 @@ function monitor:new()
             if string.sub(resp, 1, 3) == '801' then
                ID = string.match(resp, '%d+,%d+,(%d+)')
                if not ID then return nil end
-               local msg = '341,'..ID..','..host_id
+               local msg
+               if host_tbl.is_child_device then
+                  msg = string.format("341,%s,%s\n351,%s,%s",
+                     ID, host_id, c8y.ID, ID)
+               else
+                  msg = string.format("341,%s,%s", ID, host_id)
+               end
                if http:post(msg) < 0 then return nil end
             end
          elseif string.sub(resp, 1, 3) == "800" then
@@ -208,7 +214,6 @@ function monitor:new()
          end
 
          if not cwp then
-            --private.isInitError = true
             srWarning("MONITORING Plugin "..plugin_id.." is not accessible")
             return nil
          end
