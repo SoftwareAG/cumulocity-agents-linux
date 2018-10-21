@@ -8,17 +8,17 @@ return {
          "SystemUptime",
          "ProcessesCount",
          "SwapUsage",
-         "ValueWithTimestampInSeconds",
-         "ValueWithTimestampInMilliseconds"
+         -- "ValueWithTimestampInSeconds",
+         -- "ValueWithTimestampInMilliseconds"
       }
    },
 
    --example of monitoring of a remote host
-   ["www.google.com"] = {
-      plugins_to_run={
-         "ContentAvailability",
-      },
-      is_child_device=true,
-   },
+   -- ["www.google.com"] = {
+   --    plugins_to_run={
+   --       "ContentAvailability",
+   --    },
+   --    is_child_device=true,
+   -- },
 
 }
