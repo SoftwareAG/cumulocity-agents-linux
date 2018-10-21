@@ -206,9 +206,10 @@ function monitor:new()
          local params = plugin_tbl.params
 
          for i, value in ipairs(private.pluginsPath) do
-            cwp = value.."/"..plugin_tbl.command
+            local temp_cwp = value.."/"..plugin_tbl.command
 
-            if private:fileExists(cwp) then
+            if private:fileExists(temp_cwp) then
+               cwp = temp_cwp
                break
             end
          end
