@@ -16,6 +16,7 @@ else
     sed -i "/AGENT_VERSION=/c\AGENT_VERSION='$1'" pkg/rpm/build_rpm.sh
     sed -i "/version:/c\version: $1" pkg/snap/snapcraft.yaml
     sed -i "/local agentVersion/c\local agentVersion = '$1'" lua/software.lua
+    sed -i "/cumulocity-agent_/c\cumulocity-agent_$1" srtemplate.txt
 fi
 exit 0
 
