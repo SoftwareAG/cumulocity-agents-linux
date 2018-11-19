@@ -15,6 +15,8 @@ function monitor:new()
       private.pluginsFile = nil
       private.hostsFile = nil
       private.hostName = nil
+      private.activeAlarmsTable = {}
+      private.noDuplicateAlarms = nil
 
       private.hostPlaceholder = nil
       private.tenantPlaceholder = nil
@@ -34,6 +36,10 @@ function monitor:new()
          private.pluginsFile = cdb:get('monitoring.plugins.table')
          private.hostsFile = cdb:get('monitoring.hosts.table')
          private.pluginsPath = private:getAndVerifyPluginsPath()
+
+         private.noDuplicateAlarms =
+            cdb:get('monitoring.alarms.no_duplicates') == 'true'
+            and true or false
 
          if not private:fileExists(private.pluginsFile) then
             private.isInitError = true
@@ -371,6 +377,10 @@ function monitor:new()
       function private:sendExitCodeAndAlarms(timestamp, exit_code, c8y_id,
          fragment_name, type_name, alarm_type, alarm_description)
 
+         -- states if the alarm was active before getting the last measurement
+         local was_alarm_active
+            = private:getAlarmStateAndToggle(c8y_id, alarm_type, exit_code)
+
          if timestamp then
             c8y:send(table.concat({
                   '347',
@@ -381,9 +391,12 @@ function monitor:new()
                   type_name
                }, ','), 0)
 
-            if (exit_code >= 1) then
+            if (exit_code >= 1 and (not was_alarm_active
+               or not private.noDuplicateAlarms)) then
+
                c8y:send(table.concat({
                      exit_code == 1 and '348' or '349',
+                     timestamp,
                      c8y_id,
                      alarm_type,
                      alarm_description
@@ -398,7 +411,9 @@ function monitor:new()
                   type_name
                }, ','), 0)
 
-            if (exit_code >= 1) then
+               if (exit_code >= 1 and (not was_alarm_active
+                  or not private.noDuplicateAlarms)) then
+
                c8y:send(table.concat({
                      exit_code == 1 and '344' or '345',
                      c8y_id,
@@ -437,6 +452,29 @@ function monitor:new()
          default = string.format("%s%s%s",'"',default,'"')
 
          return default
+      end
+
+      function private:getAlarmStateAndToggle(c8y_id, alarm_type, exit_code)
+         local alarms = private.activeAlarmsTable
+         local was_alarm_active = false
+
+         if (alarms.c8y_id ~= nil) then
+            if (alarms.c8y_id[alarm_type] ~= nil) then
+               if (alarms.c8y_id[alarm_type] == true) then
+                  was_alarm_active = true
+                  if (exit_code == 0) then
+                     alarms.c8y_id[alarm_type] = false --toggle the state
+                  end
+               end
+            else
+               alarms.c8y_id[alarm_type] = true
+            end
+         else
+            alarms.c8y_id = {}
+            alarms.c8y_id[alarm_type] = true
+         end
+
+         return was_alarm_active
       end
 
    private:initialize()
