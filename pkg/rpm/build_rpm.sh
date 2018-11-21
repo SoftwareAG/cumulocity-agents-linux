@@ -85,7 +85,7 @@ mkdir -p  %{buildroot}/usr/local/lib
 mkdir -p  %{buildroot}/etc
 mkdir -p  %{buildroot}/etc/ld.so.conf.d
 mkdir -p  %{buildroot}$TARGET_BASE/lua
-mkdir -p  %{buildroot}/usr/lib/nagios/plugins
+#mkdir -p  %{buildroot}/usr/lib/nagios/plugins
 mkdir -p  %{buildroot}/usr/lib/systemd/system
 mkdir -p  %{buildroot}/usr/share/doc/cumulocity-agent
 
@@ -105,7 +105,7 @@ cp ${SRC_ROOT}/utils/cumulocity-agent-lib.conf %{buildroot}/etc/ld.so.conf.d/cum
 cp -r $SRC_ROOT/lua/* %{buildroot}$TARGET_BASE/lua
 
 #plugins copy
-cp -r $SRC_ROOT/lua/monitoring/plugins/* %{buildroot}/usr/lib/nagios/plugins
+#cp -r $SRC_ROOT/lua/monitoring/plugins/* %{buildroot}/usr/lib/nagios/plugins
 
 #template copy
 cp $SRC_ROOT/srtemplate.txt %{buildroot}$TARGET_BASE
