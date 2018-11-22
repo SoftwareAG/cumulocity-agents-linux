@@ -13,3 +13,4 @@ canopen/obj
 ext
 tools/canopen_simulator/obj
 tools/canopen_simulator/c8y_canopen_simulator
+redeploy2.sh
