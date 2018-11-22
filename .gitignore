@@ -9,3 +9,4 @@ credentials*
 makefile
 *.deb
 *.rpm
+redeploy2.sh
