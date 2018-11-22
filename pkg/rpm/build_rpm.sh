@@ -142,7 +142,7 @@ rm -rf %{buildroot}
 /etc/ld.so.conf.d/cumulocity-agent-lib.conf
 /usr/bin/*
 /usr/local/lib/*
-/usr/lib/nagios/*
+#/usr/lib/nagios/*
 /usr/share/doc/cumulocity-agent/COPYRIGHT
 $TARGET_BASE/*
 
