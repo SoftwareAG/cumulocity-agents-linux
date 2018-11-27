@@ -1,0 +1,62 @@
+1000:
+Device Type
+
+
+The device type specifies the kind of device. The lower 16 bit contain the device profile number and the upper 16 bit an additional information.
+1001:
+Error Register
+
+
+The error register is a field of 8 bits, each for a certain error type. If an error occurs the bit has to be set.
+
+    Bit Meaning
+    0  generic error
+    1  current
+    2  voltage
+    3  temperature
+    4  communication error (overrun, error state)
+    5  device profile specific
+    6  reserved
+    7  manufacturer specific
+1017:
+Producer Heartbeat Time
+
+
+The producer heartbeat time defines the cycle time of the heartbeat. If the time is 0 it is not used. The time has to be a multiple of 1 ms.
+1018:
+Identity Object
+
+
+This object contains general information about the
+    device.
+    Sub-Index 1 contains a unique value allocated each manufacturer.
+    Sub-Index 2 identifies the manufacturer specific product code (device version).
+    Sub-Index 3 contains the revision number.
+    Bit 31-16 is the major revision number and Bit 15-0 the minor revision number.
+    Sub-Index 4 identifies a manufacturer specific serial number.
+1200:
+Server SDO Parameter 1
+
+
+The object contains the parameters for the SDOs for which
+    the device is the server.
+2001:
+User Variable
+
+
+
+2002:
+p2002
+
+
+
+6000:
+p6000
+
+
+
+6001:
+p6001
+
+
+

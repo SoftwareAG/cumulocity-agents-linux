@@ -1,0 +1,3631 @@
+
+m1 Documentation
+- 11-19-2018 - 09:09PM -
+
+
+Example for CANopen Library
+
+- - - - - - - - Object Description - - - - - - - - - -
+-------------------------------------------------------
+
+============ Line 0 ============
+
+Summary of line 0:
+---------------------------------------------------------------------------
+1000	Device Type
+1001	Error Register
+1002	Manufacturer Status Register
+1003	Pre-defined Error Field
+1008	Manufacturer Device Name
+1009	Manufacturer Hardware Version
+100A	Manufacturer Software Version
+1014	COB-ID EMCY
+1017	Producer Heartbeat Time
+1018	Identity Object
+1200	Server SDO Parameter 1
+1280	Client SDO Parameter 1
+1281	Client SDO Parameter 2
+1282	Client SDO Parameter 3
+1283	Client SDO Parameter 4
+1284	Client SDO Parameter 5
+1285	Client SDO Parameter 6
+1286	Client SDO Parameter 7
+1287	Client SDO Parameter 8
+1288	Client SDO Parameter 9
+1289	Client SDO Parameter 10
+128A	Client SDO Parameter 11
+128B	Client SDO Parameter 12
+128C	Client SDO Parameter 13
+128D	Client SDO Parameter 14
+128E	Client SDO Parameter 15
+128F	Client SDO Parameter 16
+1290	Client SDO Parameter 17
+1291	Client SDO Parameter 18
+1292	Client SDO Parameter 19
+1293	Client SDO Parameter 20
+1294	Client SDO Parameter 21
+1295	Client SDO Parameter 22
+1296	Client SDO Parameter 23
+1297	Client SDO Parameter 24
+1298	Client SDO Parameter 25
+1299	Client SDO Parameter 26
+129A	Client SDO Parameter 27
+129B	Client SDO Parameter 28
+129C	Client SDO Parameter 29
+129D	Client SDO Parameter 30
+129E	Client SDO Parameter 31
+129F	Client SDO Parameter 32
+12A0	Client SDO Parameter 33
+12A1	Client SDO Parameter 34
+12A2	Client SDO Parameter 35
+12A3	Client SDO Parameter 36
+12A4	Client SDO Parameter 37
+12A5	Client SDO Parameter 38
+12A6	Client SDO Parameter 39
+12A7	Client SDO Parameter 40
+12A8	Client SDO Parameter 41
+12A9	Client SDO Parameter 42
+12AA	Client SDO Parameter 43
+12AB	Client SDO Parameter 44
+12AC	Client SDO Parameter 45
+12AD	Client SDO Parameter 46
+12AE	Client SDO Parameter 47
+12AF	Client SDO Parameter 48
+12B0	Client SDO Parameter 49
+12B1	Client SDO Parameter 50
+12B2	Client SDO Parameter 51
+12B3	Client SDO Parameter 52
+12B4	Client SDO Parameter 53
+12B5	Client SDO Parameter 54
+12B6	Client SDO Parameter 55
+12B7	Client SDO Parameter 56
+12B8	Client SDO Parameter 57
+12B9	Client SDO Parameter 58
+12BA	Client SDO Parameter 59
+12BB	Client SDO Parameter 60
+12BC	Client SDO Parameter 61
+12BD	Client SDO Parameter 62
+12BE	Client SDO Parameter 63
+12BF	Client SDO Parameter 64
+12C0	Client SDO Parameter 65
+12C1	Client SDO Parameter 66
+12C2	Client SDO Parameter 67
+12C3	Client SDO Parameter 68
+12C4	Client SDO Parameter 69
+12C5	Client SDO Parameter 70
+12C6	Client SDO Parameter 71
+12C7	Client SDO Parameter 72
+12C8	Client SDO Parameter 73
+12C9	Client SDO Parameter 74
+12CA	Client SDO Parameter 75
+12CB	Client SDO Parameter 76
+12CC	Client SDO Parameter 77
+12CD	Client SDO Parameter 78
+12CE	Client SDO Parameter 79
+12CF	Client SDO Parameter 80
+12D0	Client SDO Parameter 81
+12D1	Client SDO Parameter 82
+12D2	Client SDO Parameter 83
+12D3	Client SDO Parameter 84
+12D4	Client SDO Parameter 85
+12D5	Client SDO Parameter 86
+12D6	Client SDO Parameter 87
+12D7	Client SDO Parameter 88
+12D8	Client SDO Parameter 89
+12D9	Client SDO Parameter 90
+12DA	Client SDO Parameter 91
+12DB	Client SDO Parameter 92
+12DC	Client SDO Parameter 93
+12DD	Client SDO Parameter 94
+12DE	Client SDO Parameter 95
+12DF	Client SDO Parameter 96
+12E0	Client SDO Parameter 97
+12E1	Client SDO Parameter 98
+12E2	Client SDO Parameter 99
+12E3	Client SDO Parameter 100
+12E4	Client SDO Parameter 101
+12E5	Client SDO Parameter 102
+12E6	Client SDO Parameter 103
+12E7	Client SDO Parameter 104
+12E8	Client SDO Parameter 105
+12E9	Client SDO Parameter 106
+12EA	Client SDO Parameter 107
+12EB	Client SDO Parameter 108
+12EC	Client SDO Parameter 109
+12ED	Client SDO Parameter 110
+12EE	Client SDO Parameter 111
+12EF	Client SDO Parameter 112
+12F0	Client SDO Parameter 113
+12F1	Client SDO Parameter 114
+12F2	Client SDO Parameter 115
+12F3	Client SDO Parameter 116
+12F4	Client SDO Parameter 117
+12F5	Client SDO Parameter 118
+12F6	Client SDO Parameter 119
+12F7	Client SDO Parameter 120
+12F8	Client SDO Parameter 121
+12F9	Client SDO Parameter 122
+12FA	Client SDO Parameter 123
+12FB	Client SDO Parameter 124
+12FC	Client SDO Parameter 125
+12FD	Client SDO Parameter 126
+12FE	Client SDO Parameter 127
+
+
+Communication Segment
+
+
+Variable - 1000 - Device Type:
+---------------------------------------------------------------------------
+The device type specifies the kind of device. The lower 16 bit contain the device profile number and the upper 16 bit an additional information.
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0000000  0x00000000 0xFFFFFFFF 	u32	CONST	0
+
+
+
+Variable - 1001 - Error Register:
+---------------------------------------------------------------------------
+The error register is a field of 8 bits, each for a certain error type. If an error occurs the bit has to be set.
+ 
+Bit Meaning
+0  generic error
+1  current
+2  voltage
+3  temperature
+4  communication error (overrun, error state)
+5  device profile specific
+6  reserved
+7  manufacturer specific
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0xFF       	u8	RO	0
+
+
+
+Variable - 1002 - Manufacturer Status Register:
+---------------------------------------------------------------------------
+This object is a common status register for manufacturer specific purposes.
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000000 0x00000000 0xFFFFFFFF 	u32	RO	0
+
+
+
+Array - 1003 - Pre-defined Error Field:
+---------------------------------------------------------------------------
+This object holds errors that have occurred on the device and have been signalled via Emergency Object. It is an error history. Writing to sub index 0 deletes the entire error history.
+1003:000 Number of Errors
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000000 0x00       0xfe       	u32	RW	0
+
+1003:001 Standard Error Field
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000000 0x00000000 0xFFFFFFFF 	u32	RO	0
+
+
+
+Variable - 1008 - Manufacturer Device Name:
+---------------------------------------------------------------------------
+Contains the device name.
+Value      Min         Max         Unit	Type	Access	Mapping
+m1 Example                       	vstr	CONST	0
+
+
+
+Variable - 1009 - Manufacturer Hardware Version:
+---------------------------------------------------------------------------
+Contains the device hardware version.
+Value      Min         Max         Unit	Type	Access	Mapping
+1.0                              	vstr	CONST	0
+
+
+
+Variable - 100A - Manufacturer Software Version:
+---------------------------------------------------------------------------
+Contains the device software version.
+Value      Min         Max         Unit	Type	Access	Mapping
+4.4                              	vstr	CONST	0
+
+
+
+Variable - 1014 - COB-ID EMCY:
+---------------------------------------------------------------------------
+COB-ID used for emergency message (Emergency Server).
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000080 0x00000001 0xFFFFFFFF 	u32	RW	0
+
+
+
+Variable - 1017 - Producer Heartbeat Time:
+---------------------------------------------------------------------------
+The producer heartbeat time defines the cycle time of the heartbeat. If the time is 0 it is not used. The time has to be a multiple of 1 ms.
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x0000     0xFFFF     ms	u16	RW	0
+
+
+
+Record - 1018 - Identity Object:
+---------------------------------------------------------------------------
+This object contains general information about the
+device.
+Sub-Index 1 contains a unique value allocated each manufacturer.
+Sub-Index 2 identifies the manufacturer specific product code (device version).
+Sub-Index 3 contains the revision number. Bit 31-16 is the major revision number and Bit 15-0 the minor revision number.
+Sub-Index 4 identified a manufacturer specific serial number.
+1018:000 number of entries
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x4        0x1        0x4        	u8	RO	0
+
+1018:001 Vendor Id
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x34       0x0        0xFFFFFFFF 	u32	RO	0
+
+1018:002 Product Code
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	0
+
+1018:003 Revision number
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	0
+
+1018:004 Serial number
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	0
+
+
+
+Record - 1200 - Server SDO Parameter 1:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+the device is the server.
+1200:000 Number of Entries
+
+Value      Min         Max         Unit	Type	Access	Mapping
+2          0x02       0x02       	u8	RO	0
+
+1200:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000600 0x00000600 0xBFFFFFFF 	u32	RO	0
+
+1200:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000580 0x00000580 0xBFFFFFFF 	u32	RO	0
+
+
+
+Record - 1280 - Client SDO Parameter 1:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1280:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	0
+
+1280:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	0
+
+1280:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	0
+
+1280:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	0
+
+
+
+Record - 1281 - Client SDO Parameter 2:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1281:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1281:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1281:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1281:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1282 - Client SDO Parameter 3:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1282:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1282:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1282:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1282:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1283 - Client SDO Parameter 4:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1283:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1283:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1283:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1283:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1284 - Client SDO Parameter 5:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1284:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1284:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1284:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1284:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1285 - Client SDO Parameter 6:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1285:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1285:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1285:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1285:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1286 - Client SDO Parameter 7:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1286:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1286:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1286:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1286:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1287 - Client SDO Parameter 8:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1287:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1287:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1287:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1287:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1288 - Client SDO Parameter 9:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1288:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1288:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1288:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1288:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1289 - Client SDO Parameter 10:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1289:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1289:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1289:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1289:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128A - Client SDO Parameter 11:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128A:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128A:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128A:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128A:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128B - Client SDO Parameter 12:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128B:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128B:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128B:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128B:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128C - Client SDO Parameter 13:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128C:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128C:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128C:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128C:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128D - Client SDO Parameter 14:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128D:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128D:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128D:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128D:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128E - Client SDO Parameter 15:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128E:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128E:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128E:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128E:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 128F - Client SDO Parameter 16:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128F:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+128F:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128F:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+128F:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1290 - Client SDO Parameter 17:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1290:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1290:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1290:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1290:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1291 - Client SDO Parameter 18:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1291:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1291:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1291:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1291:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1292 - Client SDO Parameter 19:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1292:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1292:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1292:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1292:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1293 - Client SDO Parameter 20:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1293:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1293:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1293:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1293:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1294 - Client SDO Parameter 21:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1294:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1294:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1294:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1294:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1295 - Client SDO Parameter 22:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1295:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1295:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1295:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1295:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1296 - Client SDO Parameter 23:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1296:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1296:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1296:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1296:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1297 - Client SDO Parameter 24:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1297:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1297:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1297:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1297:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1298 - Client SDO Parameter 25:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1298:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1298:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1298:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1298:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 1299 - Client SDO Parameter 26:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1299:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+1299:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1299:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+1299:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129A - Client SDO Parameter 27:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129A:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129A:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129A:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129A:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129B - Client SDO Parameter 28:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129B:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129B:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129B:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129B:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129C - Client SDO Parameter 29:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129C:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129C:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129C:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129C:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129D - Client SDO Parameter 30:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129D:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129D:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129D:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129D:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129E - Client SDO Parameter 31:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129E:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129E:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129E:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129E:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 129F - Client SDO Parameter 32:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129F:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+129F:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129F:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+129F:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A0 - Client SDO Parameter 33:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A1 - Client SDO Parameter 34:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A2 - Client SDO Parameter 35:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A3 - Client SDO Parameter 36:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A4 - Client SDO Parameter 37:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A5 - Client SDO Parameter 38:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A6 - Client SDO Parameter 39:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A7 - Client SDO Parameter 40:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A8 - Client SDO Parameter 41:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12A9 - Client SDO Parameter 42:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12A9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12A9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AA - Client SDO Parameter 43:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AB - Client SDO Parameter 44:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AC - Client SDO Parameter 45:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AD - Client SDO Parameter 46:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AD:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AD:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AD:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AD:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AE - Client SDO Parameter 47:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12AF - Client SDO Parameter 48:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AF:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12AF:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AF:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12AF:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B0 - Client SDO Parameter 49:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B1 - Client SDO Parameter 50:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B2 - Client SDO Parameter 51:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B3 - Client SDO Parameter 52:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B4 - Client SDO Parameter 53:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B5 - Client SDO Parameter 54:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B6 - Client SDO Parameter 55:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B7 - Client SDO Parameter 56:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B8 - Client SDO Parameter 57:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12B9 - Client SDO Parameter 58:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12B9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12B9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BA - Client SDO Parameter 59:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BB - Client SDO Parameter 60:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BC - Client SDO Parameter 61:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BD - Client SDO Parameter 62:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BD:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BD:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BD:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BD:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BE - Client SDO Parameter 63:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12BF - Client SDO Parameter 64:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BF:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12BF:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BF:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12BF:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C0 - Client SDO Parameter 65:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C1 - Client SDO Parameter 66:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C2 - Client SDO Parameter 67:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C3 - Client SDO Parameter 68:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C4 - Client SDO Parameter 69:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C5 - Client SDO Parameter 70:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C6 - Client SDO Parameter 71:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C7 - Client SDO Parameter 72:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C8 - Client SDO Parameter 73:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12C9 - Client SDO Parameter 74:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12C9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12C9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CA - Client SDO Parameter 75:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CB - Client SDO Parameter 76:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CC - Client SDO Parameter 77:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CD - Client SDO Parameter 78:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CD:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CD:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CD:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CD:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CE - Client SDO Parameter 79:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12CF - Client SDO Parameter 80:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CF:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12CF:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CF:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12CF:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D0 - Client SDO Parameter 81:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D1 - Client SDO Parameter 82:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D2 - Client SDO Parameter 83:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D3 - Client SDO Parameter 84:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D4 - Client SDO Parameter 85:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D5 - Client SDO Parameter 86:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D6 - Client SDO Parameter 87:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D7 - Client SDO Parameter 88:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D8 - Client SDO Parameter 89:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12D9 - Client SDO Parameter 90:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12D9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12D9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DA - Client SDO Parameter 91:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DB - Client SDO Parameter 92:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DC - Client SDO Parameter 93:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DD - Client SDO Parameter 94:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DD:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DD:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DD:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DD:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DE - Client SDO Parameter 95:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12DF - Client SDO Parameter 96:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DF:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12DF:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DF:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12DF:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E0 - Client SDO Parameter 97:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E1 - Client SDO Parameter 98:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E2 - Client SDO Parameter 99:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E3 - Client SDO Parameter 100:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E4 - Client SDO Parameter 101:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E5 - Client SDO Parameter 102:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E6 - Client SDO Parameter 103:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E7 - Client SDO Parameter 104:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E8 - Client SDO Parameter 105:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12E9 - Client SDO Parameter 106:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12E9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12E9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12EA - Client SDO Parameter 107:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12EA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12EB - Client SDO Parameter 108:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12EB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12EC - Client SDO Parameter 109:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12EC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12ED - Client SDO Parameter 110:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12ED:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12ED:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12ED:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12ED:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12EE - Client SDO Parameter 111:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12EE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12EF - Client SDO Parameter 112:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EF:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12EF:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EF:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12EF:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F0 - Client SDO Parameter 113:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F0:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F0:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F0:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F0:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F1 - Client SDO Parameter 114:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F1:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F1:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F1:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F1:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F2 - Client SDO Parameter 115:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F2:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F2:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F2:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F2:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F3 - Client SDO Parameter 116:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F3:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F3:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F3:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F3:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F4 - Client SDO Parameter 117:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F4:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F4:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F4:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F4:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F5 - Client SDO Parameter 118:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F5:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F5:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F5:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F5:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F6 - Client SDO Parameter 119:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F6:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F6:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F6:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F6:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F7 - Client SDO Parameter 120:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F7:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F7:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F7:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F7:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F8 - Client SDO Parameter 121:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F8:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F8:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F8:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F8:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12F9 - Client SDO Parameter 122:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F9:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12F9:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F9:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12F9:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12FA - Client SDO Parameter 123:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FA:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12FA:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FA:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FA:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12FB - Client SDO Parameter 124:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FB:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12FB:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FB:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FB:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12FC - Client SDO Parameter 125:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FC:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12FC:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FC:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FC:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12FD - Client SDO Parameter 126:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FD:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12FD:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FD:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FD:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+Record - 12FE - Client SDO Parameter 127:
+---------------------------------------------------------------------------
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FE:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x03       0x03       0x03       	u8	RO	n.a.
+
+12FE:001 COB-ID Client -> Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FE:002 COB-ID Server -> Client
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x800006E0 0x00000001 0xFFFFFFFF 	u32	RW	n.a.
+
+12FE:003 Node ID of the SDO Server
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0x7F       	u8	RW	n.a.
+
+
+
+
+-- Abbreviations --
+
+
+bool		BOOLEAN
+i8		INTEGER8
+i16		INTEGER16
+i32		INTEGER32
+u8		UNSIGNED8
+u16		UNSIGNED16
+u32		UNSIGNED32
+r32		REAL32
+vstr		VISIBLE_STRING
+ostr		OCTET_STRING
+dom		DOMAIN
+i64		INTEGER64
+u24		UNSIGNED24
+u40		UNSIGNED40
+u48		UNSIGNED48
+u56		UNSIGNED56
+u64		UNSIGNED64
+n.a.		not allowed
+
+
+
+
+This document was created using CANopen Design Tool 2.3.20.0 by port GmbH.

@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title> cdt Documentation </title>
+<style type="text/css">
+
+body {
+    background-color:#ffffff;
+    color:#000000;
+    font-family:Helvetica, Arial;
+    font-weight:normal;
+    text-decoration:none;
+    margin: 0px 20px 0px 20px; 
+}
+
+a a.content {
+    font-family: sans-serif;
+    color: #036;
+    text-decoration:none;
+}
+
+A:link {
+    text-decoration: none;
+    color: #036;
+}
+
+A:visited {
+    text-decoration: none;
+    color: #036;
+}
+
+A:active {
+    text-decoration: none;
+    color: #F30;
+}
+
+A:hover {
+    text-decoration: none;
+    font-style:italic;
+    font-weight: bold;
+    color: #036;
+}
+
+A.offsite {
+    text-decoration: none;
+    color: #C30;
+} 
+
+H1 {
+    font-family:Helvetica, Arial;
+    font-size: 36;
+}
+H2 {
+    font-family:Helvetica, Arial;
+    font-size: 24;
+}
+H3 {
+    font-family:Helvetica, Arial;
+    font-size: 20;
+    background: #EFE0b3;
+    border: 1 solid ;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 2px;
+}
+H4 {
+    font-family:Helvetica, Arial;
+    font-size: 18;
+    background: #FFF0b3;
+    border: 1 solid ;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+}
+H5 {
+    font-family:Helvetica, Arial;
+    font-size: 16;
+    background: #FFF0d3;
+    border: 1 dotted ;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 6px;
+}
+
+H6 {
+    font-family:Helvetica, Arial;
+    font-size: 14;
+    text-transform:uppercase;
+}
+
+@media screen {
+    .port {
+	position: fixed;
+	background-color: red;
+	color: white;
+	font-family:serif;
+	font-style:italic;
+	left: 0px;
+	right:0px;
+	bottom:0px;
+	text-align: center;
+	margin: 20px 0px 0px 0px;
+    }
+
+    .logo {
+	position: fixed;
+	right:50px;
+	top:50px;
+	text-align: center;
+    }
+}
+
+toc1 {
+    position: fixed;
+    width: 10em;
+    height: auto;
+    top: 15%;
+    right: auto;
+    bottom: 100px;
+    left: 0;
+}
+
+main1 {
+    position: absolute;
+    width: auto;
+    height: auto;
+    top: 15%;
+    right: 0;
+    bottom: 100px;
+    left: 10em;
+}
+
+globalEDS baudrates dummymap otherset {
+    border: 2px solid black;
+    width: 400;
+    margin: 10px 10em 10px;
+}
+
+.objdescr {
+
+}
+
+.objdesc, .entrydesc {
+    border: 2px solid black;
+    width: 400;
+    left: 15em;
+    margin: 0px 10em 15px;
+}
+td {
+    border: 1px solid black;
+    width: 200;
+    text-indent: 5px;
+}
+
+pre {
+   font-size:12;
+   font-weight: light;
+   font-family: Arial, Helvetica;
+}
+
+ghwconf colibconf lhwconf {
+    font-family: Courier;
+    font-size: 12;
+    margin: 10px 14em 10px;
+
+}
+
+@media print {
+    .port {
+        background-color: red;
+        color: white;
+        font-family:serif;
+        font-style:italic;
+        left: 0px;
+        right:0px;
+        bottom:0px;
+        text-align: center;
+        margin: 20px 0px 0px 0px;
+    }
+
+    .logo {
+        right:50px;
+        top:50px;
+        text-align: center;
+    }
+}
+
+</style>
+</head>
+<body>
+<div class="logo">
+<img src="canopen.png" alt="CANopen Logo"/>
+</div>
+<a name="top"> </a>
+<h1>Documentation cdt</h1>
+<h2>Description</h2>
+<div class="globalEds">
+Cumulocity CANopen slave simulator using port's CANopen library
+</div>
+<h2>Hardware Configuration</h2>
+<div class="globalEds">
+Active configuration: 0 <br />
+Used CPU/OS: LINUX <br />
+Used CAN controller: SOCKETCAN <br />
+</div>
+<h2> Line 0 </h2>
+<a name="line0"> </a>
+<ul>
+<li> <a href="#seg1_0">Communication Segment</a></li>
+<li> <a href="#seg2_0">Manufacturer  specific Segment</a></li>
+<li> <a href="#seg3_0">Device Profile Segment</a></li>
+</ul>
+<h2> Table of Objects - Line 0 </h2>
+<ul>
+<li> <a href="#ind0_1000">1000  - Device Type</a>
+<li> <a href="#ind0_1001">1001  - Error Register</a>
+<li> <a href="#ind0_1017">1017  - Producer Heartbeat Time</a>
+<li> <a href="#ind0_1018">1018  - Identity Object</a>
+<li> <a href="#ind0_2001">2001  - User Variable</a>
+<li> <a href="#ind0_2002">2002  - p2002</a>
+<li> <a href="#ind0_6000">6000  - p6000</a>
+<li> <a href="#ind0_6001">6001  - p6001</a>
+</ul> <br />
+<a href="#top"> [ Top ] </a> <a href="#line0"> [ Top of line ] </a>
+<a name="ind0_1000"> </a>
+<a name="seg1_0"></a>
+<h3>Communication Segment</h3>
+<div class="object">
+<h5>Object 1000h: Device Type</h5>
+<pre>The device type specifies the kind of device. The lower 16 bit contain the device profile number and the upper 16 bit an additional information.</pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 1000 Device Type">
+<tr>
+<td>INDEX</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Device Type</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED32</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1000 000">
+<tr>
+<td>Access</td>
+<td>CONST</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x0000000</td>
+</tr>
+</table>
+</div>
+<a name="ind0_1001"> </a>
+<div class="object">
+<h5>Object 1001h: Error Register</h5>
+<pre>The error register is a field of 8 bits, each for a certain error type. If an error occurs the bit has to be set.
+
+    Bit Meaning
+    0  generic error
+    1  current
+    2  voltage
+    3  temperature
+    4  communication error (overrun, error state)
+    5  device profile specific
+    6  reserved
+    7  manufacturer specific</pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 1001 Error Register">
+<tr>
+<td>INDEX</td>
+<td>1001</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Error Register</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED8</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1001 000">
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x00</td>
+</tr>
+</table>
+</div>
+<a name="ind0_1017"> </a>
+<div class="object">
+<h5>Object 1017h: Producer Heartbeat Time</h5>
+<pre>The producer heartbeat time defines the cycle time of the heartbeat. If the time is 0 it is not used. The time has to be a multiple of 1 ms.</pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 1017 Producer Heartbeat Time">
+<tr>
+<td>INDEX</td>
+<td>1017</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Producer Heartbeat Time</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED16</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1017 000">
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x00000000</td>
+</tr>
+<tr>
+<td>Unit</td>
+<td>ms</td>
+</tr>
+</table>
+</div>
+<a name="ind0_1018"> </a>
+<div class="object">
+<h5>Object 1018h: Identity Object</h5>
+<pre>This object contains general information about the
+    device.
+    Sub-Index 1 contains a unique value allocated each manufacturer.
+    Sub-Index 2 identifies the manufacturer specific product code (device version).
+    Sub-Index 3 contains the revision number.
+    Bit 31-16 is the major revision number and Bit 15-0 the minor revision number.
+    Sub-Index 4 identifies a manufacturer specific serial number.</pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 1018 Identity Object">
+<tr>
+<td>INDEX</td>
+<td>1018</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>Identity Object</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Record</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>IDENTITY</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1018 000">
+<tr>
+<td>Sub-Index</td>
+<td>000</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>number of entries</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x4</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1018 001">
+<tr>
+<td>Sub-Index</td>
+<td>001</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Vendor Id</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED32</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x0</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1018 002">
+<tr>
+<td>Sub-Index</td>
+<td>002</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Product Code</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED32</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x0</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1018 003">
+<tr>
+<td>Sub-Index</td>
+<td>003</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Revision number</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED32</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x0</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 1018 004">
+<tr>
+<td>Sub-Index</td>
+<td>004</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Serial number</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED32</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x0</td>
+</tr>
+</table>
+</div>
+<a name="ind0_2001"> </a>
+<a name="seg2_0"></a>
+<h3>Manufacturer Segment</h3>
+<div class="object">
+<h5>Object 2001h: User Variable</h5>
+<pre></pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 2001 User Variable">
+<tr>
+<td>INDEX</td>
+<td>2001</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>User Variable</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>REAL32</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 2001 000">
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>23</td>
+</tr>
+</table>
+</div>
+<a name="ind0_2002"> </a>
+<div class="object">
+<h5>Object 2002h: p2002</h5>
+<pre></pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 2002 p2002">
+<tr>
+<td>INDEX</td>
+<td>2002</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>p2002</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED8</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 2002 000">
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x81</td>
+</tr>
+</table>
+</div>
+<a name="ind0_6000"> </a>
+<a name="seg3_0"></a>
+<h3>Device Profile Segment</h3>
+<div class="object">
+<h5>Object 6000h: p6000</h5>
+<pre></pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 6000 p6000">
+<tr>
+<td>INDEX</td>
+<td>6000</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>p6000</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Array</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>INTEGER16</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 6000 000">
+<tr>
+<td>Sub-Index</td>
+<td>000</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>Highest sub-index supported</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x2</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 6000 001">
+<tr>
+<td>Sub-Index</td>
+<td>001</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>p6000_1</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>INTEGER16</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RO</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0xFFFF</td>
+</tr>
+</table>
+<table class="entrydesc" cellspacing="0"  summary="Entry 6000 002">
+<tr>
+<td>Sub-Index</td>
+<td>002</td>
+</tr>
+<tr>
+<td>Description</td>
+<td>p6000_2</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>INTEGER16</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x8000</td>
+</tr>
+</table>
+</div>
+<a name="ind0_6001"> </a>
+<div class="object">
+<h5>Object 6001h: p6001</h5>
+<pre></pre>
+<h6>Object Description</h6>
+<table class="objdesc" cellspacing="0"  summary="Object 6001 p6001">
+<tr>
+<td>INDEX</td>
+<td>6001</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>p6001</td>
+</tr>
+<tr>
+<td>Object Code</td>
+<td>Variable</td>
+</tr>
+<tr>
+<td>Data Type</td>
+<td>UNSIGNED64</td>
+</tr>
+</table>
+<h6>Entry Description</h6>
+<table class="entrydesc" cellspacing="0"  summary="Entry 6001 000">
+<tr>
+<td>Access</td>
+<td>RW</td>
+</tr>
+<tr>
+<td>PDO Mapping</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Default Value</td>
+<td>0x100000000</td>
+</tr>
+</table>
+</div>
+<br /><br /> <br /><br />
+<div class="port">
+This document was created using Design Tool of<br>
+<a href="http://www.port.de">port GmbH</a>,
+Regensburger Str. 7b, 06132 Halle, 18 Sep 2018
+</div>
+</body>
+</html>

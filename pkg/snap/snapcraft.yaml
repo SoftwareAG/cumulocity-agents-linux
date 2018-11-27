@@ -1,15 +1,41 @@
 name: cumulocity-agent
-version: 2.0
-confinement: devmode
+version: 2.5
 grade: stable
 summary: Cumulocity Linux agent
 description: Generic Linux agent for Cumulocity IoT integration.
+
+confinement: devmode
 
 apps:
   cumulocity-agent:
     command: usr/bin/srwatchdogd $SNAP/usr/bin/cumulocity-agent 240
     plugs: [network]
     daemon: simple
+
+  cumulocity-canopen:
+    command: usr/bin/srwatchdogd $SNAP/usr/bin/c8y_canopend 0
+    daemon: simple
+
+  slcan-attach:
+    command: usr/bin/slcan_attach
+
+  slcand:
+    command: usr/bin/slcand
+
+  candump:
+    command: usr/bin/candump
+
+  cansend:
+    command: usr/bin/cansend
+
+  cangen:
+    command: usr/bin/cangen
+
+  cangw:
+    command: usr/bin/cangw
+
+  cansniffer:
+    command: usr/bin/cansniffer
 
 parts:
   cumulocity:
@@ -19,9 +45,10 @@ parts:
       bin: usr/bin
       lua: usr/share/cumulocity-agent/lua
       srtemplate.txt: usr/share/cumulocity-agent/srtemplate.txt
-      cumulocity-agent.conf: usr/share/cumulocity-agent/cumulocity-agent.conf
-  libsera:
-    plugin: dump
-    source: .
-    organize:
       lib: usr/lib
+      cumulocity-agent.conf: usr/share/cumulocity-agent/cumulocity-agent.conf
+    stage-packages:
+      - liblua5.2-0
+      - libcurl3
+      - lua-socket
+      - can-utils

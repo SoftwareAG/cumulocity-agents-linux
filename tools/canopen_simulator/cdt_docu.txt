@@ -1,0 +1,172 @@
+
+cdt Documentation
+- 09-18-2018 - 12:30PM -
+
+
+Cumulocity CANopen slave simulator using port's CANopen library
+
+- - - - - - - - Object Description - - - - - - - - - -
+-------------------------------------------------------
+
+============ Line 0 ============
+
+Summary of line 0:
+---------------------------------------------------------------------------
+1000	Device Type
+1001	Error Register
+1017	Producer Heartbeat Time
+1018	Identity Object
+2001	User Variable
+2002	p2002
+6000	p6000
+6001	p6001
+
+
+Communication Segment
+
+
+Variable - 1000 - Device Type:
+---------------------------------------------------------------------------
+The device type specifies the kind of device. The lower 16 bit contain the device profile number and the upper 16 bit an additional information.
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0000000  0x00000000 0xFFFFFFFF 	u32	CONST	0
+
+
+
+Variable - 1001 - Error Register:
+---------------------------------------------------------------------------
+The error register is a field of 8 bits, each for a certain error type. If an error occurs the bit has to be set.
+
+    Bit Meaning
+    0  generic error
+    1  current
+    2  voltage
+    3  temperature
+    4  communication error (overrun, error state)
+    5  device profile specific
+    6  reserved
+    7  manufacturer specific
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00       0x00       0xFF       	u8	RO	0
+
+
+
+Variable - 1017 - Producer Heartbeat Time:
+---------------------------------------------------------------------------
+The producer heartbeat time defines the cycle time of the heartbeat. If the time is 0 it is not used. The time has to be a multiple of 1 ms.
+Value      Min         Max         Unit	Type	Access	Mapping
+0x00000000 0x0000     0xFFFF     ms	u16	RW	n.a.
+
+
+
+Record - 1018 - Identity Object:
+---------------------------------------------------------------------------
+This object contains general information about the
+    device.
+    Sub-Index 1 contains a unique value allocated each manufacturer.
+    Sub-Index 2 identifies the manufacturer specific product code (device version).
+    Sub-Index 3 contains the revision number.
+    Bit 31-16 is the major revision number and Bit 15-0 the minor revision number.
+    Sub-Index 4 identifies a manufacturer specific serial number.
+1018:000 number of entries
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x4        0x1        0x4        	u8	RO	n.a.
+
+1018:001 Vendor Id
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	n.a.
+
+1018:002 Product Code
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	n.a.
+
+1018:003 Revision number
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	n.a.
+
+1018:004 Serial number
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x0        0x0        0xFFFFFFFF 	u32	RO	n.a.
+
+
+Manufacturer Segment
+
+
+Variable - 2001 - User Variable:
+---------------------------------------------------------------------------
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x41bba5e3 0xff7fffff 0x7f7fffff 	r32	RW	0
+
+
+
+Variable - 2002 - p2002:
+---------------------------------------------------------------------------
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x81       0x0        0xFF       	u8	RW	0
+
+
+Device Profile Segment
+
+
+Array - 6000 - p6000:
+---------------------------------------------------------------------------
+
+6000:000 Highest sub-index supported
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x2        0x1        0xFE       	i16	RW	0
+
+6000:001 p6000_1
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0xFFFF     0x8000     0x7FFF     	i16	RO	0
+
+6000:002 p6000_2
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x8000     0x8000     0x7FFF     	i16	RW	0
+
+
+
+Variable - 6001 - p6001:
+---------------------------------------------------------------------------
+
+Value      Min         Max         Unit	Type	Access	Mapping
+0x1000000000x0        0xFFFFFFFFFFFFFFFF	u64	RW	0
+
+
+
+
+-- Abbreviations --
+
+
+bool		BOOLEAN
+i8		INTEGER8
+i16		INTEGER16
+i32		INTEGER32
+u8		UNSIGNED8
+u16		UNSIGNED16
+u32		UNSIGNED32
+r32		REAL32
+vstr		VISIBLE_STRING
+ostr		OCTET_STRING
+dom		DOMAIN
+i64		INTEGER64
+u24		UNSIGNED24
+u40		UNSIGNED40
+u48		UNSIGNED48
+u56		UNSIGNED56
+u64		UNSIGNED64
+n.a.		not allowed
+
+
+
+
+This document was created using CANopen Design Tool 2.3.20.0 by port GmbH.

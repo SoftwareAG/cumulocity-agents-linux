@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <fstream>
+#include <inttypes.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <srutils.h>
@@ -18,10 +19,12 @@
 using namespace std;
 
 const char *ops = ",\"" Q2(c8y_Command) Q(c8y_ModbusDevice) Q(c8y_SetRegister)
-Q(c8y_ModbusConfiguration) Q(c8y_SerialConfiguration) Q(c8y_SetCoil)
-Q(c8y_LogfileRequest) Q(c8y_RemoteAccessConnect) "\"";
+        Q(c8y_ModbusConfiguration) Q(c8y_SerialConfiguration) Q(c8y_SetCoil)
+        Q(c8y_LogfileRequest) Q(c8y_RemoteAccessConnect)
+        Q(c8y_CANopenAddDevice) Q(c8y_CANopenRemoveDevice)
+        Q(c8y_CANopenConfiguration) "\"";
 
-static string getDeviceID();
+static string getDeviceID(ConfigDB &cdb);
 static SrLogLevel getLogLevel(const string &lvl);
 static void printInfo(const SrAgent &agent);
 static int integrate(SrAgent &agent, ConfigDB &cdb);
@@ -37,6 +40,7 @@ int main()
 
     ConfigDB cdb(PKG_DIR "/cumulocity-agent.conf");
     cdb.load("/etc/cumulocity-agent.conf");
+    cdb.load(cdb.get("datapath") + "/cumulocity-agent.conf");
 
     srLogSetDest(cdb.get("log.path"));
     const uint32_t quota = strtoul(cdb.get("log.quota").c_str(), NULL, 10);
@@ -50,7 +54,7 @@ int main()
         return 0;
     }
 
-    const string deviceID = getDeviceID();
+    const string deviceID = getDeviceID(cdb);
     if (deviceID.empty())
     {
         srCritical("Cannot read deviceID");
@@ -79,6 +83,7 @@ int main()
 
     printInfo(agent);
     agent.send(SrNews("327," + agent.ID() + ops));
+    agent.send(SrNews("314," + agent.ID() + ",PENDING"));
 
     LuaManager lua(agent, cdb);
     loadLuaPlugins(lua, cdb);
@@ -150,13 +155,17 @@ static string searchTextForSerial(const string &path)
     return s;
 }
 
-static string getDeviceID()
+static string getDeviceID(ConfigDB &cdb)
 {
     string s;
-    auto isValid = [](string id)
-    {
-        return any_of(id.begin(), id.end(), ::isdigit) && id.find_first_not_of("0") != string::npos;
+    auto isValid = [](string id) {
+        return any_of(id.begin(), id.end(), ::isalnum) &&
+                id.find_first_not_of("0") != string::npos;
     };
+
+    s = cdb.get("id");
+    if (isValid(s))
+            return s;
 
     // Devices with BIOS
     s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_serial");
@@ -266,4 +275,10 @@ static void loadLuaPlugins(LuaManager &lua, ConfigDB &cdb)
     {
         lua.load(luapath + sub + ".lua");
     }
+}
+
+
+uint64_t bitAnd(uint64_t value, uint64_t mask)
+{
+        return value & mask;
 }

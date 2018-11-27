@@ -1,0 +1,866 @@
+1000:
+Device Type
+
+
+The device type specifies the kind of device. The lower 16 bit contain the device profile number and the upper 16 bit an additional information.
+1001:
+Error Register
+
+
+The error register is a field of 8 bits, each for a certain error type. If an error occurs the bit has to be set.
+ 
+Bit Meaning
+0  generic error
+1  current
+2  voltage
+3  temperature
+4  communication error (overrun, error state)
+5  device profile specific
+6  reserved
+7  manufacturer specific
+1002:
+Manufacturer Status Register
+
+
+This object is a common status register for manufacturer specific purposes.
+1003:
+Pre-defined Error Field
+
+
+This object holds errors that have occurred on the device and have been signalled via Emergency Object. It is an error history. Writing to sub index 0 deletes the entire error history.
+1008:
+Manufacturer Device Name
+
+
+Contains the device name.
+1009:
+Manufacturer Hardware Version
+
+
+Contains the device hardware version.
+100A:
+Manufacturer Software Version
+
+
+Contains the device software version.
+1014:
+COB-ID EMCY
+
+
+COB-ID used for emergency message (Emergency Server).
+1017:
+Producer Heartbeat Time
+
+
+The producer heartbeat time defines the cycle time of the heartbeat. If the time is 0 it is not used. The time has to be a multiple of 1 ms.
+1018:
+Identity Object
+
+
+This object contains general information about the
+device.
+Sub-Index 1 contains a unique value allocated each manufacturer.
+Sub-Index 2 identifies the manufacturer specific product code (device version).
+Sub-Index 3 contains the revision number. Bit 31-16 is the major revision number and Bit 15-0 the minor revision number.
+Sub-Index 4 identified a manufacturer specific serial number.
+1200:
+Server SDO Parameter 1
+
+
+The object contains the parameters for the SDOs for which
+the device is the server.
+1280:
+Client SDO Parameter 1
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1281:
+Client SDO Parameter 2
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1282:
+Client SDO Parameter 3
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1283:
+Client SDO Parameter 4
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1284:
+Client SDO Parameter 5
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1285:
+Client SDO Parameter 6
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1286:
+Client SDO Parameter 7
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1287:
+Client SDO Parameter 8
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1288:
+Client SDO Parameter 9
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1289:
+Client SDO Parameter 10
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128A:
+Client SDO Parameter 11
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128B:
+Client SDO Parameter 12
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128C:
+Client SDO Parameter 13
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128D:
+Client SDO Parameter 14
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128E:
+Client SDO Parameter 15
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+128F:
+Client SDO Parameter 16
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1290:
+Client SDO Parameter 17
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1291:
+Client SDO Parameter 18
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1292:
+Client SDO Parameter 19
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1293:
+Client SDO Parameter 20
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1294:
+Client SDO Parameter 21
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1295:
+Client SDO Parameter 22
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1296:
+Client SDO Parameter 23
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1297:
+Client SDO Parameter 24
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1298:
+Client SDO Parameter 25
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1299:
+Client SDO Parameter 26
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129A:
+Client SDO Parameter 27
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129B:
+Client SDO Parameter 28
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129C:
+Client SDO Parameter 29
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129D:
+Client SDO Parameter 30
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129E:
+Client SDO Parameter 31
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+129F:
+Client SDO Parameter 32
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A0:
+Client SDO Parameter 33
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A1:
+Client SDO Parameter 34
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A2:
+Client SDO Parameter 35
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A3:
+Client SDO Parameter 36
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A4:
+Client SDO Parameter 37
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A5:
+Client SDO Parameter 38
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A6:
+Client SDO Parameter 39
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A7:
+Client SDO Parameter 40
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A8:
+Client SDO Parameter 41
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12A9:
+Client SDO Parameter 42
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AA:
+Client SDO Parameter 43
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AB:
+Client SDO Parameter 44
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AC:
+Client SDO Parameter 45
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AD:
+Client SDO Parameter 46
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AE:
+Client SDO Parameter 47
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12AF:
+Client SDO Parameter 48
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B0:
+Client SDO Parameter 49
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B1:
+Client SDO Parameter 50
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B2:
+Client SDO Parameter 51
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B3:
+Client SDO Parameter 52
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B4:
+Client SDO Parameter 53
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B5:
+Client SDO Parameter 54
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B6:
+Client SDO Parameter 55
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B7:
+Client SDO Parameter 56
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B8:
+Client SDO Parameter 57
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12B9:
+Client SDO Parameter 58
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BA:
+Client SDO Parameter 59
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BB:
+Client SDO Parameter 60
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BC:
+Client SDO Parameter 61
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BD:
+Client SDO Parameter 62
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BE:
+Client SDO Parameter 63
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12BF:
+Client SDO Parameter 64
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C0:
+Client SDO Parameter 65
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C1:
+Client SDO Parameter 66
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C2:
+Client SDO Parameter 67
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C3:
+Client SDO Parameter 68
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C4:
+Client SDO Parameter 69
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C5:
+Client SDO Parameter 70
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C6:
+Client SDO Parameter 71
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C7:
+Client SDO Parameter 72
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C8:
+Client SDO Parameter 73
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12C9:
+Client SDO Parameter 74
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CA:
+Client SDO Parameter 75
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CB:
+Client SDO Parameter 76
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CC:
+Client SDO Parameter 77
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CD:
+Client SDO Parameter 78
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CE:
+Client SDO Parameter 79
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12CF:
+Client SDO Parameter 80
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D0:
+Client SDO Parameter 81
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D1:
+Client SDO Parameter 82
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D2:
+Client SDO Parameter 83
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D3:
+Client SDO Parameter 84
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D4:
+Client SDO Parameter 85
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D5:
+Client SDO Parameter 86
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D6:
+Client SDO Parameter 87
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D7:
+Client SDO Parameter 88
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D8:
+Client SDO Parameter 89
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12D9:
+Client SDO Parameter 90
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DA:
+Client SDO Parameter 91
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DB:
+Client SDO Parameter 92
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DC:
+Client SDO Parameter 93
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DD:
+Client SDO Parameter 94
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DE:
+Client SDO Parameter 95
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12DF:
+Client SDO Parameter 96
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E0:
+Client SDO Parameter 97
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E1:
+Client SDO Parameter 98
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E2:
+Client SDO Parameter 99
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E3:
+Client SDO Parameter 100
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E4:
+Client SDO Parameter 101
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E5:
+Client SDO Parameter 102
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E6:
+Client SDO Parameter 103
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E7:
+Client SDO Parameter 104
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E8:
+Client SDO Parameter 105
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12E9:
+Client SDO Parameter 106
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EA:
+Client SDO Parameter 107
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EB:
+Client SDO Parameter 108
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EC:
+Client SDO Parameter 109
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12ED:
+Client SDO Parameter 110
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EE:
+Client SDO Parameter 111
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12EF:
+Client SDO Parameter 112
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F0:
+Client SDO Parameter 113
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F1:
+Client SDO Parameter 114
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F2:
+Client SDO Parameter 115
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F3:
+Client SDO Parameter 116
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F4:
+Client SDO Parameter 117
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F5:
+Client SDO Parameter 118
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F6:
+Client SDO Parameter 119
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F7:
+Client SDO Parameter 120
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F8:
+Client SDO Parameter 121
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12F9:
+Client SDO Parameter 122
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FA:
+Client SDO Parameter 123
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FB:
+Client SDO Parameter 124
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FC:
+Client SDO Parameter 125
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FD:
+Client SDO Parameter 126
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+12FE:
+Client SDO Parameter 127
+
+
+The object contains the parameters for the SDOs for which
+    the device is the client.
+1F81:
+Slave Assignment
+
+
+This object assigns slaves to the NMT Master.
+
+  Bit         Meaning (Bit Value == 1)
+----------------------------------------------------------------------
+  0           Device is a Slave.    
+  1           On error control event or other detection
+               of a booting slave inform the application
+               and automatically start Error Control
+               service.
+  2           On error control event or other detection
+               of a booting slave do start the process
+               Start Boot Slave.
+  3           Mandatory Slave: Network must not be 
+               started if this slave node could not be 
+               contacted during the boot slave
+               procedure.
+  4           NMT Master must not send NMT Reset
+               Communication for this node if it notices 
+               the slave to be in OPERATIONAL state.
+               This is noticed by waiting for the
+               heartbeat message or sending RTR for
+               the Node Guarding message.
+   5          Application software version verification
+               for this node is required.
+   6          Automatic application software update 
+               (download) is allowed.
+   7          reserved
+   8-15     retry factor
+   16-31   Guard Time

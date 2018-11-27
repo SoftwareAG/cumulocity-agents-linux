@@ -1,0 +1,5058 @@
+
+; This EDS file was created by the CANopen Design Tool 2.3.20.0.
+; port GmbH Halle/Saale Germany, http://www.port.de, mailto:service@port.de
+
+[FileInfo]
+FileName=m1.eds
+FileVersion=1
+FileRevision=0
+EDSVersion=4.0
+Description=Example for CANopen Library
+CreationTime=12:28PM
+CreationDate=07-26-2012
+CreatedBy=service@port.de
+ModificationTime=09:09PM
+ModificationDate=11-19-2018
+ModifiedBy=service@port.de
+
+[DeviceInfo]
+VendorName=port GmbH Halle
+VendorNumber=0x34
+ProductName=Cumulocity CANopen Service
+ProductNumber=0x0
+RevisionNumber=0x0
+OrderCode=0564/1
+BaudRate_10=1
+BaudRate_20=1
+BaudRate_50=1
+BaudRate_125=1
+BaudRate_250=1
+BaudRate_500=1
+BaudRate_800=1
+BaudRate_1000=1
+DynamicChannelsSupported=0
+GroupMessaging=0
+LSS_Supported=0
+Granularity=0
+SimpleBootUpSlave=1
+SimpleBootUpMaster=0
+NrOfRXPDO=0
+NrOfTXPDO=0
+
+[Comments]
+Lines=0
+
+[DummyUsage]
+Dummy0001=0
+Dummy0002=0
+Dummy0003=0
+Dummy0004=0
+Dummy0005=0
+Dummy0006=0
+Dummy0007=0
+
+[MandatoryObjects]
+SupportedObjects=3
+1=0x1000
+2=0x1001
+3=0x1018
+
+[OptionalObjects]
+SupportedObjects=135
+1=0x1002
+2=0x1003
+3=0x1008
+4=0x1009
+5=0x100A
+6=0x1014
+7=0x1017
+8=0x1200
+9=0x1280
+10=0x1281
+11=0x1282
+12=0x1283
+13=0x1284
+14=0x1285
+15=0x1286
+16=0x1287
+17=0x1288
+18=0x1289
+19=0x128A
+20=0x128B
+21=0x128C
+22=0x128D
+23=0x128E
+24=0x128F
+25=0x1290
+26=0x1291
+27=0x1292
+28=0x1293
+29=0x1294
+30=0x1295
+31=0x1296
+32=0x1297
+33=0x1298
+34=0x1299
+35=0x129A
+36=0x129B
+37=0x129C
+38=0x129D
+39=0x129E
+40=0x129F
+41=0x12A0
+42=0x12A1
+43=0x12A2
+44=0x12A3
+45=0x12A4
+46=0x12A5
+47=0x12A6
+48=0x12A7
+49=0x12A8
+50=0x12A9
+51=0x12AA
+52=0x12AB
+53=0x12AC
+54=0x12AD
+55=0x12AE
+56=0x12AF
+57=0x12B0
+58=0x12B1
+59=0x12B2
+60=0x12B3
+61=0x12B4
+62=0x12B5
+63=0x12B6
+64=0x12B7
+65=0x12B8
+66=0x12B9
+67=0x12BA
+68=0x12BB
+69=0x12BC
+70=0x12BD
+71=0x12BE
+72=0x12BF
+73=0x12C0
+74=0x12C1
+75=0x12C2
+76=0x12C3
+77=0x12C4
+78=0x12C5
+79=0x12C6
+80=0x12C7
+81=0x12C8
+82=0x12C9
+83=0x12CA
+84=0x12CB
+85=0x12CC
+86=0x12CD
+87=0x12CE
+88=0x12CF
+89=0x12D0
+90=0x12D1
+91=0x12D2
+92=0x12D3
+93=0x12D4
+94=0x12D5
+95=0x12D6
+96=0x12D7
+97=0x12D8
+98=0x12D9
+99=0x12DA
+100=0x12DB
+101=0x12DC
+102=0x12DD
+103=0x12DE
+104=0x12DF
+105=0x12E0
+106=0x12E1
+107=0x12E2
+108=0x12E3
+109=0x12E4
+110=0x12E5
+111=0x12E6
+112=0x12E7
+113=0x12E8
+114=0x12E9
+115=0x12EA
+116=0x12EB
+117=0x12EC
+118=0x12ED
+119=0x12EE
+120=0x12EF
+121=0x12F0
+122=0x12F1
+123=0x12F2
+124=0x12F3
+125=0x12F4
+126=0x12F5
+127=0x12F6
+128=0x12F7
+129=0x12F8
+130=0x12F9
+131=0x12FA
+132=0x12FB
+133=0x12FC
+134=0x12FD
+135=0x12FE
+
+[ManufacturerObjects]
+SupportedObjects=0
+
+[1000]
+ParameterName=Device Type
+ObjectType=0x07
+DataType=0x0007
+AccessType=const
+DefaultValue=0x0000000
+PDOMapping=0
+
+[1001]
+ParameterName=Error Register
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x00
+PDOMapping=0
+
+[1002]
+ParameterName=Manufacturer Status Register
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000000
+PDOMapping=0
+
+[1003]
+SubNumber=2
+ParameterName=Pre-defined Error Field
+ObjectType=0x08
+
+[1003sub0]
+ParameterName=Number of Errors
+ObjectType=0x07
+DataType=5
+AccessType=rw
+DefaultValue=0x00000000
+PDOMapping=0
+
+[1003sub1]
+ParameterName=Standard Error Field
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x00000000
+PDOMapping=0
+
+[1008]
+ParameterName=Manufacturer Device Name
+ObjectType=0x07
+DataType=0x0009
+AccessType=const
+DefaultValue=m1 Example
+PDOMapping=0
+
+[1009]
+ParameterName=Manufacturer Hardware Version
+ObjectType=0x07
+DataType=0x0009
+AccessType=const
+DefaultValue=1.0
+PDOMapping=0
+
+[100A]
+ParameterName=Manufacturer Software Version
+ObjectType=0x07
+DataType=0x0009
+AccessType=const
+DefaultValue=4.4
+PDOMapping=0
+
+[1014]
+ParameterName=COB-ID EMCY
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=$NODEID+0x80
+PDOMapping=0
+
+[1017]
+ParameterName=Producer Heartbeat Time
+ObjectType=0x07
+DataType=0x0006
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1018]
+SubNumber=5
+ParameterName=Identity Object
+ObjectType=0x09
+
+[1018sub0]
+ParameterName=number of entries
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x4
+PDOMapping=0
+
+[1018sub1]
+ParameterName=Vendor Id
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x34
+PDOMapping=0
+
+[1018sub2]
+ParameterName=Product Code
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x0
+PDOMapping=0
+
+[1018sub3]
+ParameterName=Revision number
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x0
+PDOMapping=0
+
+[1018sub4]
+ParameterName=Serial number
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=0x0
+PDOMapping=0
+
+[1200]
+SubNumber=3
+ParameterName=Server SDO Parameter 1
+ObjectType=0x09
+
+[1200sub0]
+ParameterName=Number of Entries
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=2
+PDOMapping=0
+
+[1200sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=$NODEID+0x600
+PDOMapping=0
+
+[1200sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=ro
+DefaultValue=$NODEID+0x580
+PDOMapping=0
+
+[1280]
+SubNumber=4
+ParameterName=Client SDO Parameter 1
+ObjectType=0x09
+
+[1280sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1280sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1280sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1280sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1281]
+SubNumber=4
+ParameterName=Client SDO Parameter 2
+ObjectType=0x09
+
+[1281sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1281sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1281sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1281sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1282]
+SubNumber=4
+ParameterName=Client SDO Parameter 3
+ObjectType=0x09
+
+[1282sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1282sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1282sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1282sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1283]
+SubNumber=4
+ParameterName=Client SDO Parameter 4
+ObjectType=0x09
+
+[1283sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1283sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1283sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1283sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1284]
+SubNumber=4
+ParameterName=Client SDO Parameter 5
+ObjectType=0x09
+
+[1284sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1284sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1284sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1284sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1285]
+SubNumber=4
+ParameterName=Client SDO Parameter 6
+ObjectType=0x09
+
+[1285sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1285sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1285sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1285sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1286]
+SubNumber=4
+ParameterName=Client SDO Parameter 7
+ObjectType=0x09
+
+[1286sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1286sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1286sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1286sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1287]
+SubNumber=4
+ParameterName=Client SDO Parameter 8
+ObjectType=0x09
+
+[1287sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1287sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1287sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1287sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1288]
+SubNumber=4
+ParameterName=Client SDO Parameter 9
+ObjectType=0x09
+
+[1288sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1288sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1288sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1288sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1289]
+SubNumber=4
+ParameterName=Client SDO Parameter 10
+ObjectType=0x09
+
+[1289sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1289sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1289sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1289sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128A]
+SubNumber=4
+ParameterName=Client SDO Parameter 11
+ObjectType=0x09
+
+[128Asub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Asub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Asub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Asub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128B]
+SubNumber=4
+ParameterName=Client SDO Parameter 12
+ObjectType=0x09
+
+[128Bsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Bsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Bsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Bsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128C]
+SubNumber=4
+ParameterName=Client SDO Parameter 13
+ObjectType=0x09
+
+[128Csub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Csub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Csub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Csub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128D]
+SubNumber=4
+ParameterName=Client SDO Parameter 14
+ObjectType=0x09
+
+[128Dsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Dsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Dsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Dsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128E]
+SubNumber=4
+ParameterName=Client SDO Parameter 15
+ObjectType=0x09
+
+[128Esub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Esub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Esub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Esub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[128F]
+SubNumber=4
+ParameterName=Client SDO Parameter 16
+ObjectType=0x09
+
+[128Fsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[128Fsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Fsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[128Fsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1290]
+SubNumber=4
+ParameterName=Client SDO Parameter 17
+ObjectType=0x09
+
+[1290sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1290sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1290sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1290sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1291]
+SubNumber=4
+ParameterName=Client SDO Parameter 18
+ObjectType=0x09
+
+[1291sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1291sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1291sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1291sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1292]
+SubNumber=4
+ParameterName=Client SDO Parameter 19
+ObjectType=0x09
+
+[1292sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1292sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1292sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1292sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1293]
+SubNumber=4
+ParameterName=Client SDO Parameter 20
+ObjectType=0x09
+
+[1293sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1293sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1293sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1293sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1294]
+SubNumber=4
+ParameterName=Client SDO Parameter 21
+ObjectType=0x09
+
+[1294sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1294sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1294sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1294sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1295]
+SubNumber=4
+ParameterName=Client SDO Parameter 22
+ObjectType=0x09
+
+[1295sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1295sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1295sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1295sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1296]
+SubNumber=4
+ParameterName=Client SDO Parameter 23
+ObjectType=0x09
+
+[1296sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1296sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1296sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1296sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1297]
+SubNumber=4
+ParameterName=Client SDO Parameter 24
+ObjectType=0x09
+
+[1297sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1297sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1297sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1297sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1298]
+SubNumber=4
+ParameterName=Client SDO Parameter 25
+ObjectType=0x09
+
+[1298sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1298sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1298sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1298sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[1299]
+SubNumber=4
+ParameterName=Client SDO Parameter 26
+ObjectType=0x09
+
+[1299sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[1299sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1299sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[1299sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129A]
+SubNumber=4
+ParameterName=Client SDO Parameter 27
+ObjectType=0x09
+
+[129Asub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Asub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Asub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Asub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129B]
+SubNumber=4
+ParameterName=Client SDO Parameter 28
+ObjectType=0x09
+
+[129Bsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Bsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Bsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Bsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129C]
+SubNumber=4
+ParameterName=Client SDO Parameter 29
+ObjectType=0x09
+
+[129Csub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Csub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Csub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Csub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129D]
+SubNumber=4
+ParameterName=Client SDO Parameter 30
+ObjectType=0x09
+
+[129Dsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Dsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Dsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Dsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129E]
+SubNumber=4
+ParameterName=Client SDO Parameter 31
+ObjectType=0x09
+
+[129Esub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Esub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Esub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Esub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[129F]
+SubNumber=4
+ParameterName=Client SDO Parameter 32
+ObjectType=0x09
+
+[129Fsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[129Fsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Fsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[129Fsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A0]
+SubNumber=4
+ParameterName=Client SDO Parameter 33
+ObjectType=0x09
+
+[12A0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A1]
+SubNumber=4
+ParameterName=Client SDO Parameter 34
+ObjectType=0x09
+
+[12A1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A2]
+SubNumber=4
+ParameterName=Client SDO Parameter 35
+ObjectType=0x09
+
+[12A2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A3]
+SubNumber=4
+ParameterName=Client SDO Parameter 36
+ObjectType=0x09
+
+[12A3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A4]
+SubNumber=4
+ParameterName=Client SDO Parameter 37
+ObjectType=0x09
+
+[12A4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A5]
+SubNumber=4
+ParameterName=Client SDO Parameter 38
+ObjectType=0x09
+
+[12A5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A6]
+SubNumber=4
+ParameterName=Client SDO Parameter 39
+ObjectType=0x09
+
+[12A6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A7]
+SubNumber=4
+ParameterName=Client SDO Parameter 40
+ObjectType=0x09
+
+[12A7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A8]
+SubNumber=4
+ParameterName=Client SDO Parameter 41
+ObjectType=0x09
+
+[12A8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12A9]
+SubNumber=4
+ParameterName=Client SDO Parameter 42
+ObjectType=0x09
+
+[12A9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12A9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12A9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AA]
+SubNumber=4
+ParameterName=Client SDO Parameter 43
+ObjectType=0x09
+
+[12AAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12AAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AB]
+SubNumber=4
+ParameterName=Client SDO Parameter 44
+ObjectType=0x09
+
+[12ABsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12ABsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ABsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ABsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AC]
+SubNumber=4
+ParameterName=Client SDO Parameter 45
+ObjectType=0x09
+
+[12ACsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12ACsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ACsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ACsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AD]
+SubNumber=4
+ParameterName=Client SDO Parameter 46
+ObjectType=0x09
+
+[12ADsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12ADsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ADsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ADsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AE]
+SubNumber=4
+ParameterName=Client SDO Parameter 47
+ObjectType=0x09
+
+[12AEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12AEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12AF]
+SubNumber=4
+ParameterName=Client SDO Parameter 48
+ObjectType=0x09
+
+[12AFsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12AFsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AFsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12AFsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B0]
+SubNumber=4
+ParameterName=Client SDO Parameter 49
+ObjectType=0x09
+
+[12B0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B1]
+SubNumber=4
+ParameterName=Client SDO Parameter 50
+ObjectType=0x09
+
+[12B1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B2]
+SubNumber=4
+ParameterName=Client SDO Parameter 51
+ObjectType=0x09
+
+[12B2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B3]
+SubNumber=4
+ParameterName=Client SDO Parameter 52
+ObjectType=0x09
+
+[12B3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B4]
+SubNumber=4
+ParameterName=Client SDO Parameter 53
+ObjectType=0x09
+
+[12B4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B5]
+SubNumber=4
+ParameterName=Client SDO Parameter 54
+ObjectType=0x09
+
+[12B5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B6]
+SubNumber=4
+ParameterName=Client SDO Parameter 55
+ObjectType=0x09
+
+[12B6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B7]
+SubNumber=4
+ParameterName=Client SDO Parameter 56
+ObjectType=0x09
+
+[12B7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B8]
+SubNumber=4
+ParameterName=Client SDO Parameter 57
+ObjectType=0x09
+
+[12B8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12B9]
+SubNumber=4
+ParameterName=Client SDO Parameter 58
+ObjectType=0x09
+
+[12B9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12B9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12B9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BA]
+SubNumber=4
+ParameterName=Client SDO Parameter 59
+ObjectType=0x09
+
+[12BAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BB]
+SubNumber=4
+ParameterName=Client SDO Parameter 60
+ObjectType=0x09
+
+[12BBsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BBsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BBsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BBsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BC]
+SubNumber=4
+ParameterName=Client SDO Parameter 61
+ObjectType=0x09
+
+[12BCsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BCsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BCsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BCsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BD]
+SubNumber=4
+ParameterName=Client SDO Parameter 62
+ObjectType=0x09
+
+[12BDsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BDsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BDsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BDsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BE]
+SubNumber=4
+ParameterName=Client SDO Parameter 63
+ObjectType=0x09
+
+[12BEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12BF]
+SubNumber=4
+ParameterName=Client SDO Parameter 64
+ObjectType=0x09
+
+[12BFsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12BFsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BFsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12BFsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C0]
+SubNumber=4
+ParameterName=Client SDO Parameter 65
+ObjectType=0x09
+
+[12C0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C1]
+SubNumber=4
+ParameterName=Client SDO Parameter 66
+ObjectType=0x09
+
+[12C1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C2]
+SubNumber=4
+ParameterName=Client SDO Parameter 67
+ObjectType=0x09
+
+[12C2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C3]
+SubNumber=4
+ParameterName=Client SDO Parameter 68
+ObjectType=0x09
+
+[12C3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C4]
+SubNumber=4
+ParameterName=Client SDO Parameter 69
+ObjectType=0x09
+
+[12C4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C5]
+SubNumber=4
+ParameterName=Client SDO Parameter 70
+ObjectType=0x09
+
+[12C5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C6]
+SubNumber=4
+ParameterName=Client SDO Parameter 71
+ObjectType=0x09
+
+[12C6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C7]
+SubNumber=4
+ParameterName=Client SDO Parameter 72
+ObjectType=0x09
+
+[12C7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C8]
+SubNumber=4
+ParameterName=Client SDO Parameter 73
+ObjectType=0x09
+
+[12C8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12C9]
+SubNumber=4
+ParameterName=Client SDO Parameter 74
+ObjectType=0x09
+
+[12C9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12C9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12C9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CA]
+SubNumber=4
+ParameterName=Client SDO Parameter 75
+ObjectType=0x09
+
+[12CAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CB]
+SubNumber=4
+ParameterName=Client SDO Parameter 76
+ObjectType=0x09
+
+[12CBsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CBsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CBsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CBsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CC]
+SubNumber=4
+ParameterName=Client SDO Parameter 77
+ObjectType=0x09
+
+[12CCsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CCsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CCsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CCsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CD]
+SubNumber=4
+ParameterName=Client SDO Parameter 78
+ObjectType=0x09
+
+[12CDsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CDsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CDsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CDsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CE]
+SubNumber=4
+ParameterName=Client SDO Parameter 79
+ObjectType=0x09
+
+[12CEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12CF]
+SubNumber=4
+ParameterName=Client SDO Parameter 80
+ObjectType=0x09
+
+[12CFsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12CFsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CFsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12CFsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D0]
+SubNumber=4
+ParameterName=Client SDO Parameter 81
+ObjectType=0x09
+
+[12D0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D1]
+SubNumber=4
+ParameterName=Client SDO Parameter 82
+ObjectType=0x09
+
+[12D1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D2]
+SubNumber=4
+ParameterName=Client SDO Parameter 83
+ObjectType=0x09
+
+[12D2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D3]
+SubNumber=4
+ParameterName=Client SDO Parameter 84
+ObjectType=0x09
+
+[12D3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D4]
+SubNumber=4
+ParameterName=Client SDO Parameter 85
+ObjectType=0x09
+
+[12D4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D5]
+SubNumber=4
+ParameterName=Client SDO Parameter 86
+ObjectType=0x09
+
+[12D5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D6]
+SubNumber=4
+ParameterName=Client SDO Parameter 87
+ObjectType=0x09
+
+[12D6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D7]
+SubNumber=4
+ParameterName=Client SDO Parameter 88
+ObjectType=0x09
+
+[12D7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D8]
+SubNumber=4
+ParameterName=Client SDO Parameter 89
+ObjectType=0x09
+
+[12D8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12D9]
+SubNumber=4
+ParameterName=Client SDO Parameter 90
+ObjectType=0x09
+
+[12D9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12D9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12D9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DA]
+SubNumber=4
+ParameterName=Client SDO Parameter 91
+ObjectType=0x09
+
+[12DAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DB]
+SubNumber=4
+ParameterName=Client SDO Parameter 92
+ObjectType=0x09
+
+[12DBsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DBsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DBsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DBsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DC]
+SubNumber=4
+ParameterName=Client SDO Parameter 93
+ObjectType=0x09
+
+[12DCsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DCsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DCsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DCsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DD]
+SubNumber=4
+ParameterName=Client SDO Parameter 94
+ObjectType=0x09
+
+[12DDsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DDsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DDsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DDsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DE]
+SubNumber=4
+ParameterName=Client SDO Parameter 95
+ObjectType=0x09
+
+[12DEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12DF]
+SubNumber=4
+ParameterName=Client SDO Parameter 96
+ObjectType=0x09
+
+[12DFsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12DFsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DFsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12DFsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E0]
+SubNumber=4
+ParameterName=Client SDO Parameter 97
+ObjectType=0x09
+
+[12E0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E1]
+SubNumber=4
+ParameterName=Client SDO Parameter 98
+ObjectType=0x09
+
+[12E1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E2]
+SubNumber=4
+ParameterName=Client SDO Parameter 99
+ObjectType=0x09
+
+[12E2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E3]
+SubNumber=4
+ParameterName=Client SDO Parameter 100
+ObjectType=0x09
+
+[12E3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E4]
+SubNumber=4
+ParameterName=Client SDO Parameter 101
+ObjectType=0x09
+
+[12E4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E5]
+SubNumber=4
+ParameterName=Client SDO Parameter 102
+ObjectType=0x09
+
+[12E5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E6]
+SubNumber=4
+ParameterName=Client SDO Parameter 103
+ObjectType=0x09
+
+[12E6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E7]
+SubNumber=4
+ParameterName=Client SDO Parameter 104
+ObjectType=0x09
+
+[12E7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E8]
+SubNumber=4
+ParameterName=Client SDO Parameter 105
+ObjectType=0x09
+
+[12E8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12E9]
+SubNumber=4
+ParameterName=Client SDO Parameter 106
+ObjectType=0x09
+
+[12E9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12E9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12E9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12EA]
+SubNumber=4
+ParameterName=Client SDO Parameter 107
+ObjectType=0x09
+
+[12EAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12EAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12EB]
+SubNumber=4
+ParameterName=Client SDO Parameter 108
+ObjectType=0x09
+
+[12EBsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12EBsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EBsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EBsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12EC]
+SubNumber=4
+ParameterName=Client SDO Parameter 109
+ObjectType=0x09
+
+[12ECsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12ECsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ECsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12ECsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12ED]
+SubNumber=4
+ParameterName=Client SDO Parameter 110
+ObjectType=0x09
+
+[12EDsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12EDsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EDsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EDsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12EE]
+SubNumber=4
+ParameterName=Client SDO Parameter 111
+ObjectType=0x09
+
+[12EEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12EEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12EF]
+SubNumber=4
+ParameterName=Client SDO Parameter 112
+ObjectType=0x09
+
+[12EFsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12EFsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EFsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12EFsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F0]
+SubNumber=4
+ParameterName=Client SDO Parameter 113
+ObjectType=0x09
+
+[12F0sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F0sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F0sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F0sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F1]
+SubNumber=4
+ParameterName=Client SDO Parameter 114
+ObjectType=0x09
+
+[12F1sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F1sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F1sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F1sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F2]
+SubNumber=4
+ParameterName=Client SDO Parameter 115
+ObjectType=0x09
+
+[12F2sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F2sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F2sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F2sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F3]
+SubNumber=4
+ParameterName=Client SDO Parameter 116
+ObjectType=0x09
+
+[12F3sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F3sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F3sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F3sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F4]
+SubNumber=4
+ParameterName=Client SDO Parameter 117
+ObjectType=0x09
+
+[12F4sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F4sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F4sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F4sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F5]
+SubNumber=4
+ParameterName=Client SDO Parameter 118
+ObjectType=0x09
+
+[12F5sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F5sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F5sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F5sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F6]
+SubNumber=4
+ParameterName=Client SDO Parameter 119
+ObjectType=0x09
+
+[12F6sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F6sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F6sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F6sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F7]
+SubNumber=4
+ParameterName=Client SDO Parameter 120
+ObjectType=0x09
+
+[12F7sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F7sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F7sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F7sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F8]
+SubNumber=4
+ParameterName=Client SDO Parameter 121
+ObjectType=0x09
+
+[12F8sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F8sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F8sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F8sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12F9]
+SubNumber=4
+ParameterName=Client SDO Parameter 122
+ObjectType=0x09
+
+[12F9sub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12F9sub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F9sub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12F9sub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12FA]
+SubNumber=4
+ParameterName=Client SDO Parameter 123
+ObjectType=0x09
+
+[12FAsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12FAsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FAsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FAsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12FB]
+SubNumber=4
+ParameterName=Client SDO Parameter 124
+ObjectType=0x09
+
+[12FBsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12FBsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FBsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FBsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12FC]
+SubNumber=4
+ParameterName=Client SDO Parameter 125
+ObjectType=0x09
+
+[12FCsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12FCsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FCsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FCsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12FD]
+SubNumber=4
+ParameterName=Client SDO Parameter 126
+ObjectType=0x09
+
+[12FDsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12FDsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FDsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FDsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
+[12FE]
+SubNumber=4
+ParameterName=Client SDO Parameter 127
+ObjectType=0x09
+
+[12FEsub0]
+ParameterName=Highest sub-index supported
+ObjectType=0x07
+DataType=0x0005
+AccessType=ro
+DefaultValue=0x03
+PDOMapping=0
+
+[12FEsub1]
+ParameterName=COB-ID Client -> Server
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FEsub2]
+ParameterName=COB-ID Server -> Client
+ObjectType=0x07
+DataType=0x0007
+AccessType=rw
+DefaultValue=0x800006E0
+PDOMapping=0
+
+[12FEsub3]
+ParameterName=Node ID of the SDO Server
+ObjectType=0x07
+DataType=0x0005
+AccessType=rw
+DefaultValue=0x00
+PDOMapping=0
+
