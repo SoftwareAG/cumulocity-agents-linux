@@ -195,6 +195,15 @@ function monitor:new()
          exec_unit.plugin = plugin_id
          exec_unit.use_exit_code = plugin_tbl.use_exit_code or false
          exec_unit.regex = plugin_tbl.regex
+
+         --TODO remove later, as it is a temporary fix
+         --assume that 'series' can be absent, if 'use_exit_code' is true
+         --//
+         if not plugin_tbl.series then
+            return nil
+         end
+         --//
+
          exec_unit.series = plugin_tbl.series
 
          if private.hostName and plugin_tbl.add_observer_hostname then
