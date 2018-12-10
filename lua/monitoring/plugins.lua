@@ -154,7 +154,7 @@ return {
    -- for debugging
    ["ValueWithTimestampInMilliseconds"] = {
       command="simulation/valueWithTimestamp_ms.lua",
-      regex="(%d+.?%d-)%D+(%d+.?%d+)%D-$",
+      regex="(%d+.?%d-)%D+(%d+.?%d-)%D-$",
       series={
          {use_as_timestamp=true, unit="ms"},
          {name="value"}

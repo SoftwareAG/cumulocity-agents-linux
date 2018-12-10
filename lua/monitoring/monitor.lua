@@ -293,7 +293,7 @@ function monitor:new()
 
          local timestamp = private:getTimestamp(exec_unit, ms_tbl)
 
-         if (timestamp == -1) then --there is a timestamp but the unit is wrong
+         if (timestamp == -1) then --there is a timestamp but the value or unit is wrong
             return
          end
 
@@ -352,6 +352,10 @@ function monitor:new()
       function private:getTimestamp(exec_unit, ms_tbl)
          for i=1, #exec_unit.series do
             if (exec_unit.series[i]["use_as_timestamp"]) then
+               if not tonumber(ms_tbl[i]) then
+                  srError("MONITORING timestamp is not a number")
+                  return -1
+               end
                if (exec_unit.series[i]["unit"] == "ms") then
                   local seconds,decimal = math.modf(tonumber(ms_tbl[i]))
                   local millisec = math.floor(decimal * 1000 + 0.5)
