@@ -27,15 +27,14 @@ end
 
 -- Convert ISO time (2011-05-12T13:12:32+0001) to utc seconds since epoch
 function utc_time(time)
-   local tfmt = '(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)([+-]%d+)'
+   local tfmt = '(%d+)-(%d+)-(%d+)T(%d+):(%d+):(%d+)[.%d]*'
    local tbl = {string.match(time, tfmt)}
+   if #tbl < 6 then return end
    local st = os.time{year=tbl[1], month=tbl[2], day=tbl[3],
                       hour=tbl[4], min=tbl[5], sec=tbl[6]}
-   if string.sub(tbl[7], 1, 1) == '+' then
-      return st - string.sub(tbl[7], 2, 3) * 3600
-   else
-      return st + string.sub(tbl[7], 2, 3) * 3600
-   end
+   local tz = string.match(time, '[+-]%d+:?%d+$')
+   local num = tz and tonumber(string.sub(tz, 1, 3)) or 0
+   return st + num * 3600
 end
 
 
