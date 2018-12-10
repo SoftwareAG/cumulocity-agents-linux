@@ -4,10 +4,16 @@ import base64
 import datetime
 import json
 import sys
-from subprocess import Popen, DEVNULL
+from subprocess import Popen
 import time
 import urllib.request
 import unittest
+
+try:
+    from subprocess import DEVNULL
+except ImportError:
+    import os
+    DEVNULL = open(os.devnull, 'w')
 
 
 host = None
