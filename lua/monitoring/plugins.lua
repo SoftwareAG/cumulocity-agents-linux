@@ -57,7 +57,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /cep/health -w 5 -c 10 -f follow -s UP",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -68,7 +68,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/devicemanagement/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -79,7 +79,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/cockpit/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -90,7 +90,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/administration/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -101,7 +101,7 @@ return {
       command="check_http",
       params="-w 5 -c 10 --ssl -H %H%",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -144,7 +144,7 @@ return {
    -- for debugging
    ["ValueWithTimestampInSeconds"] = {
       command="simulation/valueWithTimestamp_sec.lua",
-      regex="(%d+.?%d-)%D+(%d+.?%d-)%D-$",
+      regex="(%d+%.?%d-)%D+(%d+%.?%d-)%D-$",
       series={
          {use_as_timestamp=true, unit="s"},
          {name="value"}
@@ -154,7 +154,7 @@ return {
    -- for debugging
    ["ValueWithTimestampInMilliseconds"] = {
       command="simulation/valueWithTimestamp_ms.lua",
-      regex="(%d+.?%d-)%D+(%d+.?%d-)%D-$",
+      regex="(%d+%.?%d-)%D+(%d+%.?%d-)%D-$",
       series={
          {use_as_timestamp=true, unit="ms"},
          {name="value"}
