@@ -13,6 +13,10 @@
 #include <curl/curl.h>
 #include "vnc.h"
 
+#ifdef DEBUG
+#define syslog(LEVEL, ...) printf(__VA_ARGS__)
+#endif
+
 #define VNC_NSIZE 16
 #define BUF_NSIZE 2048
 #define TRYAGAIN(x) (x == EWOULDBLOCK || x == EAGAIN)
@@ -395,92 +399,67 @@ static int ts_send(int fd, char *buf, size_t count)
     return 0;
 }
 
+
 static int ws_recv(CURL *curl, char *buf, size_t count, uint64_t *wsnum)
 {
-    if (count < 125)
-    {
-        return 0;
-    }
-
-    size_t n = 0;
-    int type = 0;
-    CURLcode rc;
-
-    if (*wsnum == 0)
-    { /* new websocket frame */
-        char pch[10];
-        rc = curl_easy_recv(curl, pch, 2, &n);
-
-        if (n != 2)
-        {
-            if (rc == CURLE_OK)
-            {
-                return -1;
-            }
-
-            else if (rc == CURLE_AGAIN)
-            {
+        if (count < 125)
                 return 0;
-            }
 
-            syslog(LOG_ERR, "ws_rh[%zu]: %s\n", n, curl_easy_strerror(rc));
-            return -1;
+        size_t n = 0;
+        int type = 0;
+        CURLcode rc;
+
+        if (*wsnum == 0) { /* new websocket frame */
+                char pch[10];
+                rc = curl_easy_recv(curl, pch, 2, &n);
+                if (n != 2) {
+                        if (rc == CURLE_OK)
+                                return -1;
+                        else if (rc == CURLE_AGAIN)
+                                return 0;
+                        const char *msg = curl_easy_strerror(rc);
+                        syslog(LOG_ERR, "ws_rh[%zu]: %s\n", n, msg);
+                        return -1;
+                }
+                type = pch[0] & 0x0f;
+                if (pch[1] < 126) {
+                        *wsnum = pch[1];
+                } else if (pch[1] == 126) {
+                        rc = curl_easy_recv(curl, pch + 2, 2, &n);
+                        if (n != 2) {
+                                const char *msg = curl_easy_strerror(rc);
+                                syslog(LOG_ERR, "ws_r126: %s\n", msg);
+                                return -1;
+                        }
+                        *wsnum = pch[2];
+                        *wsnum = (*wsnum << 8) | (0xff & pch[3]);
+                } else if (pch[1] == 127) {
+                        errno = 0;
+                        rc = curl_easy_recv(curl, pch + 2, 8, &n);
+                        if (n != 8) {
+                                const char *msg = curl_easy_strerror(rc);
+                                syslog(LOG_ERR, "ws_r127: %s\n", msg);
+                                return -1;
+                        }
+                        for (int i = 2; i < 10; ++i)
+                                *wsnum = (*wsnum << 8) | (0xff & pch[i]);
+                }
         }
 
-        type = pch[0] & 0x0f;
-        if (pch[1] < 126)
-        {
-            *wsnum = pch[1];
-        } else if (pch[1] == 126)
-        {
-            rc = curl_easy_recv(curl, pch + 2, 2, &n);
-            if (n != 2)
-            {
-                syslog(LOG_ERR, "ws_r126: %s\n", curl_easy_strerror(rc));
-                return -1;
-            }
-            *wsnum = pch[2];
-            *wsnum = (*wsnum << 8) | pch[3];
-        } else if (pch[1] == 127)
-        {
-            errno = 0;
-            rc = curl_easy_recv(curl, pch + 2, 8, &n);
-            if (n != 8)
-            {
-                syslog(LOG_ERR, "ws_r127: %s\n", curl_easy_strerror(rc));
-                return -1;
-            }
+        if (type > 3) return -type;
+        if (*wsnum == 0) return 0;
 
-            for (int i = 2; i < 10; ++i)
-            {
-                *wsnum = (*wsnum << 8) | pch[i];
-            }
+        n = 0;
+        rc = curl_easy_recv(curl, buf, _min(count, *wsnum), &n);
+        if (rc == CURLE_OK || rc == CURLE_AGAIN) {
+                *wsnum -= n;
+                return n;
+        } else {
+                syslog(LOG_ERR, "ws_recv: %s\n", curl_easy_strerror(rc));
+                return -1;
         }
-    }
-
-    if (type > 3)
-    {
-        return -type;
-    }
-
-    if (*wsnum == 0)
-    {
-        return 0;
-    }
-
-    n = 0;
-
-    rc = curl_easy_recv(curl, buf, _min(count, *wsnum), &n);
-    if (rc == CURLE_OK || rc == CURLE_AGAIN)
-    {
-        *wsnum -= n;
-        return n;
-    } else
-    {
-        syslog(LOG_ERR, "ws_recv: %s\n", curl_easy_strerror(rc));
-        return -1;
-    }
 }
+
 
 static int ws_send(CURL *curl, char *buf, size_t count)
 {
