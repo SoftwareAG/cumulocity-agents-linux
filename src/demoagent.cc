@@ -47,11 +47,16 @@ int main()
     srLogSetQuota(quota ? quota : 1024); // Default 1024 KB when not set.
     srLogSetLevel(getLogLevel(cdb.get("log.level")));
 
-    const string server = cdb.get("server");
+    string server = cdb.get("server");
+    bool isMqtt = false;
     if (server.empty())
     {
         srCritical("No server URL.");
         return 0;
+    }
+    if (server.compare(0, 4, "mqtt") == 0) {
+            isMqtt = true;
+            server.replace(0, 4, "http");
     }
 
     const string deviceID = getDeviceID(cdb);
@@ -90,35 +95,31 @@ int main()
 
     VncHandler vnc(agent);
     Helper helper(agent, wdt);
+    SrReporter *rpt = nullptr;
+    SrDevicePush *push = nullptr;
 
-#ifdef USE_MQTT
-
-    const bool isssl = server.substr(0, 5) == "https";
-    const string port = isssl ? ":8883" : ":1883";
-
-    SrReporter reporter(server + port, agent.deviceID(), agent.XID(),
-            agent.tenant() + '/' + agent.username(), agent.password(),
-            agent.egress, agent.ingress);
-
-    // set MQTT keep-alive interval to 180 seconds.
-    reporter.mqttSetOpt(SR_MQTTOPT_KEEPALIVE, 180);
-
-    if (reporter.start())
-    {
-        return 0;
+    if (isMqtt) {
+            const bool isssl = server.substr(0, 5) == "https";
+            const string port = isssl ? ":8883" : ":1883";
+            rpt = new SrReporter(server + port, agent.deviceID(), agent.XID(),
+                                 agent.tenant() + '/' + agent.username(),
+                                 agent.password(), agent.egress, agent.ingress);
+            // set MQTT keep-alive interval to 180 seconds.
+            rpt->mqttSetOpt(SR_MQTTOPT_KEEPALIVE, 180);
+    } else {
+            rpt = new SrReporter(server, agent.XID(), agent.auth(),
+                                 agent.egress, agent.ingress);
+            push = new SrDevicePush(server, agent.XID(), agent.auth(),
+                                    agent.ID(), agent.ingress);
     }
-#else
-
-    SrReporter reporter(server, agent.XID(), agent.auth(), agent.egress, agent.ingress);
-    SrDevicePush push(server, agent.XID(), agent.auth(), agent.ID(), agent.ingress);
-
-    if (reporter.start() || push.start())
-    {
-        return 0;
+    if (rpt->start()) {
+            srCritical("reporter: start failed");
+            return 0;
     }
-
-#endif
-
+    if (push && push->start()) {
+            srCritical("push: start failed");
+            return 0;
+    }
     // enter main loop (never returns)
     agent.loop();
 
