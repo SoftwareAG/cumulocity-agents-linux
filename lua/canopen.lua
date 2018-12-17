@@ -43,17 +43,18 @@ end
 
 local function setupCAN()
    local canType = cdb:get('canopen.type')
+   local canPort = cdb:get('canopen.port')
    local baud = tonumber(cdb:get('canopen.baud')) * 1000
    local cmd
    if canType == 'vcan' then
       cmd = 'modprobe vcan'
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
-      cmd = 'ip link add dev can0 type vcan'
+      cmd = 'ip link add dev ' .. canPort .. ' type vcan'
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
    elseif canType == 'can' then
-      cmd = 'ip link set can0 type can bitrate ' .. baud
+      cmd = 'ip link set ' .. canPort .. ' type can bitrate ' .. baud
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
    elseif canType == 'slcan' then
@@ -67,10 +68,9 @@ local function setupCAN()
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
       local serial = cdb:get('canopen.serial')
-      local name = cdb:get('canopen.port')
       local ascii = bitrate2ascii(baud)
       local fmt = 'cumulocity-agent.slcan-attach -f -%s -n %s -o %s'
-      cmd = string.format(fmt, ascii, name, serial)
+      cmd = string.format(fmt, ascii, canPort, serial)
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
       cmd = string.format('cumulocity-agent.slcand %s %s',
@@ -78,7 +78,7 @@ local function setupCAN()
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
    end
-   cmd = 'ip link set up can0'
+   cmd = 'ip link set up ' .. canPort
    os.execute(cmd)
    srInfo('canopen: ' .. cmd)
 end
@@ -456,6 +456,7 @@ end
 
 function executeShell(r)
    operationId, deviceId, text = r:value(2), r:value(3), r:value(4)
+   if deviceId == c8y.ID then return end
    c8y:send('303,' .. operationId .. ',EXECUTING')
    srInfo('CANopen shell command received: id: ' .. operationId .. ', deviceId: ' .. deviceId .. ', text: "' .. text .. '"')
    success, result = pcall(function ()
