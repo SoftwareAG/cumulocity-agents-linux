@@ -22,6 +22,7 @@ deviceID = None
 nodeID = None
 user = None
 pw = None
+canPort = None
 pid_agent = None
 pid_service = None
 pid_simulator = None
@@ -140,7 +141,7 @@ def isoformat(time):
 
 
 def getTimeRange():
-    delta = datetime.timedelta(seconds=60)
+    delta = datetime.timedelta(seconds=90)
     now = datetime.datetime.utcnow()
     since = isoformat(now - delta)
     until = isoformat(now)
@@ -153,7 +154,7 @@ class MyTestSuite(unittest.TestCase):
     def setUpClass(cls):
         global pid_agent, pid_service, pid_simulator
         executable = './canopen_simulator/c8y_canopen_simulator'
-        pid_simulator = startProcess([executable, str(nodeID)])
+        pid_simulator = startProcess([executable, str(nodeID), canPort])
         pid_service = startProcess(['../bin/c8y_canopend'])
         pid_agent = startProcess(['cumulocity-agent'])
 
@@ -188,7 +189,7 @@ class MyTestSuite(unittest.TestCase):
 
     def testEvent(self):
         since, until = getTimeRange()
-        events = getEvent('Temp1', since, until)['events']
+        events = getEvent('Temp', since, until)['events']
         self.assertTrue(len(events) > 0)
 
     def testMeasurement(self):
@@ -274,7 +275,7 @@ class MyTestSuite(unittest.TestCase):
         alarms = [x for x in resp if x['type'] == Type]
         self.assertGreater(len(alarms), 0)
         executable = './canopen_simulator/c8y_canopen_simulator'
-        pid_simulator = startProcess([executable, str(nodeID)])
+        pid_simulator = startProcess([executable, str(nodeID), canPort])
         time.sleep(15)
         resp = getActiveAlarm()['alarms']
         alarms = [x for x in resp if x['type'] == Type]
@@ -283,11 +284,13 @@ class MyTestSuite(unittest.TestCase):
 
 def startProcess(args):
     pid = Popen(args, stdout=DEVNULL, stderr=DEVNULL)
+    print('{}: {}'.format(pid.pid, ' '.join(args)))
     return pid
 
 
 if __name__ == '__main__':
     host, user, pw = sys.argv[1], sys.argv[2], sys.argv[3]
     parentID, deviceID, nodeID = sys.argv[4], sys.argv[5], int(sys.argv[6])
+    canPort = sys.argv[7]
     del sys.argv[1:]
     unittest.main(verbosity=2)
