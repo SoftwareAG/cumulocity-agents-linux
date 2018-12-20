@@ -1,4 +1,4 @@
-cumulocity_agent_31
+cumulocity_agent_32
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -181,48 +181,9 @@ cumulocity_agent_31
 11,854,,,$.id,$.c8y_ReactOperation.start
 
 11,874,$.c8y_Registers,,$.number,$.startBit,$.littleEndian,$.input
-11,826,$.c8y_Registers,$.alarmMapping,$.number,$.startBit,$.alarmMapping.raiseAlarmTemplate,$.input
-11,827,$.c8y_Registers,$.measurementMapping,$.number,$.startBit,$.measurementMapping.sendMeasurementTemplate,$.input
-11,828,$.c8y_Registers,$.eventMapping,$.number,$.startBit,$.eventMapping.eventTemplate,$.input
 
-11,829,,$.c8y_useServerTime,$.c8y_useServerTime
-11,830,$.c8y_Coils,$.statusMapping,$.number,$.statusMapping.status,$.input
-11,831,$.c8y_Registers,$.statusMapping,$.number,$.startBit,$.statusMapping.status,$.input
-
-11,832,$.references,,$.managedObject.c8y_ModbusDevice.ipAddress,$.managedObject.c8y_ModbusDevice.address,$.managedObject.id,$.managedObject.c8y_ModbusDevice.type
-
-11,833,,$.c8y_SetCoil,$.id,$.deviceId,$.c8y_SetCoil.coil,$.c8y_SetCoil.value
-11,834,,$.c8y_SetRegister,$.id,$.deviceId,$.c8y_SetRegister.register,$.c8y_SetRegister.startBit,$.c8y_SetRegister.noBits,$.c8y_SetRegister.value
-
-11,835,alarms,$.c8y_ModbusSource,$.id,$.source.id,$.c8y_ModbusSource.coil.number,$.c8y_ModbusSource.coil.input
-11,836,alarms,$.c8y_ModbusSource,$.id,$.source.id,$.c8y_ModbusSource.register.number,$.c8y_ModbusSource.register.startBit,$.c8y_ModbusSource.register.noBits,$.c8y_ModbusSource.register.input
-
-# 837 out of order
-11,838,,$.deviceId,$.id,$.c8y_RelayArray[0],$.c8y_RelayArray[1],$.c8y_RelayArray[2]
-
-# 839 out of order
-# 840 out of order
-
-11,841,,$.c8y_SendConfiguration,$.id,$.deviceId
-11,842,,$.c8y_UploadConfigFile,$.id,$.deviceId
-11,843,,$.c8y_DownloadConfigFile,$.id,$.c8y_DownloadConfigFile.url,$.c8y_DownloadConfigFile.c8y_ConfigurationDump.id,$.deviceId
-11,844,,$.url,$.id,$.type
-
-11,845,,$.c8y_Firmware,$.id,$.c8y_Firmware.version,$.c8y_Firmware.url,$.c8y_Firmware.name,$.deviceId
-11,846,,$.c8y_MeasurementPollFrequencyOperation,$.id,$.c8y_MeasurementPollFrequencyOperation.duration,$.c8y_MeasurementPollFrequencyOperation.frequency,$.deviceId
-
-11,847,,$.c8y_ModbusDevice,$.c8y_ModbusDevice.protocol,$.c8y_ModbusDevice.address,$.c8y_ModbusDevice.id,$.c8y_ModbusDevice.type,$.id
-11,848,$.references,,$.managedObject.c8y_ModbusDevice.protocol,$.managedObject.c8y_ModbusDevice.address,$.managedObject.id,$.managedObject.c8y_ModbusDevice.type
-11,849,,$.c8y_SerialConfiguration,$.id,$.c8y_SerialConfiguration.baudRate,$.c8y_SerialConfiguration.dataBits,$.c8y_SerialConfiguration.parity,$.c8y_SerialConfiguration.stopBits,$.deviceId
-
-11,850,,$.c8y_UploadRDB,$.id,$.deviceId
-11,851,$.alarms,,$.id,$.type,$.source.id
-
-# 852 out of order
-11,853,,$.c8y_RemoteAccessConnect,$.id,$.c8y_RemoteAccessConnect.hostname,$.c8y_RemoteAccessConnect.port,$.c8y_RemoteAccessConnect.connectionKey,$.deviceId
 
 # CANopen
-11,854,,,$.id,$.c8y_ReactOperation.start
 11,855,,$.c8y_CANopenAddDevice,$.id,$.c8y_CANopenAddDevice.id,$.c8y_CANopenAddDevice.nodeId,$.c8y_CANopenAddDevice.type,$.deviceId
 11,856,,$.c8y_CANopenRemoveDevice,$.id,$.c8y_CANopenRemoveDevice.nodeId,$.c8y_CANopenRemoveDevice.id,$.deviceId
 11,857,$.references,,$.managedObject.id,$.managedObject.c8y_CANopenDevice.nodeId,$.managedObject.c8y_CANopenDevice.type
