@@ -1,5 +1,5 @@
 name: cumulocity-agent
-version: 2.6
+version: 2.7
 grade: stable
 summary: Cumulocity Linux agent
 description: Generic Linux agent for Cumulocity IoT integration.
