@@ -1,3 +1,4 @@
+#include <inttypes.h>
 #include <iomanip>
 #include <sstream>
 #include "mbbase.h"
@@ -210,99 +211,48 @@ int ModbusBase::poll(int slave, const ModbusModel *model)
 
     const int N = 4;
     int ret = 0;
-    for (int i = 0; i < N; ++i)
-    {
+    for (int i = 0; i < N; ++i) {
         const ModbusModel::Model *mod = nullptr;
-        switch (i)
-        {
-        case 0:
-            mod = &(model->comodel);
-            coData.clear();
-            break;
-        case 1:
-            mod = &(model->dimodel);
-            diData.clear();
-            break;
-        case 2:
-            mod = &(model->hrmodel);
-            hrData.clear();
-            break;
-        case 3:
-            mod = &(model->irmodel);
-            irData.clear();
-            break;
+        switch (i) {
+        case 0: mod = &(model->comodel); break;
+        case 1: mod = &(model->dimodel); break;
+        case 2: mod = &(model->hrmodel); break;
+        case 3: mod = &(model->irmodel); break;
         }
 
         uint8_t bits[MODBUS_MAX_READ_BITS];
         uint16_t regs[MODBUS_MAX_READ_REGISTERS];
-        for (const auto& e : *mod)
-        {
+        for (const auto& e : *mod) {
             const int addr = e.first;
             const int nb = e.second - e.first + 1;
             int l = 0;
 
-            switch (i)
-            {
+            switch (i) {
                 case 0:
                     l = readCO(addr, nb, bits);
                     for (int j = 0; j < l; ++j)
-                    {
-                        coData.push_back(bits[j]);
-                    }
-
+                            coData[addr + j] = bits[j];
                     break;
                 case 1:
                     l = readDI(addr, nb, bits);
                     for (int j = 0; j < l; ++j)
-                    {
-                        diData.push_back(bits[j]);
-                    }
-
+                            diData[addr + j] = bits[j];
                     break;
                 case 2:
                     l = readHR(addr, nb, regs);
                     for (int j = 0; j < l; ++j)
-                    {
-                        hrData.push_back(regs[j]);
-                    }
-
+                        hrData[addr + j] = regs[j];
                     break;
                 case 3:
                     l = readIR(addr, nb, regs);
                     for (int j = 0; j < l; ++j)
-                    {
-                        irData.push_back(regs[j]);
-                    }
-
+                        irData[addr + j] = regs[j];
                     break;
-
                 default:
-                {
                     break;
-                }
             }
-
-            if (l == -1)
-            {
+            if (l == -1) {
                 ret = -1;
-                switch (i)
-                {
-                    case 0:
-                        coData.clear();
-                        break;
-                    case 1:
-                        diData.clear();
-                        break;
-                    case 2:
-                        hrData.clear();
-                        break;
-                    case 3:
-                        irData.clear();
-                        break;
-                    default:
-                        break;
-                }
-
                 break;
             }
         }
@@ -312,46 +262,95 @@ int ModbusBase::poll(int slave, const ModbusModel *model)
     return ret;
 }
 
+
 int ModbusBase::updateCO(int slave, int addr, int status)
 {
-    if (setSlave(slave) == -1)
-    {
-        return -1;
-    }
-
-    if (connect() == -1)
-    {
-        return -1;
-    }
-
+    if (setSlave(slave) == -1) return -1;
+    if (connect() == -1) return -1;
     const int ret = writeCO(addr, status);
     close();
-
     return ret;
 }
 
-int ModbusBase::updateHRBits(int slave, int addr, int v, int sb, int nb)
+
+static uint64_t getValue(uint16_t *buf, int size, int littleEndian)
 {
-    if (setSlave(slave) == -1)
-    {
-        return -1;
-    }
+        uint64_t val = 0;
+        if (littleEndian) {
+                for (int i = size - 1; i >= 0; --i) {
+                        uint16_t a = buf[i];
+                        a = (a >> 8) + (a << 8);
+                        val = (val << 16) + a;
+                }
+        } else {
+                for (int i = 0; i < size; ++i) {
+                        val = (val << 16) + buf[i];
+                }
+        }
+        return val;
+}
 
-    if (connect() == -1)
-    {
-        return -1;
-    }
 
-    uint16_t status = 0;
-    if (readHR(addr, 1, &status) == -1)
-    {
-        return -1;
-    }
+int ModbusBase::updateHRBits(int slave, int addr, uint64_t v, int sb, int nb,
+                             int littleEndian)
+{
+        int n = (sb + nb - 1) / 16 + 1;
+        uint16_t resp[4] = {0};
 
-    const int a = ~(((1 << nb) - 1) << sb);
-    status = (status & a) | (v << sb);
-    const int ret = writeHR(addr, status);
-    close();
+        if (setSlave(slave) == -1) return -1;
+        if (connect() == -1) return -1;
+        if (readHR(addr, n, resp) == -1) return -1;
 
-    return ret;
+        uint64_t status = getValue(resp, n, littleEndian);
+        const uint64_t mask = (0xffffffffffffffff >> (64 - nb)) << sb;
+        status = (status & mask) | (v << sb);
+        if (littleEndian) {
+                for (int i = 0; i < n; ++i) {
+                        uint16_t a = status & 0xffff;
+                        resp[i] = (a >> 8) + (a << 8);
+                        status >>= 16;
+                }
+        } else {
+                for (int i = n - 1; i >= 0; --i) {
+                        resp[i] = status & 0xffff;
+                        status >>= 16;
+                }
+        }
+        int ret = 0;
+        for (int i = 0; i < n; ++i)
+                ret = writeHR(addr + i, resp[i]);
+        close();
+        return ret;
+}
+
+
+int ModbusBase::getCoilValue(int type, int index) const
+{
+        if (type == 0) return coData.at(index);
+        else if (type == 1) return diData.at(index);
+        else return 0;
+}
+
+
+string ModbusBase::getRegValue(int type, int index, int startBit, int noBits,
+                               int isSigned, int littleEndian) const
+{
+        int n = (startBit + noBits - 1) / 16 + 1;
+        const std::map<int, uint16_t> *pData = !type ? &hrData : &irData;
+        uint16_t resp[4] = {0};
+        for (int i = 0; i < n; ++i)
+                resp[i] = pData->at(index + i);
+        uint64_t val = getValue(resp, n, littleEndian);
+        val >>= startBit;
+        const uint64_t mask = 0xffffffffffffffff >> (64 - noBits);
+        const uint64_t sign = (val >> (noBits - 1)) & 0x01;
+        char buf[256] = {0};
+        if (!isSigned) {
+                snprintf(buf, sizeof(buf), "%" PRIu64, val & mask);
+        } else if (sign) {
+                snprintf(buf, sizeof(buf), "-%" PRIu64, (val ^ mask) + 1);
+        } else {
+                snprintf(buf, sizeof(buf), "%" PRIu64, val & mask);
+        }
+        return buf;
 }
