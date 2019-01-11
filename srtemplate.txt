@@ -1,4 +1,4 @@
-cumulocity_agent_32
+cumulocity_agent_33
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -43,7 +43,7 @@ cumulocity_agent_32
 
 10,320,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_Hardware"":{""model"":""%%"",""serialNumber"":""%%"",""revision"":""%%""}}"
 
-10,321,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED UNSIGNED UNSIGNED,"{""c8y_ModbusConfiguration"":{""pollingRate"":%%,""transmitRate"":%%,""protocol"":""TCP""}}"
+10,321,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED UNSIGNED UNSIGNED UNSIGNED,"{""c8y_ModbusConfiguration"":{""pollingRate"":%%,""transmitRate"":%%,""protocol"":""TCP"",""maxFieldbusVersion"":%%}}"
 
 10,322,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED STRING NUMBER,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_AnalogInput"",""c8y_AnalogInput"":{""%%"":{""value"":%%,""unit"":""V""}}}"
 
