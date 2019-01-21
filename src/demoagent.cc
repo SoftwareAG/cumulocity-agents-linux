@@ -8,6 +8,7 @@
 #include <srdevicepush.h>
 #include <srreporter.h>
 #include <srlogger.h>
+#include "configdb.h"
 #include "integrate.h"
 #include "helper.h"
 #include "module/vnchandler.h"
