@@ -73,8 +73,8 @@ local function setupCAN()
       cmd = string.format(fmt, ascii, canPort, serial)
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
-      cmd = string.format('cumulocity-agent.slcand %s %s',
-                          string.sub(serial, 6), name)
+      fmt = 'cumulocity-agent.slcand %s %s'
+      cmd = string.format(fmt, string.sub(serial, 6), canPort)
       os.execute(cmd)
       srInfo('canopen: ' .. cmd)
    end
