@@ -10,4 +10,4 @@ local output = string.format("timestamp: %s, value: %s", time, tostring(value))
 
 print(output)
 
-return 0
+os.exit(0)
