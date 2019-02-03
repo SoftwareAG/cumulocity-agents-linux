@@ -18,4 +18,4 @@ output = output:sub(1, -2) --remove redundant last newline
 
 print(output)
 
-return 0
+os.exit(0)
