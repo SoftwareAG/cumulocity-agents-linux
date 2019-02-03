@@ -106,19 +106,6 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
-
-      --uncomment the following to add the hostname
-      --of the observer to the fragment's name
-
-      --add_observer_hostname=true,
-
-      --uncomment the following to define
-      --the alarm text in case of warning and critical alarms
-
-      -- alarmtext={
-      --    warning="Some text in case of warning alarm",
-      --    critical="Some text in case of critical alarm"
-      -- },
    },
 
    ["CumulocityApiTests"] = {
@@ -159,6 +146,17 @@ return {
          {use_as_timestamp=true, unit="ms"},
          {name="value"}
       },
-   }
+   },
+
+   -- for debugging
+   ["NoSeriesMeasurement"] = {
+      command="simulation/noSeriesMeasurement.lua",
+      params="",
+      use_exit_code=true,
+      alarmtext={
+         warning="Some Warning Alarm text",
+         critical="Some Critical Alarm text"
+      },
+   },
 
 }
