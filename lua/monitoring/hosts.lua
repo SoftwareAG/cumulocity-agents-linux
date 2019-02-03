@@ -9,7 +9,8 @@ return {
          "ProcessesCount",
          "SwapUsage",
          -- "ValueWithTimestampInSeconds",
-         -- "ValueWithTimestampInMilliseconds"
+         -- "ValueWithTimestampInMilliseconds",
+         -- "NoSeriesMeasurement",
       }
    },
 
