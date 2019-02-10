@@ -331,15 +331,27 @@ function monitor:new()
          end
 
          if exec_unit.use_exit_code then
-            private:sendExitCodeAndAlarms(
+            private:sendExitCodeAsMeasurement(
                   timestamp,
                   exit_code,
                   c8y_id,
                   fragment_name,
-                  type_name,
-                  "c8y_"..exec_unit.plugin.."Alarm", --alarm type
-                  private:getAlarmDescription(exec_unit_id, exit_code, output)
+                  type_name
                )
+
+            local alarm_type = "c8y_"..exec_unit.plugin.."Alarm"
+
+            if (exit_code >= 1) then
+               private:sendAlarm(
+                     timestamp,
+                     exit_code,
+                     c8y_id,
+                     alarm_type,
+                     private:getAlarmDescription(exec_unit_id, exit_code, output)
+                  )
+            elseif (exit_code == 0 and private.noDuplicateAlarms) then
+               private:resetAlarmState(c8y_id, alarm_type)
+            end
          end
       end
 
@@ -382,12 +394,8 @@ function monitor:new()
          end
       end
 
-      function private:sendExitCodeAndAlarms(timestamp, exit_code, c8y_id,
-         fragment_name, type_name, alarm_type, alarm_description)
-
-         -- states if the alarm was active before getting the last measurement
-         local was_alarm_active
-            = private:getAlarmStateAndToggle(c8y_id, alarm_type, exit_code)
+      function private:sendExitCodeAsMeasurement(timestamp, exit_code, c8y_id,
+         fragment_name, type_name)
 
          if timestamp then
             c8y:send(table.concat({
@@ -399,17 +407,6 @@ function monitor:new()
                   type_name
                }, ','), 0)
 
-            if (exit_code >= 1 and (not was_alarm_active
-               or not private.noDuplicateAlarms)) then
-
-               c8y:send(table.concat({
-                     exit_code == 1 and '348' or '349',
-                     timestamp,
-                     c8y_id,
-                     alarm_type,
-                     alarm_description
-                  }, ','), 1)
-            end
          else --no explicit timestamp
             c8y:send(table.concat({
                   '343',
@@ -418,17 +415,39 @@ function monitor:new()
                   exit_code,
                   type_name
                }, ','), 0)
+         end
+      end
 
-               if (exit_code >= 1 and (not was_alarm_active
-                  or not private.noDuplicateAlarms)) then
+      function private:sendAlarm(timestamp, exit_code, c8y_id, alarm_type,
+         alarm_description)
 
-               c8y:send(table.concat({
-                     exit_code == 1 and '344' or '345',
-                     c8y_id,
-                     alarm_type,
-                     alarm_description
-                  }, ','), 1)
+         if (private.noDuplicateAlarms) then
+            -- states if the alarm was active before getting the last measurement
+            local was_alarm_active = private:getAlarmState(c8y_id, alarm_type)
+
+            if was_alarm_active then
+                return -- do not send the alarm
+            else
+               private:activateAlarm(c8y_id, alarm_type)
             end
+         end
+
+         if timestamp then
+            c8y:send(table.concat({
+                  exit_code == 1 and '348' or '349',
+                  timestamp,
+                  c8y_id,
+                  alarm_type,
+                  alarm_description
+               }, ','), 1)
+
+         else --no explicit timestamp
+            c8y:send(table.concat({
+                  exit_code == 1 and '344' or '345',
+                  c8y_id,
+                  alarm_type,
+                  alarm_description
+               }, ','), 1)
          end
       end
 
@@ -436,21 +455,20 @@ function monitor:new()
          local plugin_id = private.execTable[exec_unit_id]["plugin"]
          local plugin_tbl = private.pluginsTable[plugin_id]
 
-         if not output and not plugin_tbl.alarmtext then
-            if (exit_code == 1) then
-               return "WARNING returned by "..plugin_id
-                  .." plugin. Output is not available."
-            elseif (exit_code > 1)  then
-               return "CRITICAL returned by "..plugin_id
-                  .." plugin. Output is not available."
-            end
-         end
-
          if plugin_tbl.alarmtext then
             if (exit_code == 1) then
                return plugin_tbl.alarmtext["warning"] or ""
             elseif (exit_code > 1) then
                return plugin_tbl.alarmtext["critical"] or ""
+            end
+
+         elseif (not output or string.len(output) == 0) then
+            if (exit_code == 1) then
+               return "Plugin "..plugin_id
+                  .." returned WARNING. Output is not available."
+            elseif (exit_code > 1)  then
+               return "Plugin "..plugin_id
+                  .." returned CRITICAL. Output is not available."
             end
          end
 
@@ -462,27 +480,28 @@ function monitor:new()
          return default
       end
 
-      function private:getAlarmStateAndToggle(c8y_id, alarm_type, exit_code)
+      function private:resetAlarmState(c8y_id, alarm_type)
          local alarms = private.activeAlarmsTable
-         local was_alarm_active = false
 
-         if (alarms.c8y_id ~= nil) then
-            if (alarms.c8y_id[alarm_type] ~= nil) then
-               if (alarms.c8y_id[alarm_type] == true) then
-                  was_alarm_active = true
-                  if (exit_code == 0) then
-                     alarms.c8y_id[alarm_type] = false --toggle the state
-                  end
-               end
-            else
-               alarms.c8y_id[alarm_type] = true
-            end
-         else
+         if alarms.c8y_id and alarms.c8y_id[alarm_type] then
+               alarms.c8y_id[alarm_type] = false
+         end
+      end
+
+      function private:activateAlarm(c8y_id, alarm_type)
+         local alarms = private.activeAlarmsTable
+
+         if not alarms.c8y_id then
             alarms.c8y_id = {}
-            alarms.c8y_id[alarm_type] = true
          end
 
-         return was_alarm_active
+         alarms.c8y_id[alarm_type] = true
+      end
+
+      function private:getAlarmState(c8y_id, alarm_type)
+         local alarms = private.activeAlarmsTable
+
+         return alarms.c8y_id and alarms.c8y_id[alarm_type]
       end
 
    private:initialize()
