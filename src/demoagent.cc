@@ -168,7 +168,12 @@ static string getDeviceID(ConfigDB &cdb)
     s = cdb.get("id");
     if (isValid(s))
             return s;
-
+    // Virtual Machine
+    s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
+    if (isValid(s))
+    {
+        return s;
+    }
     // Devices with BIOS
     s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_serial");
     if (isValid(s))
@@ -179,13 +184,6 @@ static string getDeviceID(ConfigDB &cdb)
     // Raspberry PI
     s = searchTextForSerial("/proc/cpuinfo");
     if (!s.empty())
-    {
-        return s;
-    }
-
-    // Virtual Machine
-    s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
-    if (isValid(s))
     {
         return s;
     }
