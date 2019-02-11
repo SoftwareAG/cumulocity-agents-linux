@@ -158,6 +158,13 @@ static string getDeviceID()
         return any_of(id.begin(), id.end(), ::isdigit) && id.find_first_not_of("0") != string::npos;
     };
 
+    // Virtual Machine
+    s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
+    if (isValid(s))
+    {
+        return s;
+    }
+
     // Devices with BIOS
     s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_serial");
     if (isValid(s))
@@ -168,13 +175,6 @@ static string getDeviceID()
     // Raspberry PI
     s = searchTextForSerial("/proc/cpuinfo");
     if (!s.empty())
-    {
-        return s;
-    }
-
-    // Virtual Machine
-    s = searchPathForDeviceID("/sys/devices/virtual/dmi/id/product_uuid");
-    if (isValid(s))
     {
         return s;
     }
