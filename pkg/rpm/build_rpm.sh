@@ -1,7 +1,7 @@
 #!/bin/bash
 
 PACKAGE_BASE=/var/tmp/c8y
-SRC_ROOT=/home/centos/cumulocity-agents-linux
+SRC_ROOT=$(pwd)
 TARGET_BASE=/usr/share/cumulocity-agent
 DATAPATH=/var/lib/cumulocity-agent
 PREFIX=/usr
