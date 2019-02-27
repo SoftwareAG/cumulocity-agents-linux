@@ -1,4 +1,4 @@
-cumulocity_agent_33
+cumulocity_agent_35
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -201,7 +201,8 @@ cumulocity_agent_33
 11,869,$.operations,$.c8y_SetRegister,$.id,$.c8y_SetRegister.nodeId,$.c8y_SetRegister.index,$.c8y_SetRegister.subIndex,$.c8y_SetRegister.value,$.c8y_SetRegister.dataType,$.deviceId
 11,870,$.alarms,$.c8y_CANopenAvailabilityAlarm,$.id,$.type,$.c8y_CANopenAvailabilityAlarm.nodeId,$.c8y_CANopenAvailabilityAlarm.index,$.c8y_CANopenAvailabilityAlarm.subIndex,$.source.id
 11,871,$.operations,$.c8y_CANopenRemoveDevice,$.id,$.c8y_CANopenRemoveDevice.nodeId,$.c8y_CANopenRemoveDevice.id,$.deviceId
-11,872,$.operations,$.c8y_Command,$.id,$.c8y_Command.text,$.deviceId
+11,872,$.operations,$.c8y_Command,$.id,$.deviceId,$.c8y_Command.text
 11,873,,$.c8y_Command,$.id,$.deviceId,$.c8y_Command.text
 
 # 874 out of order
+11,875,$.operations,$.c8y_Command,$.id,$.c8y_Command.text,$.deviceId
