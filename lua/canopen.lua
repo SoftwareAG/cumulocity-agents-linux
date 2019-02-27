@@ -327,20 +327,20 @@ function poll()
       for _, reg in ipairs(cotype[MyTyp][2]) do
          local key = reg[1] * 256 + reg[2]
          local val = Vals[key]
-         if val then
-            local event, measurement, status = reg[6], reg[7], reg[8]
-            if status then table.insert(tbl['101'], val) end
-            if Flags[key] then
-               if reg[5] then
-                  local alarm, mask = unpack(reg[5])
-                  local value = tonumber(val)
-                  if bitAnd(value, mask) ~= 0 then tbl[alarm] = {}
-                  else clearAlarm = true
-                  end
+         if not val then return end
+
+         local event, measurement, status = reg[6], reg[7], reg[8]
+         if status then table.insert(tbl['101'], val) end
+         if Flags[key] then
+            if reg[5] then
+               local alarm, mask = unpack(reg[5])
+               local value = tonumber(val)
+               if bitAnd(value, mask) ~= 0 then tbl[alarm] = {}
+               else clearAlarm = true
                end
-               if event then tbl[event] = {val} end
-               Flags[key] = false
             end
+            if event then tbl[event] = {val} end
+            Flags[key] = false
          end
       end
       if clearAlarm then
