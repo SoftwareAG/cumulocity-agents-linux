@@ -84,10 +84,11 @@ int main(int argc, char *argv[argc])
         BOOL_T err = CO_FALSE;
 
         lNodeId = atoi(argv[1]);
+        int port = atoi(argv[2]);
         ret = iniDevice();
         PRINTRET("iniDevice: 0x%02x\n", (int)ret);
 
-        sprintf(GL_DRV_ARRAY(can_device), "/dev/can%d", 0);
+        sprintf(GL_DRV_ARRAY(can_device), "/dev/can%d", port);
 
         ret = initCan(CAN_START_BIT_RATE);
         PRINTRET("initCan: 0x%02x\n", (int)ret);
