@@ -121,6 +121,7 @@ function init()
    c8y:addMsgHandler(869, 'setRegister')
    c8y:addMsgHandler(870, 'clearAlarm')
    c8y:addMsgHandler(871, 'setOp')
+   c8y:addMsgHandler(872, 'executeShell')
    c8y:addMsgHandler(873, 'executeShell')
    local transmitRate = tonumber(cdb:get(keyTransmitRate)) or 60
    local pollingRate = tonumber(cdb:get(keyPollingRate)) or 15
