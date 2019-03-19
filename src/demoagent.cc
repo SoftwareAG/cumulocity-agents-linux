@@ -12,6 +12,7 @@
 #include "integrate.h"
 #include "helper.h"
 #include "module/vnchandler.h"
+#include "module/softwarehandler.h"
 #include "luamanager.h"
 
 #define Q(x) ",\"\""#x"\"\""
@@ -21,7 +22,7 @@ using namespace std;
 
 const char *ops = ",\"" Q2(c8y_Command) Q(c8y_ModbusDevice) Q(c8y_SetRegister)
         Q(c8y_ModbusConfiguration) Q(c8y_SerialConfiguration) Q(c8y_SetCoil)
-        Q(c8y_LogfileRequest) Q(c8y_RemoteAccessConnect)
+        Q(c8y_LogfileRequest) Q(c8y_RemoteAccessConnect) Q(c8y_SoftwareList)
         Q(c8y_CANopenAddDevice) Q(c8y_CANopenRemoveDevice)
         Q(c8y_CANopenConfiguration) "\"";
 
@@ -95,6 +96,7 @@ int main()
     loadLuaPlugins(lua, cdb);
 
     VncHandler vnc(agent);
+    SoftwareHandler software(agent, cdb);
     Helper helper(agent, wdt);
     SrReporter *rpt = nullptr;
     SrDevicePush *push = nullptr;

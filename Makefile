@@ -25,7 +25,7 @@ CPPFLAGS+=-I$(C8Y_LIB_PATH)/include $(shell pkg-config --cflags lua)\
 		  -DPKG_DIR='"$(PKG_DIR)"'
 CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11 -MMD
 LDFLAGS:=-Llib
-LDLIBS:=-lsera $(shell pkg-config --libs lua) -pthread
+LDLIBS:=-lsera $(shell pkg-config --libs lua) -pthread -lcurl
 
 VNC_CPPFLAGS+=$(shell pkg-config --cflags libcurl)
 CFLAGS+=-Wall -pedantic -Wextra -MMD
