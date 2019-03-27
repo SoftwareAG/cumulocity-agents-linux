@@ -55,6 +55,7 @@ SoftwareHandler::SoftwareHandler(SrAgent &agent, ConfigDB &configDB): cdb(config
         // host = "http://xinlei.staging-latest.c8y.io";
         host = cdb.get("edge.server");
         cred = "edge/myAdmin:myAdmin@123";
+        cred = "xinlei/myAdmin:myAdmin@123";
         userpass = agent.tenant() + "/myAdmin:myAdmin@123";
         agent.addMsgHandler(837, this);
         agent.addMsgHandler(814, this);
@@ -133,7 +134,8 @@ SoftwareList SoftwareHandler::getSoftwareList(std::string &host)
 {
         SoftwareList list;
         data.clear();
-        string uri = host + "/application/applicationsByOwner/edge";
+        string uri = host + "/application/applicationsByOwner/edge?pageSize=100";
+        uri = host + "/application/applicationsByOwner/xinlei?pageSize=100";
         curl_easy_setopt(curl, CURLOPT_URL, uri.c_str());
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
@@ -174,7 +176,7 @@ CURLcode SoftwareHandler::deleteSoftware(const string &link)
 
 CURLcode SoftwareHandler::installSoftware(const string &link, const string &name)
 {
-        string filename = cdb.get("datapath") + "/" + name + ".zip";
+        string filename = cdb.get("datapath") + "/" + name;
         ofstream out(filename);
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
         curl_easy_setopt(curl, CURLOPT_HTTPGET, 1);
@@ -193,10 +195,15 @@ CURLcode SoftwareHandler::installSoftware(const string &link, const string &name
                 return rc;
         }
 
+        string type = name.rfind(".mon") == string::npos ? "HOSTED" : "APAMA_CEP_RULE";
+        string key;
+        copy_if(name.begin(), name.end(), back_inserter(key), ::isalnum);
+        transform(key.begin(), key.end(), key.begin(), ::tolower);
+        srDebug("key = " + key);
         string url = host + "/application/applications";
-        string body = "{\"manifest\":null,\"resourcesUrl\":\"/\",\"type\":\"HOSTED\",";
-        body += "\"name\":\"" + name + "\",\"key\":\"" + name + "\",\"contextPath\":\"";
-        body += name + "\"}";
+        string body = "{\"manifest\":null,\"resourcesUrl\":\"/\",\"type\":\"" + type + "\",";
+        body += "\"name\":\"" + name + "\",\"key\":\"" + key + "\",\"contextPath\":\"";
+        body += key + "\"}";
         data.clear();
         curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "POST");
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
