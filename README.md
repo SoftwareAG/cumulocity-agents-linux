@@ -20,6 +20,8 @@ Cumulocity Linux agent is a generic agent for connecting Linux-powered devices t
     - libcurl (>= 7.26.0)
 
     - Systemd (optional, for automatically starting the agent on boot)
+    
+    - LuaSocket (optional, only for the use of CANopen)
 
 * Build the [Cumulocity C++ library](https://bitbucket.org/m2m/cumulocity-sdk-c) with the default *Makefile* and *common.mk* as *init.mk*.
 * Download the agent source code:
@@ -119,11 +121,12 @@ There is also a CANopen simulator included in the repo for testing purpose. To b
 ```bash
 $ cd tools/canopen_simulator
 $ make
-$ ./c8y_canopen_simulator 5
+$ ./c8y_canopen_simulator 5 0
 ```
 
-Note 5 is the CANopen Node ID that you want the simulator to run with. The simulator is automatically connected to
-SocketCAN interface `can0`, make sure that you have a proper can0 CAN interface, or use the default CANopen settings
+Note 5 is the CANopen Node ID that you want the simulator to run with, and 0 is the CAN interface number, i.e., can0. 
+In this example, the simulator is automatically connected to SocketCAN interface `can0`, 
+make sure that you have a proper can0 CAN interface, or use the default CANopen settings
 in the Linux Agent to have the agent creates a vcan can0 interface for you.
 
 ### FAQ ###
