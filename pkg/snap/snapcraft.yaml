@@ -1,10 +1,9 @@
 name: cumulocity-agent
 version: 2.8
+confinement: devmode
 grade: stable
 summary: Cumulocity Linux agent
 description: Generic Linux agent for Cumulocity IoT integration.
-
-confinement: devmode
 
 apps:
   cumulocity-agent:

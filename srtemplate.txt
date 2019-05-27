@@ -109,7 +109,6 @@ cumulocity_agent_36
 10,352,POST,/inventory/managedObjects/%%/childDevices,application/json,,%%,UNSIGNED UNSIGNED,"{""managedObject"":{""id"":""%%""}}"
 
 
-
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
 11,802,,$.deviceId,$.id,$.status
