@@ -81,7 +81,7 @@ CANopen is composed of two parts. A Lua plugin, which is included into the agent
 get CANopen support, you would also need to build the Cumulocity CANopen service, which is a C program based on the
 CANopen library and SocketCAN connector from Port Automation.
 
-The CANopen library and SocketCAN connector is commercially licensed by Port, and are not included in the repo. You
+The CANopen library and SocketCAN connector is commercially licensed by [Port](https://www.port.de/en/products/canopen/software.html), and are not included in the repo. You
 would need to get them from Port if you want to build the Cumulocity CANopen service.
 
 Assume you have the CANopen library and SocketCAN connector available, you need to create a directory `ext/port` in the
