@@ -1,5 +1,5 @@
 name: cumulocity-agent
-version: 2.1.5
+version: 2.1.6
 confinement: devmode
 grade: stable
 summary: Cumulocity Linux agent

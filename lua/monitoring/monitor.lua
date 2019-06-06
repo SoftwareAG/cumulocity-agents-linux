@@ -17,6 +17,7 @@ function monitor:new()
       private.hostName = nil
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
+      private.debugLogLevelVerbose = nil
 
       private.hostPlaceholder = nil
       private.tenantPlaceholder = nil
@@ -39,6 +40,10 @@ function monitor:new()
 
          private.noDuplicateAlarms =
             cdb:get('monitoring.alarms.no_duplicates') == 'true'
+            and true or false
+
+         private.debugLogLevelVerbose =
+            cdb:get('monitoring.log.level.debug.verbose') == 'true'
             and true or false
 
          if not private:fileExists(private.pluginsFile) then
@@ -250,7 +255,13 @@ function monitor:new()
       end
 
       function private:runExecUnit(exec_unit_id)
+         local plugin_id = private.execTable[exec_unit_id]["plugin"]
          local command = private.execTable[exec_unit_id]["final_command"]
+
+         if private.debugLogLevelVerbose then
+            srDebug("MONITORING Executing plugin: "..plugin_id)
+            srDebug("MONITORING Command: "..command)
+         end
 
          local file = io.popen(command)
          local output = file:read("*a")
@@ -260,6 +271,11 @@ function monitor:new()
          local exit_code = tonumber(output:sub(-2, -2))
          --remove exit code and redundant \n
          output = output:sub(1, -4)
+
+         if private.debugLogLevelVerbose then
+            srDebug("MONITORING Output: "..output)
+            srDebug("MONITORING Exit code: "..exit_code)
+         end
 
          return output, exit_code
       end

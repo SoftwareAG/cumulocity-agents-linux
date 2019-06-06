@@ -1,4 +1,4 @@
-cumulocity-agent_2.1.5
+cumulocity-agent_2.1.6
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 

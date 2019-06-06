@@ -1,5 +1,5 @@
 Source: cumulocity-agent
-Version: 2.1.5
+Version: 2.1.6
 Priority: optional
 Section: embedded
 Maintainer: Cumulocity <support@cumulocity.com>
