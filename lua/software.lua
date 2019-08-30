@@ -1,6 +1,6 @@
 local tbl = {}
 local agentName = "cumulocity-agent"
-local agentVersion = '2.1.6'
+local agentVersion = '2.1.7'
 local agentUrl = ''
 
 function init()

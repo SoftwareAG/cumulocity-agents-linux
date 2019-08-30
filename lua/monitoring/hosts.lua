@@ -11,6 +11,7 @@ return {
          -- "ValueWithTimestampInSeconds",
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
+         -- "TestPluginsTimeout",
       }
    },
 

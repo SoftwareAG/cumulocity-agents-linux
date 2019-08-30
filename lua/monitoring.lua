@@ -6,9 +6,13 @@ local monitor = monitor:new()
 local isError = false
 
 function sendMonitorData()
-   local interval = cdb:get('monitoring.interval')
+   local interval = tonumber(cdb:get('monitoring.interval'))
+   if not interval or interval <= 0 then
+      return
+   end
+
    local current_time = os.time()
-   if interval == 0 or t0 + interval > current_time or isError then
+   if t0 + interval > current_time or isError then
       return
    end
    t0 = current_time

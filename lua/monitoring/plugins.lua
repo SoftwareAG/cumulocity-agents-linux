@@ -159,4 +159,15 @@ return {
       },
    },
 
+   -- for debugging
+   ["TestPluginsTimeout"] = {
+      command="simulation/suspending.lua",
+      params="",
+      use_exit_code=true,
+      alarmtext={
+         warning="Some Warning Alarm text",
+         critical="Some Critical Alarm text"
+      },
+   },
+
 }

@@ -18,6 +18,7 @@ function monitor:new()
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.debugLogLevelVerbose = nil
+      private.pluginsTimeout = nil
 
       private.hostPlaceholder = nil
       private.tenantPlaceholder = nil
@@ -44,6 +45,15 @@ function monitor:new()
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
+            and true or false
+
+         private.pluginsTimeout = tonumber(cdb:get('monitoring.plugins.timeout'))
+         if private.pluginsTimeout <= 0 then
+            private.pluginsTimeout = nil
+         end
+
+         private.pluginsTimeout =
+            cdb:get('monitoring.plugins.timeout')
             and true or false
 
          if not private:fileExists(private.pluginsFile) then
@@ -214,10 +224,11 @@ function monitor:new()
       end
 
       function private:compileFinalCommand(host_id, plugin_id, exec_unit_id)
+         local timeout = private.pluginsTimeout
          local plugin_tbl = private.pluginsTable[plugin_id]
          local cwp --command with path
-         local cwpap --command with path and parameters
-         local fc --final command with path, params and exit code
+         local cwtpap --command with timeout, path and parameters
+         local fc --final command with timeout, path, params and exit code
          local params = plugin_tbl.params
 
          for i, value in ipairs(private.pluginsPath) do
@@ -245,13 +256,17 @@ function monitor:new()
          end
 
          if params then
-            cwpap = cwp.." "..params
+            cwtpap = cwp.." "..params
          else
-            cwpap = cwp
+            cwtpap = cwp
          end
 
-         fc = cwpap.." 2>&1; echo $?"
-         return cwpap, fc
+         if timeout then
+            cwtpap = string.format("timeout %d %s", timeout, cwtpap)
+         end
+
+         fc = cwtpap.." 2>&1; echo $?"
+         return cwtpap, fc
       end
 
       function private:runExecUnit(exec_unit_id)
