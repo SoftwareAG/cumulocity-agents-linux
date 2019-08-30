@@ -52,10 +52,6 @@ function monitor:new()
             private.pluginsTimeout = nil
          end
 
-         private.pluginsTimeout =
-            cdb:get('monitoring.plugins.timeout')
-            and true or false
-
          if not private:fileExists(private.pluginsFile) then
             private.isInitError = true
             srError("MONITORING File with plugins table is not accessible")

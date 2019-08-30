@@ -166,7 +166,7 @@ return {
       use_exit_code=true,
       alarmtext={
          warning="Some Warning Alarm text",
-         critical="Some Critical Alarm text"
+         critical="Plugin's timeout expired"
       },
    },
 
