@@ -79,7 +79,7 @@ cumulocity_agent_35
 
 10,338,POST,/measurement/measurements,application/json,,%%,NOW UNSIGNED STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_ReactTime"",""c8y_ReactTime"":{""duration"":{""value"":%%,""unit"":""s""}}}"
 
-# Monitoring extension related
+# Monitoring
 10,339,GET,/identity/externalIds/c8y_Host/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
 10,340,POST,/inventory/managedObjects,application/json,application/json,%%,STRING UNSIGNED,"{""name"":""%%"",""type"":""c8y_MonitoredHost"",""c8y_IsDevice"":{},""c8y_IsMonitoredHost"":{},""c8y_RequiredAvailability"":{""responseInterval"":%%}}"
@@ -94,9 +94,24 @@ cumulocity_agent_35
 
 10,345,POST,/alarm/alarms,application/json,,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
 
+# CANopen
 10,346,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED UNSIGNED UNSIGNED UNSIGNED,"{""c8y_CANopenConfiguration"":{""pollingRate"":%%,""transmitRate"":%%,""baudRate"":%%}}"
 
 10,347,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED UNSIGNED STRING UNSIGNED STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""c8y_CANopenAvailabilityAlarm"",""c8y_CANopenAvailabilityAlarm"":{""nodeId"":%%,""index"":""%%"",""subIndex"":%%},""status"":""ACTIVE"",""severity"":""MAJOR"",""text"":""%%""}"
+
+# Monitoring
+10,348,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,DATE UNSIGNED STRING STRING NUMBER STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""%%"":{""value"":%%,""unit"":""%%""}},""type"":""%%""}"
+
+10,349,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,DATE UNSIGNED STRING NUMBER STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""exit_code"":{""value"":%%}},""type"":""%%""}"
+
+10,350,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
+
+10,351,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
+
+10,352,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_SoftwareList"":[{""name"":""%%"",""version"":""%%"",""url"":""%%""}]}"
+
+10,353,POST,/inventory/managedObjects/%%/childDevices,application/json,,%%,UNSIGNED UNSIGNED,"{""managedObject"":{""id"":""%%""}}"
+
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
