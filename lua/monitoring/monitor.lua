@@ -143,7 +143,7 @@ function monitor:new()
                if not ID then return nil end
                local msg
                if host_tbl.is_child_device then
-                  msg = string.format("341,%s,%s\n351,%s,%s",
+                  msg = string.format("341,%s,%s\n353,%s,%s",
                      ID, host_id, c8y.ID, ID)
                else
                   msg = string.format("341,%s,%s", ID, host_id)
@@ -334,7 +334,7 @@ function monitor:new()
             if ms_tbl[i] and series_id then
                if timestamp then
                   c8y:send(table.concat({
-                        '346',
+                        '348',
                         timestamp,
                         c8y_id,
                         fragment_name,
@@ -426,7 +426,7 @@ function monitor:new()
 
          if timestamp then
             c8y:send(table.concat({
-                  '347',
+                  '349',
                   timestamp,
                   c8y_id,
                   fragment_name,
@@ -461,7 +461,7 @@ function monitor:new()
 
          if timestamp then
             c8y:send(table.concat({
-                  exit_code == 1 and '348' or '349',
+                  exit_code == 1 and '350' or '351',
                   timestamp,
                   c8y_id,
                   alarm_type,

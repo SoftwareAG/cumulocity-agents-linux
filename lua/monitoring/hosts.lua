@@ -8,6 +8,8 @@ return {
          "SystemUptime",
          "ProcessesCount",
          "SwapUsage",
+
+         -- for debugging
          -- "ValueWithTimestampInSeconds",
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
