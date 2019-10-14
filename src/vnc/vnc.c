@@ -265,6 +265,7 @@ static int vnc_connection_new(struct vnc_t *vnc, struct cp_t *cp)
     vnc->lobuf[i] = buf;
     vnc->cubuf[i] = buf + BUF_NSIZE;
     vnc->fdmax = _max(vnc->fdmax, _max(sock, fd));
+    vnc->lonum[i] = vnc->cunum[i] = vnc->wsnum[i] = 0;
     FD_SET(fd, &vnc->rdfds);
     FD_SET(sock, &vnc->rdfds);
     syslog(LOG_NOTICE, "vnc_new %d: %s:%d <=> %s%s\n", i, cp->ip, cp->port, cp->host, cp->end);
@@ -377,6 +378,10 @@ static int ts_recv(int fd, char *buf, size_t count)
         }
 
         return ptr - buf + c;
+    } else if (c == 0)
+    { // When a stream socket peer has performed an orderly shutdown
+        syslog(LOG_INFO, "ts_recv: Connection closed\n");
+        return -1;
     } else
     {
         syslog(LOG_ERR, "ts_recv: %s\n", strerror(errno));
@@ -417,6 +422,10 @@ static int ws_recv(CURL *curl, char *buf, size_t count, uint64_t *wsnum)
                                 return -1;
                         else if (rc == CURLE_AGAIN)
                                 return 0;
+                        else if (n == 0) {
+                                syslog(LOG_INFO, "ws_rh[%zu]: Connection closed\n", n);
+                                return -1;
+                        }
                         const char *msg = curl_easy_strerror(rc);
                         syslog(LOG_ERR, "ws_rh[%zu]: %s\n", n, msg);
                         return -1;
