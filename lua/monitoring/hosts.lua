@@ -8,6 +8,12 @@ return {
          "SystemUptime",
          "ProcessesCount",
          "SwapUsage",
+
+         -- for debugging
+         -- "ValueWithTimestampInSeconds",
+         -- "ValueWithTimestampInMilliseconds",
+         -- "NoSeriesMeasurement",
+         -- "TestPluginsTimeout",
       }
    },
 
@@ -15,7 +21,8 @@ return {
    -- ["www.google.com"] = {
    --    plugins_to_run={
    --       "ContentAvailability",
-   --    }
+   --    },
+   --    is_child_device=true,
    -- },
 
 }
