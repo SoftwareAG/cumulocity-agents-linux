@@ -9,6 +9,7 @@ Cumulocity Linux agent is a generic agent for connecting Linux-powered devices t
 * Send log files (dmesg, syslog, journald, agent log) to Cumulocity on demand.
 * Modbus-TCP and Modbus-RTU
 * CANopen (using SocketCAN interface)
+* Monitoring
 
 ### How to build the agent? ###
 
@@ -20,7 +21,7 @@ Cumulocity Linux agent is a generic agent for connecting Linux-powered devices t
     - libcurl (>= 7.26.0)
 
     - Systemd (optional, for automatically starting the agent on boot)
-    
+
     - LuaSocket (optional, only for the use of CANopen)
 
 * Build the [Cumulocity C++ library](https://bitbucket.org/m2m/cumulocity-sdk-c) with the default *Makefile* and *common.mk* as *init.mk*.
@@ -124,10 +125,19 @@ $ make
 $ ./c8y_canopen_simulator 5 0
 ```
 
-Note 5 is the CANopen Node ID that you want the simulator to run with, and 0 is the CAN interface number, i.e., can0. 
-In this example, the simulator is automatically connected to SocketCAN interface `can0`, 
+Note 5 is the CANopen Node ID that you want the simulator to run with, and 0 is the CAN interface number, i.e., can0.
+In this example, the simulator is automatically connected to SocketCAN interface `can0`,
 make sure that you have a proper can0 CAN interface, or use the default CANopen settings
 in the Linux Agent to have the agent creates a vcan can0 interface for you.
+
+#### How to enable monitoring extension ####
+
+Add `monitoring` to the following line in cumulocity-agent.conf:
+```
+lua.plugins=system,logview,shell,version,monitoring
+```
+
+
 
 ### FAQ ###
 
@@ -144,7 +154,7 @@ sudo make uninstall
 After building of the agent run:
 
 ```bash
-sudo make rpm -v 0.1 # replace 0.1 with required version number
+sudo make rpm args='-r 1.1' # replace 1.1 with required rpm release number
 ```
 The RPM is saved in folder build/rpm.
 
@@ -169,4 +179,3 @@ The agent starts automatically after installation, also at every time the machin
 
 NOTE: packaging requires snapcraft >= 2.10 because lower versions do not support the confinement property, which is
 required for packaging the agent as a snap.
-

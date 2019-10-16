@@ -57,7 +57,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /cep/health -w 5 -c 10 -f follow -s UP",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -68,7 +68,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/devicemanagement/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -79,7 +79,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/cockpit/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -90,7 +90,7 @@ return {
       command="check_http",
       params="-j GET -H %H% -u /apps/administration/index.html -w 5 -c 10 -S -f follow",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -101,7 +101,7 @@ return {
       command="check_http",
       params="-w 5 -c 10 --ssl -H %H%",
       use_exit_code=true,
-      regex="time=(%d+.?%d-)s.+size=(%d+)B",
+      regex="time=(%d+%.?%d-)s.+size=(%d+)B",
       series={
          {name="response_time", unit="s"},
          {name="size", unit="B"},
@@ -114,7 +114,7 @@ return {
       use_exit_code=true,
       regex="Ran %d+ tests in (%d+%.?%d-)s",
       series={
-         {name="time", unit="s"},
+         {name="execution_time", unit="s"},
       },
    },
 
@@ -124,7 +124,49 @@ return {
       use_exit_code=true,
       regex="Average response time: (%d+%.?%d-)ms",
       series={
-         {name="CumulocityApiResponse", unit="ms"},
+         {name="response_time", unit="ms"},
+      },
+   },
+
+   -- for debugging
+   ["ValueWithTimestampInSeconds"] = {
+      command="simulation/valueWithTimestamp_sec.lua",
+      regex="(%d+%.?%d-)%D+(%d+%.?%d-)%D-$",
+      series={
+         {use_as_timestamp=true, unit="s"},
+         {name="value"}
+      },
+   },
+
+   -- for debugging
+   ["ValueWithTimestampInMilliseconds"] = {
+      command="simulation/valueWithTimestamp_ms.lua",
+      regex="(%d+%.?%d-)%D+(%d+%.?%d-)%D-$",
+      series={
+         {use_as_timestamp=true, unit="ms"},
+         {name="value"}
+      },
+   },
+
+   -- for debugging
+   ["NoSeriesMeasurement"] = {
+      command="simulation/noSeriesMeasurement.lua",
+      params="",
+      use_exit_code=true,
+      alarmtext={
+         warning="Some Warning Alarm text",
+         critical="Some Critical Alarm text"
+      },
+   },
+
+   -- for debugging
+   ["TestPluginsTimeout"] = {
+      command="simulation/suspending.lua",
+      params="",
+      use_exit_code=true,
+      alarmtext={
+         warning="Some Warning Alarm text",
+         critical="Plugin's timeout expired"
       },
    },
 
