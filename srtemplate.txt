@@ -90,9 +90,9 @@ cumulocity-agent_4.0.0
 
 10,343,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,NOW UNSIGNED STRING NUMBER STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""exit_code"":{""value"":%%}},""type"":""%%""}"
 
-10,344,POST,/alarm/alarms,application/json,,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
+10,344,POST,/alarm/alarms,application/json,application/json,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
 
-10,345,POST,/alarm/alarms,application/json,,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
+10,345,POST,/alarm/alarms,application/json,application/json,%%,NOW UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
 
 # CANopen
 10,346,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED UNSIGNED UNSIGNED UNSIGNED,"{""c8y_CANopenConfiguration"":{""pollingRate"":%%,""transmitRate"":%%,""baudRate"":%%}}"
@@ -104,9 +104,9 @@ cumulocity-agent_4.0.0
 
 10,349,POST,/measurement/measurements,application/vnd.com.nsn.cumulocity.measurement+json,,%%,DATE UNSIGNED STRING NUMBER STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""%%"":{""exit_code"":{""value"":%%}},""type"":""%%""}"
 
-10,350,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
+10,350,POST,/alarm/alarms,application/json,application/json,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""MINOR"",""text"":""%%""}"
 
-10,351,POST,/alarm/alarms,application/json,,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
+10,351,POST,/alarm/alarms,application/json,application/json,%%,DATE UNSIGNED STRING STRING,"{""time"":""%%"",""source"":{""id"":""%%""},""type"":""%%"",""status"":""ACTIVE"",""severity"":""CRITICAL"",""text"":""%%""}"
 
 10,352,PUT,/inventory/managedObjects/%%,application/json,,%%,UNSIGNED STRING STRING STRING,"{""c8y_SoftwareList"":[{""name"":""%%"",""version"":""%%"",""url"":""%%""}]}"
 
@@ -221,3 +221,5 @@ cumulocity-agent_4.0.0
 
 # 874 out of order
 11,875,$.operations,$.c8y_Command,$.id,$.c8y_Command.text,$.deviceId
+
+11,876,,$.severity,$.id
