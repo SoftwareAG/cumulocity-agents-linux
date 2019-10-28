@@ -162,14 +162,14 @@ static int ws_connect(CURL *curl, char *host, char *end, char *rest)
         return -1;
     }
 
-    for(size_t i = 3; i < sizeof(buf); i++) {
+    for(size_t i = 0; i < sizeof(buf); i++) {
         rc = curl_easy_recv(curl, &buf[i], 1, &n);
         if (n <= 0)
         {
             syslog(LOG_ERR, "ws_conn: %s\n", curl_easy_strerror(rc));
             return -1;
         }
-        if (buf[i] == '\n' && buf[i-1] == '\r' && buf[i-2] == '\n' && buf[i-3] == '\r') {
+        if (i > 2 && buf[i] == '\n' && buf[i-1] == '\r' && buf[i-2] == '\n' && buf[i-3] == '\r') {
             break;
         }
     }
