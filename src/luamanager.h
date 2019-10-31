@@ -1,5 +1,6 @@
 #ifndef LUAMANAGER_H
 #define LUAMANAGER_H
+#include <srnethttp.h>
 #include <srlogger.h>
 #include <srluapluginmanager.h>
 #include "configdb.h"
@@ -11,8 +12,10 @@ uint64_t bitAnd(uint64_t value, uint64_t mask);
 class LuaManager: public SrLuaPluginManager
 {
 public:
-        LuaManager(SrAgent &agent, ConfigDB &db): SrLuaPluginManager(agent),
-                                                  db(db) {}
+        LuaManager(SrAgent &agent, ConfigDB &db):
+                SrLuaPluginManager(agent),
+                http(agent.server() + "/s", agent.XID(), agent.auth()),
+                db(db) {}
         virtual ~LuaManager() {}
 
 protected:
@@ -52,8 +55,13 @@ protected:
                         .addFunction("addAddress", &ModbusModel::addAddress)
 #endif
                         .endClass();
+                        .deriveClass<SrNetHttp, SrNetInterface>("SrNetHttp")
+                        .addFunction("post", &SrNetHttp::post)
+                        .endClass();
                 push(L, &db);
                 lua_setglobal(L, "cdb");
+                push(L, &http);
+                lua_setglobal(L, "http");
 #ifdef PLUGIN_MODBUS
                 push(L, &mb);
                 lua_setglobal(L, "MB");
@@ -64,6 +72,7 @@ private:
         MBManager mb;
 #endif
         ConfigDB &db;
+        SrNetHttp http;
 };
 
 #endif /* LUAMANAGER_H */
