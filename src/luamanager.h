@@ -13,9 +13,8 @@ class LuaManager: public SrLuaPluginManager
 {
 public:
         LuaManager(SrAgent &agent, ConfigDB &db):
-                SrLuaPluginManager(agent),
-                http(agent.server() + "/s", agent.XID(), agent.auth()),
-                db(db) {}
+                SrLuaPluginManager(agent), db(db),
+                http(agent.server() + "/s", agent.XID(), agent.auth()) {}
         virtual ~LuaManager() {}
 
 protected:
@@ -54,7 +53,7 @@ protected:
                         .beginClass<ModbusModel>("ModbusModel")
                         .addFunction("addAddress", &ModbusModel::addAddress)
 #endif
-                        .endClass();
+                        .endClass()
                         .deriveClass<SrNetHttp, SrNetInterface>("SrNetHttp")
                         .addFunction("post", &SrNetHttp::post)
                         .endClass();
