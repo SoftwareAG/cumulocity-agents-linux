@@ -32,6 +32,7 @@ local keySerBaud = 'modbus.serial.baud'
 local keySerData = 'modbus.serial.databits'
 local keySerPar = 'modbus.serial.parity'
 local keySerStop = 'modbus.serial.stopbits'
+local fpath = cdb:get("datapath") .. '/cumulocity-agent.conf'
 
 
 function addDevice(r)
@@ -73,6 +74,7 @@ function saveConfigure(r)
    if a and b then
       cdb:set(keyPollingRate, r:value(3))
       cdb:set(keyTransmitRate, r:value(4))
+      cdb:save(fpath)
       pollingRate, transmitRate = a, b
       timer0.interval, timer1.interval = pollingRate * 1000, transmitRate * 1000
       timer0:start()
@@ -94,6 +96,7 @@ function saveSerialConfiguration(r)
       cdb:set(keySerData, r:value(4))
       cdb:set(keySerPar, r:value(5))
       cdb:set(keySerStop, r:value(6))
+      cdb:save(fpath)
       serBaud, serData, serPar, serStop = baud, data, par, stop
       local obj = MB:newRTU(serPort, baud, par, data, stop)
       obj:setConf(serPort, baud, par, data, stop)

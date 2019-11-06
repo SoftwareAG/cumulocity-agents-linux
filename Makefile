@@ -122,7 +122,7 @@ $(BUILD_DIR)/%.o: %.c
 
 uninstall:
 	@rm -f $(PREFIX)/bin/srwatchdogd $(PREFIX)/bin/$(BIN)
-	@rm -rf $(PREFIX)/lib/libsera* $(PKG_DIR) /etc/cumulocity-agent.conf
+	@rm -rf $(PREFIX)/lib/libsera* $(PKG_DIR) /etc/cumulocity-agent.conf $(DATAPATH)/cumulocity-agent.conf
 	@rm -f /lib/systemd/system/cumulocity-agent.service
 
 clean:
