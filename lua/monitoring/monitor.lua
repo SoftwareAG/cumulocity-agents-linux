@@ -503,7 +503,7 @@ function monitor:new()
             --    }, ','), 1)
          end
 
-         local alarm_id = getAlarmId(http:response())
+         local alarm_id = private:getAlarmId(http:response())
          private:activateAlarm(c8y_id, alarm_type, alarm_id)
       end
 
