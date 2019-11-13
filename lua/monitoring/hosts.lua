@@ -13,6 +13,7 @@ return {
          -- "ValueWithTimestampInSeconds",
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
+         -- "NoSeriesMeasurementNALC",
          -- "TestPluginsTimeout",
       }
    },

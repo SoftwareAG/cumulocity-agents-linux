@@ -17,7 +17,7 @@ function monitor:new()
       private.hostName = nil
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
-      private.clearingAlarms = nil
+      private.clearingAlarmsGlobal = nil
       private.debugLogLevelVerbose = nil
       private.pluginsTimeout = nil
 
@@ -42,16 +42,15 @@ function monitor:new()
 
          private.noDuplicateAlarms =
             cdb:get('monitoring.alarms.no_duplicates') == 'true'
-            and true or false
+            or cdb:get('monitoring.alarms.clearing') == 'true'
+            and db:get('monitoring.alarms.no_duplicates') ~= 'false'
 
-         private.clearingAlarms =
+         private.clearingAlarmsGlobal =
             cdb:get('monitoring.alarms.clearing') == 'true'
             and private.noDuplicateAlarms
-            and true or false
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
-            and true or false
 
          private.pluginsTimeout = tonumber(cdb:get('monitoring.plugins.timeout'))
          if private.pluginsTimeout <= 0 then
@@ -214,7 +213,8 @@ function monitor:new()
 
          exec_unit.host = host_id
          exec_unit.plugin = plugin_id
-         exec_unit.use_exit_code = plugin_tbl.use_exit_code or false
+         exec_unit.use_exit_code = plugin_tbl.use_exit_code == true
+         exec_unit.plugin_alarms_clearing = plugin_tbl.no_alarms_clearing ~= true
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series or {}
 
@@ -383,7 +383,8 @@ function monitor:new()
                      private:getAlarmDescription(exec_unit_id, exit_code, output)
                   )
             elseif (exit_code == 0 and private.noDuplicateAlarms) then
-               private:resetAlarm(c8y_id, alarm_type)
+               private:resetAlarm(c8y_id, alarm_type,
+                  exec_unit.plugin_alarms_clearing)
             end
          end
       end
@@ -469,41 +470,20 @@ function monitor:new()
                   c8y_id,
                   alarm_type,
                   alarm_description
-               }, ',')) <= 0 then
-
-               --TODO modify, output warning or error
-               return nil
-            end
-
-            -- c8y:send(table.concat({
-            --       exit_code == 1 and '350' or '351',
-            --       timestamp,
-            --       c8y_id,
-            --       alarm_type,
-            --       alarm_description
-            --    }, ','), 1)
-
+               }, ',')) <= 0 then return end
          else --no explicit timestamp
-
             if http:post(table.concat({
                   exit_code == 1 and '344' or '345',
                   c8y_id,
                   alarm_type,
                   alarm_description
-               }, ',')) <= 0 then
-
-                  --TODO modify, output warning or error
-               return nil
-            end
-            -- c8y:send(table.concat({
-            --       exit_code == 1 and '344' or '345',
-            --       c8y_id,
-            --       alarm_type,
-            --       alarm_description
-            --    }, ','), 1)
+               }, ',')) <= 0 then return end
          end
 
          local alarm_id = private:getAlarmId(http:response())
+         if not alarm_id then
+            srWarning("MONITORING Could not retrieve alarm id of "..alarm_type)
+         end
          private:activateAlarm(c8y_id, alarm_type, alarm_id)
       end
 
@@ -536,15 +516,14 @@ function monitor:new()
          return default
       end
 
-      function private:resetAlarm(c8y_id, alarm_type)
+      function private:resetAlarm(c8y_id, alarm_type, plugin_alarms_clearing)
          local alarms = private.activeAlarmsTable
 
          if alarms.c8y_id and alarms.c8y_id[alarm_type] then
-            if private.clearingAlarms then
+            if private.clearingAlarmsGlobal and plugin_alarms_clearing then
                --clear the alarm with corresponding id
                c8y:send('313,'..alarms.c8y_id[alarm_type], 0)
             end
-            -- alarms.c8y_id[alarm_type] = false
             alarms.c8y_id[alarm_type] = nil
          end
       end
@@ -552,7 +531,7 @@ function monitor:new()
       function private:isAlarmActive(c8y_id, alarm_type)
          local alarms = private.activeAlarmsTable
 
-         return alarms.c8y_id and alarms.c8y_id[alarm_type] ~= nil
+         return alarms.c8y_id ~= nil and alarms.c8y_id[alarm_type] ~= nil
       end
 
       function private:getAlarmId(resp)
@@ -570,7 +549,6 @@ function monitor:new()
             alarms.c8y_id = {}
          end
 
-         -- alarms.c8y_id[alarm_type] = true
          alarms.c8y_id[alarm_type] = alarm_id
       end
 
