@@ -160,6 +160,19 @@ return {
    },
 
    -- for debugging
+   -- NALC = No ALarms Clearing
+   ["NoSeriesMeasurementNALC"] = {
+      command="simulation/noSeriesMeasurement.lua",
+      params="",
+      use_exit_code=true,
+      no_alarms_clearing=true,
+      alarmtext={
+         warning="Some Warning Alarm text",
+         critical="Some Critical Alarm text"
+      },
+   },
+
+   -- for debugging
    ["TestPluginsTimeout"] = {
       command="simulation/suspending.lua",
       params="",
