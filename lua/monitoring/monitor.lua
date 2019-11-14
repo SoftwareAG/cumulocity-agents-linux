@@ -569,16 +569,16 @@ function monitor:new()
 
          while true do
             require 'posix.poll'.poll(pipes, -1)
-            for fd in pairs(pipes) do
-               if pipes[fd].revents.HUP then
-                  private:processPipe(pipes[fd])
-                  pipes[fd].pipe:close()
+            for fd, pipe in pairs(pipes) do
+               if pipe.revents.HUP then
+                  private:processPipe(pipe)
+                  pipe["pipe"]:close()
                   pipes[fd] = nil
-               elseif pipes[fd].revents.ERR then
-                  local exec_unit_id = pipes[fd].exec_unit_id
+               elseif pipe.revents.ERR then
+                  local exec_unit_id = pipe.exec_unit_id
                   local plugin_id = private.execTable[exec_unit_id].plugin
                   srError("MONITORING Error condition in returned events for plugin: "..plugin_id)
-                  pipes[fd].pipe:close()
+                  pipe["pipe"]:close()
                   pipes[fd] = nil
                end
             end
@@ -591,7 +591,7 @@ function monitor:new()
       function private:populatePipeTable()
          local stdio = require "posix.stdio"
          local pipes = {}
-         for _exec_unit_id, exec_unit in pairs(private.execTable) do
+         for exec_unit_id, exec_unit in pairs(private.execTable) do
             local command = exec_unit.final_command
             local plugin_id = exec_unit.plugin
 
@@ -600,23 +600,23 @@ function monitor:new()
                srDebug("MONITORING "..plugin_id.." command: "..command)
             end
 
-            local _pipe = io.popen(command)
-            local fd = stdio.fileno(_pipe)
+            local pipe = io.popen(command)
+            local fd = stdio.fileno(pipe)
             pipes[fd] = {
-               events = { IN = true },
-               exec_unit_id = _exec_unit_id,
-               pipe = _pipe
+               ["events"] = { IN = true },
+               ["exec_unit_id"] = exec_unit_id,
+               ["pipe"] = pipe
             }
          end
 
          return pipes
       end
 
-      function private:processPipe(_pipe)
-         local exec_unit_id = _pipe.exec_unit_id
+      function private:processPipe(pipe)
+         local exec_unit_id = pipe.exec_unit_id
          local plugin_id = private.execTable[exec_unit_id].plugin
 
-         local output = _pipe.pipe:read("*a")
+         local output = pipe["pipe"]:read("*a")
 
          local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
          output = output:sub(1, -4) --remove exit code and redundant \n
