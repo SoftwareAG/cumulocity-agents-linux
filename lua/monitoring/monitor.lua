@@ -15,6 +15,7 @@ function monitor:new()
       private.pluginsFile = nil
       private.hostsFile = nil
       private.hostName = nil
+      private.pluginsConcurrentExecution = nil
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
@@ -39,6 +40,9 @@ function monitor:new()
          private.pluginsFile = cdb:get('monitoring.plugins.table')
          private.hostsFile = cdb:get('monitoring.hosts.table')
          private.pluginsPath = private:getAndVerifyPluginsPath()
+
+         private.pluginsConcurrentExecution =
+            cdb:get('monitoring.plugins.concurrent_execution') == 'true'
 
          private.noDuplicateAlarms =
             cdb:get('monitoring.alarms.no_duplicates') == 'true'
@@ -276,22 +280,20 @@ function monitor:new()
          local command = private.execTable[exec_unit_id]["final_command"]
 
          if private.debugLogLevelVerbose then
-            srDebug("MONITORING Executing plugin: "..plugin_id)
-            srDebug("MONITORING Command: "..command)
+            srDebug("MONITORING Sequential execution of plugin: "..plugin_id)
+            srDebug("MONITORING "..plugin_id.." command: "..command)
          end
 
          local file = io.popen(command)
          local output = file:read("*a")
          file:close()
 
-         --extract exit code
-         local exit_code = tonumber(output:sub(-2, -2))
-         --remove exit code and redundant \n
-         output = output:sub(1, -4)
+         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
+         output = output:sub(1, -4) --remove exit code and redundant \n
 
          if private.debugLogLevelVerbose then
-            srDebug("MONITORING Output: "..output)
-            srDebug("MONITORING Exit code: "..exit_code)
+            srDebug("MONITORING "..plugin_id.." output: "..output)
+            srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
          end
 
          return output, exit_code
@@ -552,6 +554,81 @@ function monitor:new()
          alarms.c8y_id[alarm_type] = alarm_id
       end
 
+      function private:runPluginsSequentially()
+         for exec_unit_id in pairs(private.execTable) do
+            local output, exit_code = private:runExecUnit(exec_unit_id)
+            local ms_tbl = private:getMeasurements(output, exec_unit_id)
+
+            private:sendMeasurementsAndAlarms(exec_unit_id, exit_code,
+               ms_tbl, output)
+         end
+      end
+
+      function private:runPluginsConcurrently()
+         local pipes = private:populatePipeTable()
+
+         while true do
+            require 'posix.poll'.poll(pipes, -1)
+            for fd in pairs(pipes) do
+               if pipes[fd].revents.HUP then
+                  private:processPipe(pipes[fd])
+                  pipes[fd].pipe:close()
+                  pipes[fd] = nil
+               elseif pipes[fd].revents.ERR then
+                  local exec_unit_id = pipes[fd].exec_unit_id
+                  local plugin_id = private.execTable[exec_unit_id].plugin
+                  srError("MONITORING Error condition in returned events for plugin: "..plugin_id)
+                  pipes[fd].pipe:close()
+                  pipes[fd] = nil
+               end
+            end
+            if next(pipes) == nil then
+               return
+            end
+         end
+      end
+
+      function private:populatePipeTable()
+         local stdio = require "posix.stdio"
+         local pipes = {}
+         for _exec_unit_id, exec_unit in pairs(private.execTable) do
+            local command = exec_unit.final_command
+            local plugin_id = exec_unit.plugin
+
+            if private.debugLogLevelVerbose then
+               srDebug("MONITORING Concurrent execution of plugin: "..plugin_id)
+               srDebug("MONITORING "..plugin_id.." command: "..command)
+            end
+
+            local _pipe = io.popen(command)
+            local fd = stdio.fileno(_pipe)
+            pipes[fd] = {
+               events = { IN = true },
+               exec_unit_id = _exec_unit_id,
+               pipe = _pipe
+            }
+         end
+
+         return pipes
+      end
+
+      function private:processPipe(_pipe)
+         local exec_unit_id = _pipe.exec_unit_id
+         local plugin_id = private.execTable[exec_unit_id].plugin
+
+         local output = _pipe.pipe:read("*a")
+
+         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
+         output = output:sub(1, -4) --remove exit code and redundant \n
+
+         if private.debugLogLevelVerbose then
+            srDebug("MONITORING "..plugin_id.." output: "..output)
+            srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
+         end
+
+         local ms_tbl = private:getMeasurements(output, exec_unit_id)
+         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+      end
 
    private:initialize()
 
@@ -559,17 +636,12 @@ function monitor:new()
 
       --public methods
       function public:singleRunOfExecUnits()
-         if not private.isInitError then
-            for exec_unit_id, exec_unit in pairs(private.execTable) do
-               local exec_unit = private.execTable[exec_unit_id]
+         if private.isInitError then return end
 
-               local output, exit_code = private:runExecUnit(exec_unit_id)
-
-               local ms_tbl = private:getMeasurements(output, exec_unit_id)
-
-               private:sendMeasurementsAndAlarms(exec_unit_id, exit_code,
-                  ms_tbl, output)
-            end
+         if not private.pluginsConcurrentExecution then
+            private:runPluginsSequentially()
+         else
+            private:runPluginsConcurrently()
          end
       end
 
