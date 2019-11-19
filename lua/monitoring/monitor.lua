@@ -1,4 +1,4 @@
-require ("monitoring/devel/utilities")
+require ("monitoring/util/misc")
 
 --class
 monitor = {}

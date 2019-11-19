@@ -57,7 +57,7 @@ URL: http://www.cumulocity.com/
 
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
-Requires: redhat-lsb-core
+Requires: redhat-lsb-core, lua
 
 %description
 Cumulocity Linux Agent is a generic agent for connecting Linux-powered devices to Cumulocity's IoT platform.
@@ -77,15 +77,17 @@ Cumulocity Linux Agent is a generic agent for connecting Linux-powered devices t
 %install
 echo this is buildroot: --%{buildroot}--
 rm -rf %{buildroot}
-mkdir -p  %{buildroot}$TARGET_BASE
-mkdir -p  %{buildroot}$DATAPATH
-mkdir -p  %{buildroot}/usr/bin
-mkdir -p  %{buildroot}/usr/local/lib
-mkdir -p  %{buildroot}/etc
-mkdir -p  %{buildroot}/etc/ld.so.conf.d
-mkdir -p  %{buildroot}$TARGET_BASE/lua
-mkdir -p  %{buildroot}/usr/lib/systemd/system
-mkdir -p  %{buildroot}/usr/share/doc/cumulocity-agent
+mkdir -p %{buildroot}$TARGET_BASE
+mkdir -p %{buildroot}$DATAPATH
+mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}/usr/local/lib
+mkdir -p %{buildroot}/etc
+mkdir -p %{buildroot}/etc/ld.so.conf.d
+mkdir -p %{buildroot}$TARGET_BASE/lua
+mkdir -p %{buildroot}/usr/lib/systemd/system
+mkdir -p %{buildroot}/usr/share/doc/cumulocity-agent
+mkdir -p %{buildroot}/usr/lib64/lua/5.1
+mkdir -p %{buildroot}/usr/lib64/lua/5.1/posix
 
 #config creation
 touch %{buildroot}/etc/cumulocity-agent.conf
@@ -111,6 +113,10 @@ touch %{buildroot}/usr/lib/systemd/system/cumulocity-agent.service
 #copy copyright file
 cp $SRC_ROOT/COPYRIGHT %{buildroot}/usr/share/doc/cumulocity-agent
 
+#copy luaposix library and its dependency
+cp /usr/lib64/lua/5.1/bit32.so %{buildroot}/usr/lib64/lua/5.1
+cp -r /usr/lib64/lua/5.1/posix/* %{buildroot}/usr/lib64/lua/5.1/posix
+
 sed -r -e 's#[$]PREFIX#'"$PREFIX"'#g' ${SRC_ROOT}/utils/cumulocity-agent.service> %{buildroot}/usr/lib/systemd/system/cumulocity-agent.service
 sed -r -e 's#[$]PKG_DIR#'"$TARGET_BASE"'#g' -e 's#[$]DATAPATH#'"$DATAPATH"'#g' ${SRC_ROOT}/cumulocity-agent.conf > %{buildroot}/etc/cumulocity-agent.conf
 
@@ -118,7 +124,6 @@ sed -r -e 's#[$]PKG_DIR#'"$TARGET_BASE"'#g' -e 's#[$]DATAPATH#'"$DATAPATH"'#g' $
 ldconfig
 ln -f -s /etc/cumulocity-agent.conf $TARGET_BASE/cumulocity-agent.conf
 systemctl enable cumulocity-agent
-systemctl start cumulocity-agent
 
 %postun
 rm -f $TARGET_BASE/cumulocity-agent.conf
@@ -134,6 +139,7 @@ rm -rf %{buildroot}
 /usr/bin/*
 /usr/local/lib/*
 /usr/share/doc/cumulocity-agent/COPYRIGHT
+/usr/lib64/lua/5.1/*
 $TARGET_BASE/*
 
 %changelog
@@ -141,16 +147,13 @@ $TARGET_BASE/*
 EOF
 
 # Build the RPM
-
 rpmbuild -ba $RPM_BASE/SPECS/cumulocity-agent.spec
 
 # Rescue the RPM
-
 mkdir -p build/rpm
 cp -v $RPM_BASE/RPMS/*/cumulocity-agent*.rpm build/rpm/
 
 # Cleanup
-
 rm -rf $PACKAGE_BASE
 rm -rf ~/.rpmmacros
 rm -rf $RPM_BASE/{RPMS,SRPMS,BUILD,SOURCES,SPECS,tmp,stage}

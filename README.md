@@ -130,13 +130,18 @@ In this example, the simulator is automatically connected to SocketCAN interface
 make sure that you have a proper can0 CAN interface, or use the default CANopen settings
 in the Linux Agent to have the agent creates a vcan can0 interface for you.
 
-#### How to enable monitoring extension ####
+#### How to enable the Monitoring extension ####
 
 Add `monitoring` to the following line in cumulocity-agent.conf:
 ```
 lua.plugins=system,logview,shell,version,monitoring
 ```
+Luaposix library is also required:
 
+```bash
+sudo yum install luarocks
+sudo luarocks install luaposix
+```
 
 
 ### FAQ ###
