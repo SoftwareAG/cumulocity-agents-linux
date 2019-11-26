@@ -275,18 +275,59 @@ function monitor:new()
          return cwtpap, fc
       end
 
-      function private:runExecUnit(exec_unit_id)
-         local plugin_id = private.execTable[exec_unit_id]["plugin"]
-         local command = private.execTable[exec_unit_id]["final_command"]
+      function private:runPluginsConcurrently()
+         local pipes = private:populatePipeTable()
 
-         if private.debugLogLevelVerbose then
-            srDebug("MONITORING Sequential execution of plugin: "..plugin_id)
-            srDebug("MONITORING "..plugin_id.." command: "..command)
+         while true do
+            require 'posix.poll'.poll(pipes, -1)
+            for fd, pipe in pairs(pipes) do
+               if pipe.revents.HUP then
+                  private:processPipe(pipe)
+                  pipe["pipe"]:close()
+                  pipes[fd] = nil
+               elseif pipe.revents.ERR then
+                  local exec_unit_id = pipe.exec_unit_id
+                  local plugin_id = private.execTable[exec_unit_id].plugin
+                  srError("MONITORING Error condition in returned events for plugin: "..plugin_id)
+                  pipe["pipe"]:close()
+                  pipes[fd] = nil
+               end
+            end
+            if next(pipes) == nil then
+               return
+            end
+         end
+      end
+
+      function private:populatePipeTable()
+         local stdio = require "posix.stdio"
+         local pipes = {}
+         for exec_unit_id, exec_unit in pairs(private.execTable) do
+            local command = exec_unit.final_command
+            local plugin_id = exec_unit.plugin
+
+            if private.debugLogLevelVerbose then
+               srDebug("MONITORING Concurrent execution of plugin: "..plugin_id)
+               srDebug("MONITORING "..plugin_id.." command: "..command)
+            end
+
+            local pipe = io.popen(command)
+            local fd = stdio.fileno(pipe)
+            pipes[fd] = {
+               ["events"] = { IN = true },
+               ["exec_unit_id"] = exec_unit_id,
+               ["pipe"] = pipe
+            }
          end
 
-         local file = io.popen(command)
-         local output = file:read("*a")
-         file:close()
+         return pipes
+      end
+
+      function private:processPipe(pipe)
+         local exec_unit_id = pipe.exec_unit_id
+         local plugin_id = private.execTable[exec_unit_id].plugin
+
+         local output = pipe["pipe"]:read("*a")
 
          local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
          output = output:sub(1, -4) --remove exit code and redundant \n
@@ -296,7 +337,8 @@ function monitor:new()
             srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
          end
 
-         return output, exit_code
+         local ms_tbl = private:getMeasurements(output, exec_unit_id)
+         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
       end
 
       function private:getMeasurements(output, exec_unit_id)
@@ -382,7 +424,7 @@ function monitor:new()
                      exit_code,
                      c8y_id,
                      alarm_type,
-                     private:getAlarmDescription(exec_unit_id, exit_code, output)
+                     private:getAlarmText(exec_unit_id, exit_code, output)
                   )
             elseif (exit_code == 0 and private.noDuplicateAlarms) then
                private:resetAlarm(c8y_id, alarm_type,
@@ -454,42 +496,7 @@ function monitor:new()
          end
       end
 
-      function private:sendAlarm(timestamp, exit_code, c8y_id, alarm_type,
-         alarm_description)
-
-         if private.noDuplicateAlarms
-            and private:isAlarmActive(c8y_id, alarm_type) then
-
-            return -- do not send the alarm
-         end
-
-         http:clear()
-
-         if timestamp then
-            if http:post(table.concat({
-                  exit_code == 1 and '350' or '351',
-                  timestamp,
-                  c8y_id,
-                  alarm_type,
-                  alarm_description
-               }, ',')) <= 0 then return end
-         else --no explicit timestamp
-            if http:post(table.concat({
-                  exit_code == 1 and '344' or '345',
-                  c8y_id,
-                  alarm_type,
-                  alarm_description
-               }, ',')) <= 0 then return end
-         end
-
-         local alarm_id = private:getAlarmId(http:response())
-         if not alarm_id then
-            srWarning("MONITORING Could not retrieve alarm id of "..alarm_type)
-         end
-         private:activateAlarm(c8y_id, alarm_type, alarm_id)
-      end
-
-      function private:getAlarmDescription(exec_unit_id, exit_code, output)
+      function private:getAlarmText(exec_unit_id, exit_code, output)
          local plugin_id = private.execTable[exec_unit_id]["plugin"]
          local plugin_tbl = private.pluginsTable[plugin_id]
 
@@ -518,40 +525,123 @@ function monitor:new()
          return default
       end
 
-      function private:resetAlarm(c8y_id, alarm_type, plugin_alarms_clearing)
-         local alarms = private.activeAlarmsTable
+      function private:sendAlarm(timestamp, exit_code, c8y_id, type, text)
+         local severity = exit_code == 1 and "MINOR" or "CRITICAL"
+         if private.noDuplicateAlarms
+            and private:isAlarmActive(c8y_id, type, severity, text) then
+            -- do not send the alarm
+            return
+         end
 
-         if alarms.c8y_id and alarms.c8y_id[alarm_type] then
-            if private.clearingAlarmsGlobal and plugin_alarms_clearing then
-               --clear the alarm with corresponding id
-               c8y:send('313,'..alarms.c8y_id[alarm_type], 0)
-            end
-            alarms.c8y_id[alarm_type] = nil
+         http:clear()
+
+         if timestamp then
+            if http:post(table.concat({
+                  exit_code == 1 and '350' or '351',
+                  timestamp,
+                  c8y_id,
+                  type,
+                  text
+               }, ',')) <= 0 then return end
+         else --no explicit timestamp
+            if http:post(table.concat({
+                  exit_code == 1 and '344' or '345',
+                  c8y_id,
+                  type,
+                  text
+               }, ',')) <= 0 then return end
+         end
+
+         local alarm_id = private:processAlarmResponse(http:response(), c8y_id,
+            type, severity, text)
+
+         if alarm_id ~= nil then
+            private:activateAlarm(c8y_id, alarm_id, type, severity, text)
          end
       end
 
-      function private:isAlarmActive(c8y_id, alarm_type)
+      function private:isAlarmActive(c8y_id, alarm_type, severity, text)
          local alarms = private.activeAlarmsTable
+         local alarm_hash = private:getMD5AsHex(severity, text)
 
-         return alarms.c8y_id ~= nil and alarms.c8y_id[alarm_type] ~= nil
+         return alarms[c8y_id] and alarms[c8y_id][alarm_type]
+            and alarms[c8y_id][alarm_type][alarm_hash] and true or false
       end
 
-      function private:getAlarmId(resp)
-         local alarm_id
+      function private:getMD5AsHex(...)
+         local md5 = require 'monitoring/util/md5'
+         return md5.sumhexa(table.concat(arg,','))
+      end
+
+      function private:processAlarmResponse(resp, c8y_id, type, severity, text)
+         local alarms = private.activeAlarmsTable
+         local alarm_id, severity_resp, count, text_resp
+
          if string.sub(resp, 1, 3) == '876' then
-            alarm_id = string.match(resp, "%d+,%d+,(%d+)")
+            alarm_id, severity_resp, count, text_resp =
+               --string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),"?(.-)"?$')
+               string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),(.*)$')
          end
+
+         if not alarm_id then
+            srWarning("MONITORING Could not process alarm repsonse of type: "..type)
+            return
+         end
+
+         if count ~= '1' then
+            local update_severity = severity ~= severity_resp
+            local update_text = text ~= text_resp
+
+            if update_severity and update_text then
+               c8y:send(table.concat({
+                     '354',
+                     alarm_id,
+                     severity,
+                     text
+                  }, ','), 0)
+            elseif update_severity and not update_text then
+               c8y:send(table.concat({
+                     '355',
+                     alarm_id,
+                     severity
+                  }, ','), 0)
+            elseif not update_severity and update_text then
+               c8y:send(table.concat({
+                     '356',
+                     alarm_id,
+                     text
+                  }, ','), 0)
+            end
+         end
+
          return alarm_id
       end
 
-      function private:activateAlarm(c8y_id, alarm_type, alarm_id)
+      function private:activateAlarm(c8y_id, alarm_id, alarm_type, severity, text)
          local alarms = private.activeAlarmsTable
 
-         if not alarms.c8y_id then
-            alarms.c8y_id = {}
+         if not alarms[c8y_id] then
+            alarms[c8y_id] = {}
          end
 
-         alarms.c8y_id[alarm_type] = alarm_id
+         alarms[c8y_id][alarm_type] = {}
+         local alarm_hash = private:getMD5AsHex(severity, text)
+         alarms[c8y_id][alarm_type][alarm_hash] = alarm_id
+      end
+
+      function private:resetAlarm(c8y_id, alarm_type, plugin_alarms_clearing)
+         local alarms = private.activeAlarmsTable
+
+         if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+
+            if private.clearingAlarmsGlobal and plugin_alarms_clearing then
+               --clear alarms of the specified type
+               for alarm_hash, alarm_id in pairs(alarms[c8y_id][alarm_type]) do
+                  c8y:send('313,'..alarm_id, 0)
+               end
+            end
+            alarms[c8y_id][alarm_type] = nil
+         end
       end
 
       function private:runPluginsSequentially()
@@ -564,59 +654,18 @@ function monitor:new()
          end
       end
 
-      function private:runPluginsConcurrently()
-         local pipes = private:populatePipeTable()
+      function private:runExecUnit(exec_unit_id)
+         local plugin_id = private.execTable[exec_unit_id]["plugin"]
+         local command = private.execTable[exec_unit_id]["final_command"]
 
-         while true do
-            require 'posix.poll'.poll(pipes, -1)
-            for fd, pipe in pairs(pipes) do
-               if pipe.revents.HUP then
-                  private:processPipe(pipe)
-                  pipe["pipe"]:close()
-                  pipes[fd] = nil
-               elseif pipe.revents.ERR then
-                  local exec_unit_id = pipe.exec_unit_id
-                  local plugin_id = private.execTable[exec_unit_id].plugin
-                  srError("MONITORING Error condition in returned events for plugin: "..plugin_id)
-                  pipe["pipe"]:close()
-                  pipes[fd] = nil
-               end
-            end
-            if next(pipes) == nil then
-               return
-            end
-         end
-      end
-
-      function private:populatePipeTable()
-         local stdio = require "posix.stdio"
-         local pipes = {}
-         for exec_unit_id, exec_unit in pairs(private.execTable) do
-            local command = exec_unit.final_command
-            local plugin_id = exec_unit.plugin
-
-            if private.debugLogLevelVerbose then
-               srDebug("MONITORING Concurrent execution of plugin: "..plugin_id)
-               srDebug("MONITORING "..plugin_id.." command: "..command)
-            end
-
-            local pipe = io.popen(command)
-            local fd = stdio.fileno(pipe)
-            pipes[fd] = {
-               ["events"] = { IN = true },
-               ["exec_unit_id"] = exec_unit_id,
-               ["pipe"] = pipe
-            }
+         if private.debugLogLevelVerbose then
+            srDebug("MONITORING Sequential execution of plugin: "..plugin_id)
+            srDebug("MONITORING "..plugin_id.." command: "..command)
          end
 
-         return pipes
-      end
-
-      function private:processPipe(pipe)
-         local exec_unit_id = pipe.exec_unit_id
-         local plugin_id = private.execTable[exec_unit_id].plugin
-
-         local output = pipe["pipe"]:read("*a")
+         local file = io.popen(command)
+         local output = file:read("*a")
+         file:close()
 
          local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
          output = output:sub(1, -4) --remove exit code and redundant \n
@@ -626,8 +675,7 @@ function monitor:new()
             srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
          end
 
-         local ms_tbl = private:getMeasurements(output, exec_unit_id)
-         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+         return output, exit_code
       end
 
    private:initialize()
@@ -638,10 +686,10 @@ function monitor:new()
       function public:singleRunOfExecUnits()
          if private.isInitError then return end
 
-         if not private.pluginsConcurrentExecution then
-            private:runPluginsSequentially()
-         else
+         if private.pluginsConcurrentExecution then
             private:runPluginsConcurrently()
+         else
+            private:runPluginsSequentially()
          end
       end
 
