@@ -154,21 +154,20 @@ return {
       params="",
       use_exit_code=true,
       alarmtext={
-         warning="Some Warning Alarm text",
-         critical="Some Critical Alarm text"
+         warning="This is OSCILLATING measurement with ALARMS CLEARING ON",
+         critical="This is OSCILLATING measurement with ALARMS CLEARING ON"
       },
    },
 
    -- for debugging
-   -- NALC = No ALarms Clearing
-   ["NoSeriesMeasurementNALC"] = {
+   ["NoSeriesMeasurementNALC"] = { -- NALC = No ALarms Clearing
       command="simulation/noSeriesMeasurement.lua",
       params="",
       use_exit_code=true,
       no_alarms_clearing=true,
       alarmtext={
-         warning="Some Warning Alarm text",
-         critical="Some Critical Alarm text"
+         warning="This is OSCILLATING measurement with ALARMS CLEARING OFF",
+         critical="This is OSCILLATING measurement with ALARMS CLEARING OFF"
       },
    },
 
@@ -180,6 +179,28 @@ return {
       alarmtext={
          warning="Some Warning Alarm text",
          critical="Plugin's timeout expired"
+      },
+   },
+
+   -- for debugging
+   ["AlarmUpdateSeverityAndText"] = {
+      command="simulation/alarmUpdateAll.lua",
+      use_exit_code=true,
+   },
+
+   -- for debugging
+   ["AlarmUpdateTextOnly"] = {
+      command="simulation/alarmUpdateText.lua",
+      use_exit_code=true,
+   },
+
+   -- for debugging
+   ["AlarmUpdateSeverityOnly"] = {
+      command="simulation/alarmUpdateAll.lua",
+      use_exit_code=true,
+      alarmtext={
+         warning="This is PERMANENT alarm which changes SEVERITY only",
+         critical="This is PERMANENT alarm which changes SEVERITY only"
       },
    },
 

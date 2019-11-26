@@ -15,6 +15,9 @@ return {
          -- "NoSeriesMeasurement",
          -- "NoSeriesMeasurementNALC",
          -- "TestPluginsTimeout",
+         -- "AlarmUpdateSeverityAndText",
+         -- "AlarmUpdateTextOnly",
+         -- "AlarmUpdateSeverityOnly",
       }
    },
 
