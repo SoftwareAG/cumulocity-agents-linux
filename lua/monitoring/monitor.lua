@@ -20,6 +20,8 @@ function monitor:new()
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
       private.debugLogLevelVerbose = nil
+      private.chefLinkedExternalId = nil
+      private.chefAttributesTable = {}
       private.pluginsTimeout = nil
 
       private.hostPlaceholder = nil
@@ -55,6 +57,9 @@ function monitor:new()
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
+
+         private.chefLinkedExternalId  =
+            cdb:get('monitoring.chef.linked.external.id') == 'true'
 
          private.pluginsTimeout = tonumber(cdb:get('monitoring.plugins.timeout'))
          if private.pluginsTimeout <= 0 then
@@ -94,6 +99,13 @@ function monitor:new()
             private.isInitError = true
             srError("MONITORING No plugins to run")
          end
+
+         if private.chefLinkedExternalId then
+            private:fetchChefAttributes()
+            private:createChefLinkedExternalId()
+         end
+
+
       end
 
       function private:getAndVerifyPluginsPath()
@@ -273,6 +285,41 @@ function monitor:new()
 
          fc = cwtpap.." 2>&1; echo $?"
          return cwtpap, fc
+      end
+
+      function private:fetchChefAttributes()
+         local chef_file = "/etc/motd"
+         if not private:fileExists(chef_file) then return end
+
+         local environment, node_name
+         for line in io.lines(chef_file) do
+            if not environment then
+               environment = line:match("^Environment:%s+([%w-_]+)$")
+            end
+            if not node_name then
+               node_name = line:match("^Node name:%s+([%w-_]+)$")
+            end
+            if environment and node_name then
+               private.chefAttributesTable.environment = environment
+               private.chefAttributesTable.node_name = node_name
+               break
+            end
+         end
+      end
+
+      function private:createChefLinkedExternalId()
+         local environment =  private.chefAttributesTable.environment
+         local node_name = private.chefAttributesTable.node_name
+
+         if not environment or not node_name then
+            srError("MONITORING Chef Linked External Id is configured to be used,
+               but the Chef attributes are unavailable")
+            return
+         end
+
+         local external_id = string.format( "%s:%s", environment, node_name)
+
+         c8y:send('302,'..external_id, 0)
       end
 
       function private:runPluginsConcurrently()
