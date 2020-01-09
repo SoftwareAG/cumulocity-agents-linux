@@ -311,8 +311,8 @@ function monitor:new()
          local node_name = private.chefAttributesTable.node_name
 
          if not environment or not node_name then
-            srError("MONITORING Chef Linked External Id is configured to be used,
-               but the Chef attributes are unavailable")
+            srError([[MONITORING Chef Linked External Id is configured to be used,
+               but the Chef attributes are unavailable]]")
             return
          end
 
