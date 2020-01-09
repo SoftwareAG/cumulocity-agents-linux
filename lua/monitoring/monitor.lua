@@ -105,7 +105,6 @@ function monitor:new()
             private:createChefLinkedExternalId()
          end
 
-
       end
 
       function private:getAndVerifyPluginsPath()
