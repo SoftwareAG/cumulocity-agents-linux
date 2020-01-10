@@ -312,7 +312,7 @@ function monitor:new()
 
          if not environment or not node_name then
             srError([[MONITORING Chef Linked External Id is configured to be used,
-               but the Chef attributes are unavailable]]")
+               but the Chef attributes are unavailable]])
             return
          end
 
