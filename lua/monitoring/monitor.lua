@@ -314,11 +314,10 @@ function monitor:new()
             srError([[MONITORING Chef Linked External Id is configured to be used,
                but the Chef attributes are unavailable]])
             return
-         end
+         end      
 
-         local external_id = string.format( "%s:%s", environment, node_name)
-
-         c8y:send('302,'..external_id, 0)
+         c8y:send((string.format("%d,%s,%s:%s",
+            302, c8y.ID, environment, node_name)), 0)
       end
 
       function private:runPluginsConcurrently()
