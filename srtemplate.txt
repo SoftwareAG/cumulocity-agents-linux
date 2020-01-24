@@ -1,4 +1,4 @@
-cumulocity-agent_4.2.4
+cumulocity-agent_4.2.5
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -117,6 +117,9 @@ cumulocity-agent_4.2.4
 10,355,PUT,/alarm/alarms/%%,application/json,,%%,UNSIGNED STRING,"{""severity"":""%%""}"
 
 10,356,PUT,/alarm/alarms/%%,application/json,,%%,UNSIGNED STRING,"{""text"":""%%""}"
+
+10,357,GET,/alarm/alarms?source=%%&type=%%&resolved=false&pageSize=100,,application/json,%%,UNSIGNED STRING,
+
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id

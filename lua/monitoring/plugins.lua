@@ -9,6 +9,7 @@ return {
       series={
          {name="workload", unit="%"}
       },
+      update_alarm_on_text_change=true,
    },
 
    ["DiskUsageMountedOnRootDisk"] = {
@@ -19,6 +20,7 @@ return {
       series={
          {name="free", unit="%"}
       },
+      update_alarm_on_text_change=true,
    },
 
    ["ProcessesCount"] = {
@@ -29,6 +31,7 @@ return {
       series={
          {name="count", unit=""}
       },
+      update_alarm_on_text_change=true,
    },
 
    ["SystemUptime"] = {
@@ -39,6 +42,7 @@ return {
       series={
          {name="time", unit="s"}
       },
+      update_alarm_on_text_change=true,
    },
 
    ["SwapUsage"] = {
@@ -51,6 +55,7 @@ return {
          {name="used", unit="MB"},
          {name="total", unit="MB"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["CepAvailability"] = {
@@ -62,6 +67,7 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["WebappDeviceManagementAvailability"] = {
@@ -73,6 +79,7 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["WebappDeviceCockpitAvailability"] = {
@@ -84,6 +91,7 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["WebappDeviceAdministrationAvailability"] = {
@@ -95,6 +103,7 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["ContentAvailability"] = {
@@ -106,6 +115,7 @@ return {
          {name="response_time", unit="s"},
          {name="size", unit="B"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["CumulocityApiTests"] = {
@@ -116,6 +126,7 @@ return {
       series={
          {name="execution_time", unit="s"},
       },
+      update_alarm_on_text_change=true,
    },
 
    ["CumulocityApiResponse"] = {
@@ -126,6 +137,7 @@ return {
       series={
          {name="response_time", unit="ms"},
       },
+      update_alarm_on_text_change=true,
    },
 
    -- for debugging
@@ -136,6 +148,7 @@ return {
          {use_as_timestamp=true, unit="s"},
          {name="value"}
       },
+      update_alarm_on_text_change=true,
    },
 
    -- for debugging
@@ -146,6 +159,7 @@ return {
          {use_as_timestamp=true, unit="ms"},
          {name="value"}
       },
+      update_alarm_on_text_change=true,
    },
 
    -- for debugging
@@ -153,6 +167,7 @@ return {
       command="simulation/noSeriesMeasurement.lua",
       params="",
       use_exit_code=true,
+      update_alarm_on_text_change=true,
       alarmtext={
          warning="This is OSCILLATING measurement with ALARMS CLEARING ON",
          critical="This is OSCILLATING measurement with ALARMS CLEARING ON"
@@ -165,6 +180,7 @@ return {
       params="",
       use_exit_code=true,
       no_alarms_clearing=true,
+      update_alarm_on_text_change=true,
       alarmtext={
          warning="This is OSCILLATING measurement with ALARMS CLEARING OFF",
          critical="This is OSCILLATING measurement with ALARMS CLEARING OFF"
@@ -176,6 +192,7 @@ return {
       command="simulation/suspending.lua",
       params="",
       use_exit_code=true,
+      update_alarm_on_text_change=true,
       alarmtext={
          warning="Some Warning Alarm text",
          critical="Plugin's timeout expired"
@@ -186,18 +203,28 @@ return {
    ["AlarmUpdateSeverityAndText"] = {
       command="simulation/alarmUpdateAll.lua",
       use_exit_code=true,
+      update_alarm_on_text_change=true,
+   },
+
+   -- for debugging
+   ["AlarmUpdateSeverityAndTextAndIgnoreText"] = {
+      command="simulation/alarmUpdateAll.lua",
+      use_exit_code=true,
+      update_alarm_on_text_change=false
    },
 
    -- for debugging
    ["AlarmUpdateTextOnly"] = {
       command="simulation/alarmUpdateText.lua",
       use_exit_code=true,
+      update_alarm_on_text_change=true,
    },
 
    -- for debugging
    ["AlarmUpdateSeverityOnly"] = {
       command="simulation/alarmUpdateAll.lua",
       use_exit_code=true,
+      update_alarm_on_text_change=true,
       alarmtext={
          warning="This is PERMANENT alarm which changes SEVERITY only",
          critical="This is PERMANENT alarm which changes SEVERITY only"

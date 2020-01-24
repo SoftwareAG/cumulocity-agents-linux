@@ -47,9 +47,9 @@ function monitor:new()
             cdb:get('monitoring.plugins.concurrent_execution') == 'true'
 
          private.noDuplicateAlarms =
-            cdb:get('monitoring.alarms.no_duplicates') == 'true'
-            or cdb:get('monitoring.alarms.clearing') == 'true'
-            and db:get('monitoring.alarms.no_duplicates') ~= 'false'
+            cdb:get('monitoring.alarms.no_duplicates') == 'true' or
+            cdb:get('monitoring.alarms.clearing') == 'true' and
+            cdb:get('monitoring.alarms.no_duplicates') ~= 'false'
 
          private.clearingAlarmsGlobal =
             cdb:get('monitoring.alarms.clearing') == 'true'
@@ -229,9 +229,14 @@ function monitor:new()
          exec_unit.host = host_id
          exec_unit.plugin = plugin_id
          exec_unit.use_exit_code = plugin_tbl.use_exit_code == true
-         exec_unit.plugin_alarms_clearing = plugin_tbl.no_alarms_clearing ~= true
+         exec_unit.plugin_alarms_clearing =
+            plugin_tbl.no_alarms_clearing ~= true
+         exec_unit.update_alarm_on_text_change =
+            plugin_tbl.update_alarm_on_text_change ~= false
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series or {}
+         --true if all active or acknowledged alarms of the given type are cleared
+         exec_unit.did_clear_all_alarms = false
 
          if private.hostName and plugin_tbl.add_observer_hostname then
             exec_unit.add_observer_hostname = true
@@ -314,7 +319,7 @@ function monitor:new()
             srError([[MONITORING Chef Linked External Id is configured to be used,
                but the Chef attributes are unavailable]])
             return
-         end      
+         end
 
          c8y:send((string.format("%d,%s,%s:%s",
             302, c8y.ID, environment, node_name)), 0)
@@ -465,6 +470,7 @@ function monitor:new()
 
             if (exit_code >= 1) then
                private:sendAlarm(
+                     exec_unit_id,
                      timestamp,
                      exit_code,
                      c8y_id,
@@ -472,13 +478,12 @@ function monitor:new()
                      private:getAlarmText(exec_unit_id, exit_code, output)
                   )
             elseif (exit_code == 0 and private.noDuplicateAlarms) then
-               private:resetAlarm(c8y_id, alarm_type,
-                  exec_unit.plugin_alarms_clearing)
+               private:resetAlarm(exec_unit_id, c8y_id, alarm_type)
             end
          end
       end
 
-      -- retrieves a timestamp if exists
+      --retrieves a timestamp if exists
       function private:getTimestamp(exec_unit, ms_tbl)
          for i=1, #exec_unit.series do
             if (exec_unit.series[i]["use_as_timestamp"]) then
@@ -570,10 +575,11 @@ function monitor:new()
          return default
       end
 
-      function private:sendAlarm(timestamp, exit_code, c8y_id, type, text)
+      function private:sendAlarm(exec_unit_id, timestamp, exit_code, c8y_id, type, text)
          local severity = exit_code == 1 and "MINOR" or "CRITICAL"
+
          if private.noDuplicateAlarms
-            and private:isAlarmActive(c8y_id, type, severity, text) then
+            and private:isAlarmActive(exec_unit_id, c8y_id, type, severity, text) then
             -- do not send the alarm
             return
          end
@@ -597,34 +603,48 @@ function monitor:new()
                }, ',')) <= 0 then return end
          end
 
-         local alarm_id = private:processAlarmResponse(http:response(), c8y_id,
-            type, severity, text)
+         local alarm_id = private:processAlarmResponse(http:response(),
+            exec_unit_id, c8y_id, type, severity, text)
 
          if alarm_id ~= nil then
-            private:activateAlarm(c8y_id, alarm_id, type, severity, text)
+            private:activateAlarm(exec_unit_id, c8y_id, alarm_id, type, severity, text)
          end
       end
 
-      function private:isAlarmActive(c8y_id, alarm_type, severity, text)
+      function private:isAlarmActive(exec_unit_id, c8y_id, alarm_type, severity, text)
          local alarms = private.activeAlarmsTable
-         local alarm_hash = private:getMD5AsHex(severity, text)
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
+
+         local alarm_hash = uaotc and private:getAlarmHash(severity, text)
+            or  private:getAlarmHash(severity)
 
          return alarms[c8y_id] and alarms[c8y_id][alarm_type]
             and alarms[c8y_id][alarm_type][alarm_hash] and true or false
       end
 
-      function private:getMD5AsHex(...)
-         local md5 = require 'monitoring/util/md5'
-         return md5.sumhexa(table.concat(arg,','))
+      function private:getAlarmHash(...)
+         local n = arg.n
+         if n == 0 then return end
+
+         local first = arg[1]
+         if n == 1 and (type(first) ~= "string" or string.len(first) <= 32) then
+            return first
+         else
+            local md5 = require 'monitoring/util/md5'
+            return md5.sumhexa(table.concat(arg,','))
+         end
       end
 
-      function private:processAlarmResponse(resp, c8y_id, type, severity, text)
+      function private:processAlarmResponse(resp, exec_unit_id, c8y_id, type,
+         severity, text)
+
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
          local alarms = private.activeAlarmsTable
+
          local alarm_id, severity_resp, count, text_resp
 
          if string.sub(resp, 1, 3) == '876' then
             alarm_id, severity_resp, count, text_resp =
-               --string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),"?(.-)"?$')
                string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),(.*)$')
          end
 
@@ -635,7 +655,7 @@ function monitor:new()
 
          if count ~= '1' then
             local update_severity = severity ~= severity_resp
-            local update_text = text ~= text_resp
+            local update_text = text ~= text_resp and uaotc
 
             if update_severity and update_text then
                c8y:send(table.concat({
@@ -662,30 +682,65 @@ function monitor:new()
          return alarm_id
       end
 
-      function private:activateAlarm(c8y_id, alarm_id, alarm_type, severity, text)
+      function private:activateAlarm(exec_unit_id, c8y_id, alarm_id, alarm_type, severity, text)
          local alarms = private.activeAlarmsTable
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
 
          if not alarms[c8y_id] then
             alarms[c8y_id] = {}
          end
 
+         --this removes info about active alarms same type with different hash (severity, text)
+         --as the cumulocity platform normally can have only one active alarm of one type
          alarms[c8y_id][alarm_type] = {}
-         local alarm_hash = private:getMD5AsHex(severity, text)
+
+         local alarm_hash = uaotc and private:getAlarmHash(severity, text)
+            or private:getAlarmHash(severity)
          alarms[c8y_id][alarm_type][alarm_hash] = alarm_id
       end
 
-      function private:resetAlarm(c8y_id, alarm_type, plugin_alarms_clearing)
+      function private:resetAlarm(exec_unit_id, c8y_id, alarm_type, plugin_alarms_clearing)
+         local exec_unit = private.execTable[exec_unit_id]
+         local plugin_alarms_clearing = exec_unit.plugin_alarms_clearing
+         local global_alarms_clearing = private.clearingAlarmsGlobal
          local alarms = private.activeAlarmsTable
 
-         if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+         --if 'alarms clearing' for this exec unit is off and 'no duplicates' is on
+         if not global_alarms_clearing or not plugin_alarms_clearing then
+            if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+               alarms[c8y_id][alarm_type] = nil
+            end
+            return
+         end
 
-            if private.clearingAlarmsGlobal and plugin_alarms_clearing then
-               --clear alarms of the specified type
+         local just_cleared = false
+
+         if not exec_unit.did_clear_all_alarms then
+            --clearing all active or acknowledged alarms of the given type
+            private:clearAlarms(c8y_id, alarm_type)
+            exec_unit.did_clear_all_alarms = true
+            just_cleared = true
+         end
+
+         if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+            if not just_cleared then
                for alarm_hash, alarm_id in pairs(alarms[c8y_id][alarm_type]) do
                   c8y:send('313,'..alarm_id, 0)
                end
             end
             alarms[c8y_id][alarm_type] = nil
+         end
+      end
+
+      function private:clearAlarms(c8y_id, alarm_type)
+         http:clear()
+
+         if http:post(
+               string.format("357,%s,%s", c8y_id, alarm_type)
+            ) <= 0 then return end
+
+         for alarm_id in string.gmatch(http:response(), "808,%d+,(%d+),") do
+            c8y:send('313,'..alarm_id, 0)
          end
       end
 

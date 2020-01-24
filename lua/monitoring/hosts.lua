@@ -10,23 +10,24 @@ return {
          "SwapUsage",
 
          -- for debugging
-         -- "ValueWithTimestampInSeconds",
-         -- "ValueWithTimestampInMilliseconds",
-         -- "NoSeriesMeasurement",
-         -- "NoSeriesMeasurementNALC",
+         "ValueWithTimestampInSeconds",
+         "ValueWithTimestampInMilliseconds",
+         "NoSeriesMeasurement",
+         "NoSeriesMeasurementNALC",
          -- "TestPluginsTimeout",
-         -- "AlarmUpdateSeverityAndText",
-         -- "AlarmUpdateTextOnly",
-         -- "AlarmUpdateSeverityOnly",
+         "AlarmUpdateSeverityAndText",
+         "AlarmUpdateSeverityAndTextAndIgnoreText",
+         "AlarmUpdateTextOnly",
+         "AlarmUpdateSeverityOnly",
       }
    },
 
    --example of monitoring of a remote host
-   -- ["www.google.com"] = {
-   --    plugins_to_run={
-   --       "ContentAvailability",
-   --    },
-   --    is_child_device=true,
-   -- },
+   ["www.google.com"] = {
+      plugins_to_run={
+         "ContentAvailability",
+      },
+      is_child_device=true,
+   },
 
 }
