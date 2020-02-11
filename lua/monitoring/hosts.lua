@@ -4,9 +4,9 @@ return {
    ["localhost"] = {
       plugins_to_run={
          "CpuUsage",
-         -- "DiskUsageMountedOnRootDisk",
-         -- "SystemUptime",
-         -- "ProcessesCount",
+         "DiskUsageMountedOnRootDisk",
+         "SystemUptime",
+         "ProcessesCount",
          "SwapUsage",
 
          -- for debugging
@@ -14,7 +14,7 @@ return {
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
          -- "NoSeriesMeasurementNALC",
-         "TestPluginsTimeout",
+         -- "TestPluginsTimeout",
          -- "AlarmUpdateSeverityAndText",
          -- "AlarmUpdateSeverityAndTextAndIgnoreText",
          -- "AlarmUpdateTextOnly",
