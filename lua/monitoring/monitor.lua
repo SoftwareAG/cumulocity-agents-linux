@@ -19,6 +19,7 @@ function monitor:new()
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
+      private.refreshAlarmsNow = nil
       private.debugLogLevelVerbose = nil
       private.chefLinkedExternalId = nil
       private.chefAttributesTable = {}
@@ -377,18 +378,40 @@ function monitor:new()
          local exec_unit_id = pipe.exec_unit_id
          local plugin_id = private.execTable[exec_unit_id].plugin
 
-         local output = pipe["pipe"]:read("*a")
+         local raw_output = pipe["pipe"]:read("*a")
 
-         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
-         output = output:sub(1, -4) --remove exit code and redundant \n
+         local output, exit_code = private:processRawOutput(raw_output, plugin_id)
+
+         local ms_tbl = private:getMeasurements(output, exec_unit_id)
+         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+      end
+
+      function private:processRawOutput(raw_output, plugin_id)
+         local output_table = {}
+         local n = 0
+         for line in string.gmatch(raw_output, "([^\r\n]+)") do
+            table.insert(output_table, line)
+            n = n + 1
+         end
+
+         local exit_code = 100
+         local output = ""
+
+         if n > 0 then
+            exit_code = tonumber(output_table[n])
+            if n > 1 then
+               output = table.concat(output_table, ' ', 1, n - 1)
+            end
+         else
+            srError("MONITORING "..plugin_id..": No output and exit code")
+         end
 
          if private.debugLogLevelVerbose then
             srDebug("MONITORING "..plugin_id.." output: "..output)
             srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
          end
 
-         local ms_tbl = private:getMeasurements(output, exec_unit_id)
-         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+         return output, exit_code
       end
 
       function private:getMeasurements(output, exec_unit_id)
@@ -612,14 +635,25 @@ function monitor:new()
       end
 
       function private:isAlarmActive(exec_unit_id, c8y_id, alarm_type, severity, text)
+         local is_alarm_active = false
          local alarms = private.activeAlarmsTable
          local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
 
          local alarm_hash = uaotc and private:getAlarmHash(severity, text)
             or  private:getAlarmHash(severity)
 
-         return alarms[c8y_id] and alarms[c8y_id][alarm_type]
-            and alarms[c8y_id][alarm_type][alarm_hash] and true or false
+         is_alarm_active = alarms[c8y_id] and alarms[c8y_id][alarm_type]
+            and alarms[c8y_id][alarm_type][alarm_hash]
+
+         if is_alarm_active and private.refreshAlarmsNow then
+            local alarm_id = alarms[c8y_id][alarm_type][alarm_hash]
+            if private:isAlarmCleared(alarm_id) then
+               is_alarm_active = false
+               alarms[c8y_id][alarm_type] = nil
+            end
+         end
+
+         return is_alarm_active
       end
 
       function private:getAlarmHash(...)
@@ -635,6 +669,22 @@ function monitor:new()
          end
       end
 
+      function private:isAlarmCleared(alarm_id)
+         http:clear()
+
+         if http:post(
+               string.format("358,"..alarm_id)
+            ) <= 0 then return end
+
+         local resp = http:response()
+
+         if string.sub(resp, 1, 3) == '876' then
+            local status = string.match(resp, '^%d+,%d+,%d+,%a+,%d+,(%a+),.*$')
+
+            return status == "CLEARED"
+         end
+      end
+
       function private:processAlarmResponse(resp, exec_unit_id, c8y_id, type,
          severity, text)
 
@@ -645,7 +695,7 @@ function monitor:new()
 
          if string.sub(resp, 1, 3) == '876' then
             alarm_id, severity_resp, count, text_resp =
-               string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),(.*)$')
+               string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),%a+,(.*)$')
          end
 
          if not alarm_id then
@@ -764,18 +814,10 @@ function monitor:new()
          end
 
          local file = io.popen(command)
-         local output = file:read("*a")
+         local raw_output = file:read("*a")
          file:close()
 
-         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
-         output = output:sub(1, -4) --remove exit code and redundant \n
-
-         if private.debugLogLevelVerbose then
-            srDebug("MONITORING "..plugin_id.." output: "..output)
-            srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
-         end
-
-         return output, exit_code
+         return private:processRawOutput(raw_output, plugin_id)
       end
 
    private:initialize()
@@ -783,8 +825,14 @@ function monitor:new()
    local public = {}
 
       --public methods
-      function public:singleRunOfExecUnits()
+      function public:singleRunOfExecUnits(refresh_alarms_now)
          if private.isInitError then return end
+
+         private.refreshAlarmsNow = refresh_alarms_now
+
+         if private.refreshAlarmsNow then
+            srDebug("MONITORING Alarms will be refreshed...")
+         end
 
          if private.pluginsConcurrentExecution then
             private:runPluginsConcurrently()

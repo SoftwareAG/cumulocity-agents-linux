@@ -120,6 +120,8 @@ cumulocity-agent_4.2.5
 
 10,357,GET,/alarm/alarms?source=%%&type=%%&resolved=false&pageSize=100,,application/json,%%,UNSIGNED STRING,
 
+10,358,GET,/alarm/alarms/%%,,application/json,%%,UNSIGNED,
+
 
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
@@ -230,4 +232,4 @@ cumulocity-agent_4.2.5
 # 874 out of order
 11,875,$.operations,$.c8y_Command,$.id,$.c8y_Command.text,$.deviceId
 
-11,876,,$.severity,$.id,$.severity,$.count,$.text
+11,876,,$.severity,$.id,$.severity,$.count,$.status,$.text

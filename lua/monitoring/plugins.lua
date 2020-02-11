@@ -169,8 +169,8 @@ return {
       use_exit_code=true,
       update_alarm_on_text_change=true,
       alarmtext={
-         warning="This is OSCILLATING measurement with ALARMS CLEARING ON",
-         critical="This is OSCILLATING measurement with ALARMS CLEARING ON"
+         warning="This is OSCILLATING plugin with ALARMS CLEARING ON",
+         critical="This is OSCILLATING plugin with ALARMS CLEARING ON"
       },
    },
 
@@ -182,8 +182,8 @@ return {
       no_alarms_clearing=true,
       update_alarm_on_text_change=true,
       alarmtext={
-         warning="This is OSCILLATING measurement with ALARMS CLEARING OFF",
-         critical="This is OSCILLATING measurement with ALARMS CLEARING OFF"
+         warning="This is OSCILLATING plugin with ALARMS CLEARING OFF",
+         critical="This is OSCILLATING plugin with ALARMS CLEARING OFF"
       },
    },
 
@@ -193,10 +193,9 @@ return {
       params="",
       use_exit_code=true,
       update_alarm_on_text_change=true,
-      alarmtext={
-         warning="Some Warning Alarm text",
-         critical="Plugin's timeout expired"
-      },
+      -- alarmtext={
+      --    -- critical="Plugin's timeout expired"
+      -- },
    },
 
    -- for debugging
@@ -208,9 +207,9 @@ return {
 
    -- for debugging
    ["AlarmUpdateSeverityAndTextAndIgnoreText"] = {
-      command="simulation/alarmUpdateAll.lua",
+      command="simulation/alarmUpdateAllAndIgnoreText.lua",
       use_exit_code=true,
-      update_alarm_on_text_change=false
+      update_alarm_on_text_change=false,
    },
 
    -- for debugging
