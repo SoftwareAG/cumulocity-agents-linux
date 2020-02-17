@@ -19,6 +19,8 @@ function monitor:new()
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
+      private.updateAlarmOnTextChangeGlobal = nil
+      private.refreshAlarmsNow = nil
       private.debugLogLevelVerbose = nil
       private.chefLinkedExternalId = nil
       private.chefAttributesTable = {}
@@ -47,13 +49,16 @@ function monitor:new()
             cdb:get('monitoring.plugins.concurrent_execution') == 'true'
 
          private.noDuplicateAlarms =
-            cdb:get('monitoring.alarms.no_duplicates') == 'true'
-            or cdb:get('monitoring.alarms.clearing') == 'true'
-            and db:get('monitoring.alarms.no_duplicates') ~= 'false'
+            cdb:get('monitoring.alarms.no_duplicates') == 'true' or
+            cdb:get('monitoring.alarms.clearing') == 'true' and
+            cdb:get('monitoring.alarms.no_duplicates') ~= 'false'
 
          private.clearingAlarmsGlobal =
             cdb:get('monitoring.alarms.clearing') == 'true'
             and private.noDuplicateAlarms
+
+         private.updateAlarmOnTextChangeGlobal =
+            cdb:get('monitoring.alarm.update_on_text_change') == 'true'
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
@@ -229,9 +234,15 @@ function monitor:new()
          exec_unit.host = host_id
          exec_unit.plugin = plugin_id
          exec_unit.use_exit_code = plugin_tbl.use_exit_code == true
-         exec_unit.plugin_alarms_clearing = plugin_tbl.no_alarms_clearing ~= true
+         exec_unit.plugin_alarms_clearing =
+            plugin_tbl.no_alarms_clearing ~= true
+         exec_unit.update_alarm_on_text_change =
+            private.updateAlarmOnTextChangeGlobal and
+            plugin_tbl.update_alarm_on_text_change ~= false
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series or {}
+         --true if all active or acknowledged alarms of the given type are cleared
+         exec_unit.did_clear_all_alarms = false
 
          if private.hostName and plugin_tbl.add_observer_hostname then
             exec_unit.add_observer_hostname = true
@@ -314,7 +325,7 @@ function monitor:new()
             srError([[MONITORING Chef Linked External Id is configured to be used,
                but the Chef attributes are unavailable]])
             return
-         end      
+         end
 
          c8y:send((string.format("%d,%s,%s:%s",
             302, c8y.ID, environment, node_name)), 0)
@@ -372,18 +383,40 @@ function monitor:new()
          local exec_unit_id = pipe.exec_unit_id
          local plugin_id = private.execTable[exec_unit_id].plugin
 
-         local output = pipe["pipe"]:read("*a")
+         local raw_output = pipe["pipe"]:read("*a")
 
-         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
-         output = output:sub(1, -4) --remove exit code and redundant \n
+         local output, exit_code = private:processRawOutput(raw_output, plugin_id)
+
+         local ms_tbl = private:getMeasurements(output, exec_unit_id)
+         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+      end
+
+      function private:processRawOutput(raw_output, plugin_id)
+         local output_table = {}
+         local n = 0
+         for line in string.gmatch(raw_output, "([^\r\n]+)") do
+            table.insert(output_table, line)
+            n = n + 1
+         end
+
+         local exit_code = 100
+         local output = ""
+
+         if n > 0 then
+            exit_code = tonumber(output_table[n])
+            if n > 1 then
+               output = table.concat(output_table, ' ', 1, n - 1)
+            end
+         else
+            srError("MONITORING "..plugin_id..": No output and exit code")
+         end
 
          if private.debugLogLevelVerbose then
             srDebug("MONITORING "..plugin_id.." output: "..output)
             srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
          end
 
-         local ms_tbl = private:getMeasurements(output, exec_unit_id)
-         private:sendMeasurementsAndAlarms(exec_unit_id, exit_code, ms_tbl, output)
+         return output, exit_code
       end
 
       function private:getMeasurements(output, exec_unit_id)
@@ -465,6 +498,7 @@ function monitor:new()
 
             if (exit_code >= 1) then
                private:sendAlarm(
+                     exec_unit_id,
                      timestamp,
                      exit_code,
                      c8y_id,
@@ -472,13 +506,12 @@ function monitor:new()
                      private:getAlarmText(exec_unit_id, exit_code, output)
                   )
             elseif (exit_code == 0 and private.noDuplicateAlarms) then
-               private:resetAlarm(c8y_id, alarm_type,
-                  exec_unit.plugin_alarms_clearing)
+               private:resetAlarm(exec_unit_id, c8y_id, alarm_type)
             end
          end
       end
 
-      -- retrieves a timestamp if exists
+      --retrieves a timestamp if exists
       function private:getTimestamp(exec_unit, ms_tbl)
          for i=1, #exec_unit.series do
             if (exec_unit.series[i]["use_as_timestamp"]) then
@@ -545,20 +578,37 @@ function monitor:new()
          local plugin_id = private.execTable[exec_unit_id]["plugin"]
          local plugin_tbl = private.pluginsTable[plugin_id]
 
-         if plugin_tbl.alarmtext then
-            if (exit_code == 1) then
-               return plugin_tbl.alarmtext["warning"] or ""
-            elseif (exit_code > 1) then
-               return plugin_tbl.alarmtext["critical"] or ""
-            end
+         if (exit_code == 124 or exit_code == 137) then
+            -- a plugin terminated using SIGTERM or SIGKILL
+            return "Plugin "..plugin_id.." was terminated due to expired timeout"
+
+         elseif (
+               plugin_tbl.alarmtext and
+               exit_code == 1 and
+               plugin_tbl.alarmtext["warning"] and
+               type(plugin_tbl.alarmtext["warning"]) == "string" and
+               string.len(plugin_tbl.alarmtext["warning"]) ~= 0
+            ) then
+
+            return plugin_tbl.alarmtext["warning"]
+
+         elseif (
+               plugin_tbl.alarmtext and
+               exit_code > 1 and
+               plugin_tbl.alarmtext["critical"] and
+               type(plugin_tbl.alarmtext["critical"]) == "string" and
+               string.len(plugin_tbl.alarmtext["critical"]) ~= 0
+            ) then
+
+            return plugin_tbl.alarmtext["critical"]
 
          elseif (not output or string.len(output) == 0) then
             if (exit_code == 1) then
                return "Plugin "..plugin_id
-                  .." returned WARNING. Output is not available."
+                  .." returned WARNING. Output is not available"
             elseif (exit_code > 1)  then
                return "Plugin "..plugin_id
-                  .." returned CRITICAL. Output is not available."
+                  .." returned CRITICAL. Output is not available"
             end
          end
 
@@ -570,10 +620,11 @@ function monitor:new()
          return default
       end
 
-      function private:sendAlarm(timestamp, exit_code, c8y_id, type, text)
+      function private:sendAlarm(exec_unit_id, timestamp, exit_code, c8y_id, type, text)
          local severity = exit_code == 1 and "MINOR" or "CRITICAL"
+
          if private.noDuplicateAlarms
-            and private:isAlarmActive(c8y_id, type, severity, text) then
+            and private:isAlarmActive(exec_unit_id, c8y_id, type, severity, text) then
             -- do not send the alarm
             return
          end
@@ -597,35 +648,76 @@ function monitor:new()
                }, ',')) <= 0 then return end
          end
 
-         local alarm_id = private:processAlarmResponse(http:response(), c8y_id,
-            type, severity, text)
+         local alarm_id = private:processAlarmResponse(http:response(),
+            exec_unit_id, c8y_id, type, severity, text)
 
          if alarm_id ~= nil then
-            private:activateAlarm(c8y_id, alarm_id, type, severity, text)
+            private:activateAlarm(exec_unit_id, c8y_id, alarm_id, type, severity, text)
          end
       end
 
-      function private:isAlarmActive(c8y_id, alarm_type, severity, text)
+      function private:isAlarmActive(exec_unit_id, c8y_id, alarm_type, severity, text)
+         local is_alarm_active = false
          local alarms = private.activeAlarmsTable
-         local alarm_hash = private:getMD5AsHex(severity, text)
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
 
-         return alarms[c8y_id] and alarms[c8y_id][alarm_type]
-            and alarms[c8y_id][alarm_type][alarm_hash] and true or false
+         local alarm_hash = uaotc and private:getAlarmHash(severity, text)
+            or  private:getAlarmHash(severity)
+
+         is_alarm_active = alarms[c8y_id] and alarms[c8y_id][alarm_type]
+            and alarms[c8y_id][alarm_type][alarm_hash]
+
+         if is_alarm_active and private.refreshAlarmsNow then
+            local alarm_id = alarms[c8y_id][alarm_type][alarm_hash]
+            if private:isAlarmCleared(alarm_id) then
+               is_alarm_active = false
+               alarms[c8y_id][alarm_type] = nil
+            end
+         end
+
+         return is_alarm_active
       end
 
-      function private:getMD5AsHex(...)
-         local md5 = require 'monitoring/util/md5'
-         return md5.sumhexa(table.concat(arg,','))
+      function private:getAlarmHash(...)
+         local n = arg.n
+         if n == 0 then return end
+
+         local first = arg[1]
+         if n == 1 and (type(first) ~= "string" or string.len(first) <= 32) then
+            return first
+         else
+            local md5 = require 'monitoring/util/md5'
+            return md5.sumhexa(table.concat(arg,','))
+         end
       end
 
-      function private:processAlarmResponse(resp, c8y_id, type, severity, text)
+      function private:isAlarmCleared(alarm_id)
+         http:clear()
+
+         if http:post(
+               string.format("358,"..alarm_id)
+            ) <= 0 then return end
+
+         local resp = http:response()
+
+         if string.sub(resp, 1, 3) == '876' then
+            local status = string.match(resp, '^%d+,%d+,%d+,%a+,%d+,(%a+),.*$')
+
+            return status == "CLEARED"
+         end
+      end
+
+      function private:processAlarmResponse(resp, exec_unit_id, c8y_id, type,
+         severity, text)
+
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
          local alarms = private.activeAlarmsTable
+
          local alarm_id, severity_resp, count, text_resp
 
          if string.sub(resp, 1, 3) == '876' then
             alarm_id, severity_resp, count, text_resp =
-               --string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),"?(.-)"?$')
-               string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),(.*)$')
+               string.match(resp, '^%d+,%d+,(%d+),(%a+),(%d+),%a+,(.*)$')
          end
 
          if not alarm_id then
@@ -635,7 +727,7 @@ function monitor:new()
 
          if count ~= '1' then
             local update_severity = severity ~= severity_resp
-            local update_text = text ~= text_resp
+            local update_text = text ~= text_resp and uaotc
 
             if update_severity and update_text then
                c8y:send(table.concat({
@@ -662,30 +754,65 @@ function monitor:new()
          return alarm_id
       end
 
-      function private:activateAlarm(c8y_id, alarm_id, alarm_type, severity, text)
+      function private:activateAlarm(exec_unit_id, c8y_id, alarm_id, alarm_type, severity, text)
          local alarms = private.activeAlarmsTable
+         local uaotc = private.execTable[exec_unit_id].update_alarm_on_text_change
 
          if not alarms[c8y_id] then
             alarms[c8y_id] = {}
          end
 
+         --this removes info about active alarms same type with different hash (severity, text)
+         --as the cumulocity platform normally can have only one active alarm of one type
          alarms[c8y_id][alarm_type] = {}
-         local alarm_hash = private:getMD5AsHex(severity, text)
+
+         local alarm_hash = uaotc and private:getAlarmHash(severity, text)
+            or private:getAlarmHash(severity)
          alarms[c8y_id][alarm_type][alarm_hash] = alarm_id
       end
 
-      function private:resetAlarm(c8y_id, alarm_type, plugin_alarms_clearing)
+      function private:resetAlarm(exec_unit_id, c8y_id, alarm_type, plugin_alarms_clearing)
+         local exec_unit = private.execTable[exec_unit_id]
+         local plugin_alarms_clearing = exec_unit.plugin_alarms_clearing
+         local global_alarms_clearing = private.clearingAlarmsGlobal
          local alarms = private.activeAlarmsTable
 
-         if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+         --if 'alarms clearing' for this exec unit is off and 'no duplicates' is on
+         if not global_alarms_clearing or not plugin_alarms_clearing then
+            if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+               alarms[c8y_id][alarm_type] = nil
+            end
+            return
+         end
 
-            if private.clearingAlarmsGlobal and plugin_alarms_clearing then
-               --clear alarms of the specified type
+         local just_cleared = false
+
+         if not exec_unit.did_clear_all_alarms then
+            --clearing all active or acknowledged alarms of the given type
+            private:clearAlarms(c8y_id, alarm_type)
+            exec_unit.did_clear_all_alarms = true
+            just_cleared = true
+         end
+
+         if alarms[c8y_id] and alarms[c8y_id][alarm_type] then
+            if not just_cleared then
                for alarm_hash, alarm_id in pairs(alarms[c8y_id][alarm_type]) do
                   c8y:send('313,'..alarm_id, 0)
                end
             end
             alarms[c8y_id][alarm_type] = nil
+         end
+      end
+
+      function private:clearAlarms(c8y_id, alarm_type)
+         http:clear()
+
+         if http:post(
+               string.format("357,%s,%s", c8y_id, alarm_type)
+            ) <= 0 then return end
+
+         for alarm_id in string.gmatch(http:response(), "808,%d+,(%d+),") do
+            c8y:send('313,'..alarm_id, 0)
          end
       end
 
@@ -709,18 +836,10 @@ function monitor:new()
          end
 
          local file = io.popen(command)
-         local output = file:read("*a")
+         local raw_output = file:read("*a")
          file:close()
 
-         local exit_code = tonumber(output:sub(-2, -2)) --extract exit code
-         output = output:sub(1, -4) --remove exit code and redundant \n
-
-         if private.debugLogLevelVerbose then
-            srDebug("MONITORING "..plugin_id.." output: "..output)
-            srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
-         end
-
-         return output, exit_code
+         return private:processRawOutput(raw_output, plugin_id)
       end
 
    private:initialize()
@@ -728,8 +847,14 @@ function monitor:new()
    local public = {}
 
       --public methods
-      function public:singleRunOfExecUnits()
+      function public:singleRunOfExecUnits(refresh_alarms_now)
          if private.isInitError then return end
+
+         private.refreshAlarmsNow = refresh_alarms_now
+
+         if private.refreshAlarmsNow then
+            srDebug("MONITORING Alarms will be refreshed...")
+         end
 
          if private.pluginsConcurrentExecution then
             private:runPluginsConcurrently()

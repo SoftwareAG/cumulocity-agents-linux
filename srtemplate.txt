@@ -1,4 +1,4 @@
-cumulocity-agent_4.2.4
+cumulocity-agent_4.2.5
 
 10,300,GET,/identity/externalIds/c8y_Serial/%%,,application/vnd.com.nsn.cumulocity.externalId+json,%%,STRING,
 
@@ -118,6 +118,11 @@ cumulocity-agent_4.2.4
 
 10,356,PUT,/alarm/alarms/%%,application/json,,%%,UNSIGNED STRING,"{""text"":""%%""}"
 
+10,357,GET,/alarm/alarms?source=%%&type=%%&resolved=false&pageSize=100,,application/json,%%,UNSIGNED STRING,
+
+10,358,GET,/alarm/alarms/%%,,application/json,%%,UNSIGNED,
+
+
 11,800,$.managedObject,,$.id
 11,801,,$.c8y_IsDevice,$.id
 11,802,,$.deviceId,$.id,$.status
@@ -227,4 +232,4 @@ cumulocity-agent_4.2.4
 # 874 out of order
 11,875,$.operations,$.c8y_Command,$.id,$.c8y_Command.text,$.deviceId
 
-11,876,,$.severity,$.id,$.severity,$.count,$.text
+11,876,,$.severity,$.id,$.severity,$.count,$.status,$.text

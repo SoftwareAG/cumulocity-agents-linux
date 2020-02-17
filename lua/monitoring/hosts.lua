@@ -14,14 +14,16 @@ return {
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
          -- "NoSeriesMeasurementNALC",
+         -- "NoSeriesMeasurementNoCustomAlarmText",
          -- "TestPluginsTimeout",
          -- "AlarmUpdateSeverityAndText",
+         -- "AlarmUpdateSeverityAndTextAndIgnoreText",
          -- "AlarmUpdateTextOnly",
          -- "AlarmUpdateSeverityOnly",
       }
    },
 
-   --example of monitoring of a remote host
+   -- example of monitoring of a remote host
    -- ["www.google.com"] = {
    --    plugins_to_run={
    --       "ContentAvailability",
