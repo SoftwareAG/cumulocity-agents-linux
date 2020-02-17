@@ -19,6 +19,7 @@ function monitor:new()
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
+      private.updateAlarmOnTextChangeGlobal = nil
       private.refreshAlarmsNow = nil
       private.debugLogLevelVerbose = nil
       private.chefLinkedExternalId = nil
@@ -55,6 +56,9 @@ function monitor:new()
          private.clearingAlarmsGlobal =
             cdb:get('monitoring.alarms.clearing') == 'true'
             and private.noDuplicateAlarms
+
+         private.updateAlarmOnTextChangeGlobal =
+            cdb:get('monitoring.alarm.update_on_text_change') == 'true'
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
@@ -233,6 +237,7 @@ function monitor:new()
          exec_unit.plugin_alarms_clearing =
             plugin_tbl.no_alarms_clearing ~= true
          exec_unit.update_alarm_on_text_change =
+            private.updateAlarmOnTextChangeGlobal and
             plugin_tbl.update_alarm_on_text_change ~= false
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series or {}
@@ -573,20 +578,37 @@ function monitor:new()
          local plugin_id = private.execTable[exec_unit_id]["plugin"]
          local plugin_tbl = private.pluginsTable[plugin_id]
 
-         if plugin_tbl.alarmtext then
-            if (exit_code == 1) then
-               return plugin_tbl.alarmtext["warning"] or ""
-            elseif (exit_code > 1) then
-               return plugin_tbl.alarmtext["critical"] or ""
-            end
+         if (exit_code == 124 or exit_code == 137) then
+            -- a plugin terminated using SIGTERM or SIGKILL
+            return "Plugin "..plugin_id.." was terminated due to expired timeout"
+
+         elseif (
+               plugin_tbl.alarmtext and
+               exit_code == 1 and
+               plugin_tbl.alarmtext["warning"] and
+               type(plugin_tbl.alarmtext["warning"]) == "string" and
+               string.len(plugin_tbl.alarmtext["warning"]) ~= 0
+            ) then
+
+            return plugin_tbl.alarmtext["warning"]
+
+         elseif (
+               plugin_tbl.alarmtext and
+               exit_code > 1 and
+               plugin_tbl.alarmtext["critical"] and
+               type(plugin_tbl.alarmtext["critical"]) == "string" and
+               string.len(plugin_tbl.alarmtext["critical"]) ~= 0
+            ) then
+
+            return plugin_tbl.alarmtext["critical"]
 
          elseif (not output or string.len(output) == 0) then
             if (exit_code == 1) then
                return "Plugin "..plugin_id
-                  .." returned WARNING. Output is not available."
+                  .." returned WARNING. Output is not available"
             elseif (exit_code > 1)  then
                return "Plugin "..plugin_id
-                  .." returned CRITICAL. Output is not available."
+                  .." returned CRITICAL. Output is not available"
             end
          end
 

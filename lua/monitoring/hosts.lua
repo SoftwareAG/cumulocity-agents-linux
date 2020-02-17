@@ -14,6 +14,7 @@ return {
          -- "ValueWithTimestampInMilliseconds",
          -- "NoSeriesMeasurement",
          -- "NoSeriesMeasurementNALC",
+         -- "NoSeriesMeasurementNoCustomAlarmText",
          -- "TestPluginsTimeout",
          -- "AlarmUpdateSeverityAndText",
          -- "AlarmUpdateSeverityAndTextAndIgnoreText",

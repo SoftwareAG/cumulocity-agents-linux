@@ -188,6 +188,14 @@ return {
    },
 
    -- for debugging
+   ["NoSeriesMeasurementNoCustomAlarmText"] = {
+      command="simulation/noSeriesMeasurement.lua",
+      params="",
+      use_exit_code=true,
+      update_alarm_on_text_change=true,
+   },
+
+   -- for debugging
    ["TestPluginsTimeout"] = {
       command="simulation/suspending.lua",
       params="",
