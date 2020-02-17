@@ -334,8 +334,12 @@ function monitor:new()
       function private:runPluginsConcurrently()
          local pipes = private:populatePipeTable()
 
+         local posixUnistd = require 'posix.unistd'
+         local posixPoll = require 'posix.poll'
+
          while true do
-            require 'posix.poll'.poll(pipes, -1)
+            posixUnistd.sleep(1)
+            posixPoll.poll(pipes, 0)
             for fd, pipe in pairs(pipes) do
                if pipe.revents.HUP then
                   private:processPipe(pipe)
