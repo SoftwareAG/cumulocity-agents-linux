@@ -38,7 +38,7 @@ function sendMonitorData()
    local status, err = pcall(monitor.singleRunOfExecUnits, monitor, refreshAlarmsNow)
 
    if not status then
-      srError("MONITORING "..(err or "plugin terminated with an error"))
+      srError("MON "..(err or "plugin terminated with an error"))
       isError = true
    end
 end

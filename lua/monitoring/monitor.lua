@@ -73,19 +73,19 @@ function monitor:new()
 
          if not private:fileExists(private.pluginsFile) then
             private.isInitError = true
-            srError("MONITORING File with plugins table is not accessible")
+            srError("MON File with plugins table is not accessible")
             return
          end
 
          if not private:fileExists(private.hostsFile) then
             private.isInitError = true
-            srError("MONITORING File with hosts table is not accessible")
+            srError("MON File with hosts table is not accessible")
             return
          end
 
          if #private.pluginsPath == 0 then
             private.isInitError = true
-            srError("MONITORING No path to plugins is accessible")
+            srError("MON No path to plugins is accessible")
             return
          end
 
@@ -102,7 +102,7 @@ function monitor:new()
 
          if #private.execTable == 0 then
             private.isInitError = true
-            srError("MONITORING No plugins to run")
+            srError("MON No plugins to run")
          end
 
          if private.chefLinkedExternalId then
@@ -144,10 +144,10 @@ function monitor:new()
             if not host_tbl.c8y_id then
                local ID = private:getC8YId(host_id, host_tbl)
                if ID then
-                  srInfo("MONITORING Host "..host_id.." has ID: "..ID)
+                  srInfo("MON Host "..host_id.." has ID: "..ID)
                else
                   private.isInitError = true
-                  srError("MONITORING Could not retrieve ID for host "..host_id)
+                  srError("MON Could not retrieve ID for host "..host_id)
                end
             end
          end
@@ -187,10 +187,10 @@ function monitor:new()
          local output = file:read("*l")
          file:close()
          if output then
-            srInfo("MONITORING Hostname is "..output)
+            srInfo("MON Hostname is "..output)
             private.hostName = output:gsub("%.","_")
          else
-            srInfo("MONITORING Could not retrieve hostname")
+            srInfo("MON Could not retrieve hostname")
          end
       end
 
@@ -200,7 +200,7 @@ function monitor:new()
             if host_tbl.c8y_id then
                for i, plugin_id in ipairs(host_tbl.plugins_to_run) do
                   if not private.pluginsTable[plugin_id] then
-                     srWarning("MONITORING Plugin "..plugin_id
+                     srWarning("MON Plugin "..plugin_id
                         .." is not specified in ".. private.pluginsFile)
                   else
                      local exec_unit =
@@ -269,7 +269,7 @@ function monitor:new()
          end
 
          if not cwp then
-            srWarning("MONITORING Plugin "..plugin_id.." is not accessible")
+            srWarning("MON Plugin "..plugin_id.." is not accessible")
             return nil
          end
 
@@ -322,7 +322,7 @@ function monitor:new()
          local node_name = private.chefAttributesTable.node_name
 
          if not environment or not node_name then
-            srError([[MONITORING Chef Linked External Id is configured to be used,
+            srError([[MON Chef Linked External Id is configured to be used,
                but the Chef attributes are unavailable]])
             return
          end
@@ -348,7 +348,7 @@ function monitor:new()
                elseif pipe.revents.ERR then
                   local exec_unit_id = pipe.exec_unit_id
                   local plugin_id = private.execTable[exec_unit_id].plugin
-                  srError("MONITORING Error condition in returned events for plugin: "..plugin_id)
+                  srError("MON Error condition in returned events for plugin: "..plugin_id)
                   pipe["pipe"]:close()
                   pipes[fd] = nil
                end
@@ -367,8 +367,8 @@ function monitor:new()
             local plugin_id = exec_unit.plugin
 
             if private.debugLogLevelVerbose then
-               srDebug("MONITORING Concurrent execution of plugin: "..plugin_id)
-               srDebug("MONITORING "..plugin_id.." command: "..command)
+               srDebug("MON Concurrent execution of plugin: "..plugin_id)
+               srDebug("MON "..plugin_id.." command: "..command)
             end
 
             local pipe = io.popen(command)
@@ -403,21 +403,24 @@ function monitor:new()
             n = n + 1
          end
 
-         local exit_code = 100
+         local exit_code
          local output = ""
 
          if n > 0 then
             exit_code = tonumber(output_table[n])
+            if not exit_code then
+               srError("MON "..plugin_id
+                  ..": Can't extract exit code from line: "..output_table[n])
+               exit_code = 100 -- special exit code for this case
+            end
             if n > 1 then
                output = table.concat(output_table, ' ', 1, n - 1)
             end
-         else
-            srError("MONITORING "..plugin_id..": No output and exit code")
          end
 
          if private.debugLogLevelVerbose then
-            srDebug("MONITORING "..plugin_id.." output: "..output)
-            srDebug("MONITORING "..plugin_id.." exit code: "..exit_code)
+            srDebug("MON "..plugin_id.." output: "..output)
+            srDebug("MON "..plugin_id.." exit code: "..exit_code)
          end
 
          return output, exit_code
@@ -520,7 +523,7 @@ function monitor:new()
          for i=1, #exec_unit.series do
             if (exec_unit.series[i]["use_as_timestamp"]) then
                if not tonumber(ms_tbl[i]) then
-                  srError("MONITORING timestamp is not a number")
+                  srError("MON timestamp is not a number")
                   return -1
                end
                if (exec_unit.series[i]["unit"] == "ms") then
@@ -547,7 +550,7 @@ function monitor:new()
                      utcdate.min,
                      utcdate.sec)
                else
-                  srError("MONITORING wrong unit for timestamp")
+                  srError("MON wrong unit for timestamp")
                   return -1
                end
             end
@@ -725,7 +728,7 @@ function monitor:new()
          end
 
          if not alarm_id then
-            srWarning("MONITORING Could not process alarm repsonse of type: "..type)
+            srWarning("MON Could not process alarm repsonse of type: "..type)
             return
          end
 
@@ -835,8 +838,8 @@ function monitor:new()
          local command = private.execTable[exec_unit_id]["final_command"]
 
          if private.debugLogLevelVerbose then
-            srDebug("MONITORING Sequential execution of plugin: "..plugin_id)
-            srDebug("MONITORING "..plugin_id.." command: "..command)
+            srDebug("MON Sequential execution of plugin: "..plugin_id)
+            srDebug("MON "..plugin_id.." command: "..command)
          end
 
          local file = io.popen(command)
@@ -857,7 +860,7 @@ function monitor:new()
          private.refreshAlarmsNow = refresh_alarms_now
 
          if private.refreshAlarmsNow then
-            srDebug("MONITORING Alarms will be refreshed...")
+            srDebug("MON Alarms will be refreshed...")
          end
 
          if private.pluginsConcurrentExecution then

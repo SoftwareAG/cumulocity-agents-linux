@@ -123,6 +123,9 @@ sed -r -e 's#[$]PKG_DIR#'"$TARGET_BASE"'#g' -e 's#[$]DATAPATH#'"$DATAPATH"'#g' $
 %post
 ldconfig
 ln -f -s /etc/cumulocity-agent.conf $TARGET_BASE/cumulocity-agent.conf
+ln -f -s $TARGET_BASE/lua/monitoring/hosts.lua /etc/monitoring-hosts.lua
+ln -f -s $TARGET_BASE/lua/monitoring/plugins.lua /etc/monitoring-plugins.lua
+ln -f -s $TARGET_BASE/lua/monitoring $TARGET_BASE/monitoring
 systemctl enable cumulocity-agent
 
 %postun
