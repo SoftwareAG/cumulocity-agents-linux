@@ -13,6 +13,7 @@ local keyTransmitRate = 'canopen.transmitRate'
 local keyBaud = 'canopen.baud'
 local keyPort = 'canopen.port'
 local keyNode = 'canopen.nodeID'
+local unpack = table.unpack or unpack
 
 local function rfind(tbl, index, subIndex)
    for i, Reg in ipairs(tbl) do
