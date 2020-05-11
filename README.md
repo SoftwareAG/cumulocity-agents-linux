@@ -10,6 +10,7 @@ Cumulocity Linux agent is a generic agent for connecting Linux-powered devices t
 * Modbus-TCP and Modbus-RTU
 * CANopen (using SocketCAN interface)
 * Monitoring
+* Cloud Remote Access for remotely accessing assets via VNC/Telnet/SSH protocols
 
 ### How to build the agent? ###
 
