@@ -2,7 +2,7 @@ Source: cumulocity-agent
 Version: 4.2.7
 Priority: optional
 Section: embedded
-Maintainer: Cumulocity <support@cumulocity.com>
+Maintainer: Software AG Cumulocity IoT <Helpdesk-CumulocityIoT@softwareag.com>
 Package: cumuloctiy-agent
 Architecture: armhf
 Depends: liblua5.2-0, libstdc++6, libc6, libcurl3
