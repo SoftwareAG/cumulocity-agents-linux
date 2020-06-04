@@ -1,5 +1,5 @@
 Source: cumulocity-agent
-Version: 4.2.7
+Version: 4.2.8
 Priority: optional
 Section: embedded
 Maintainer: Software AG Cumulocity IoT <Helpdesk-CumulocityIoT@softwareag.com>
