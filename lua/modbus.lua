@@ -350,17 +350,22 @@ end
 
 function transmit()
    for device, _ in pairs(MBDEVICES) do
-      local msgtbl, dtype = {}, MBDEVICES[device][dtypeno]
-      transmitData(device, true, msgtbl)
-      transmitData(device, false, msgtbl)
+      if MBDEVICES[device][dunvno] then
+         local addr, slave = MBDEVICES[device][daddrno], MBDEVICES[device][dslaveno]
+         srDebug('Modbus: transmit unavailable ' .. addr .. '@' .. slave)
+      else
+         local msgtbl, dtype = {}, MBDEVICES[device][dtypeno]
+         transmitData(device, true, msgtbl)
+         transmitData(device, false, msgtbl)
 
-      local msgs, serverTime = {}, MBTYPES[dtype][tstno]
-      for msgid, values in pairs(msgtbl) do
-         msgs[#msgs + 1] = pack({msgid, device}, serverTime, values)
-      end
-      if #msgs > 0 then
-         msgs[1] = dtype .. ',' .. msgs[1]
-         c8y:send(table.concat(msgs, '\n'), 2)
+         local msgs, serverTime = {}, MBTYPES[dtype][tstno]
+         for msgid, values in pairs(msgtbl) do
+            msgs[#msgs + 1] = pack({msgid, device}, serverTime, values)
+         end
+         if #msgs > 0 then
+            msgs[1] = dtype .. ',' .. msgs[1]
+            c8y:send(table.concat(msgs, '\n'), 2)
+         end
       end
    end
 end
