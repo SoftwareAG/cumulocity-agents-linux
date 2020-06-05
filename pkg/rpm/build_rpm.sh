@@ -6,7 +6,7 @@ TARGET_BASE=/usr/share/cumulocity-agent
 DATAPATH=/var/lib/cumulocity-agent
 PREFIX=/usr
 RPM_BASE=/tmp/rpmbuild
-AGENT_VERSION='4.2.7'
+AGENT_VERSION='4.2.8'
 RPM_RELEASE='1'
 
 
@@ -123,10 +123,18 @@ sed -r -e 's#[$]PKG_DIR#'"$TARGET_BASE"'#g' -e 's#[$]DATAPATH#'"$DATAPATH"'#g' $
 %post
 ldconfig
 ln -f -s /etc/cumulocity-agent.conf $TARGET_BASE/cumulocity-agent.conf
+ln -f -s lua/monitoring $TARGET_BASE/monitoring
+ln -f -s $TARGET_BASE/monitoring/hosts.lua /etc/monitoring-hosts.lua
+ln -f -s $TARGET_BASE/monitoring/plugins.lua /etc/monitoring-plugins.lua
+
 systemctl enable cumulocity-agent
 
 %postun
 rm -f $TARGET_BASE/cumulocity-agent.conf
+rm -f /etc/monitoring-hosts.lua
+rm -f /etc/monitoring-plugins.lua
+rm -f $TARGET_BASE/monitoring
+
 
 %clean
 rm -rf %{buildroot}
