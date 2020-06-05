@@ -1,0 +1,10 @@
+[Unit]
+Description=cumulocity-remoteaccess
+After=network.target
+
+[Service]
+Type=idle
+ExecStart=$PREFIX/bin/srwatchdogd $PREFIX/bin/vncproxy 0
+
+[Install]
+WantedBy=multi-user.target
