@@ -1,4 +1,4 @@
-PLUGIN_MODBUS:=0
+PLUGIN_MODBUS:=1
 BUILD:=debug
 
 SRC_DIR:=src
@@ -21,11 +21,11 @@ VNC_SRC:=$(wildcard $(SRC_DIR)/vnc/*.c)
 VNC_OBJ:=$(addprefix $(BUILD_DIR)/, $(VNC_SRC:.c=.o))
 VNC_BIN:=vncproxy
 
-CPPFLAGS+=-I$(C8Y_LIB_PATH)/include $(shell pkg-config --cflags lua)\
+CPPFLAGS+=-I$(C8Y_LIB_PATH)/include $(shell pkg-config --cflags lua5.3)\
 		  -DPKG_DIR='"$(PKG_DIR)"'
 CXXFLAGS+=-Wall -pedantic -Wextra -std=c++11 -MMD
 LDFLAGS:=-Llib
-LDLIBS:=-lsera $(shell pkg-config --libs lua) -pthread
+LDLIBS:=-lsera $(shell pkg-config --libs lua5.3) -pthread
 
 VNC_CPPFLAGS+=$(shell pkg-config --cflags libcurl)
 CFLAGS+=-Wall -pedantic -Wextra -MMD
@@ -72,7 +72,7 @@ install:
 
 debian:
 	@mkdir -p $(STAGE_DIR)/$@$(PREFIX)/bin
-	@cp $(BIN_DIR)/$(BIN) $(BIN_DIR)/srwatchdogd $(STAGE_DIR)/$@$(PREFIX)/bin
+	@cp $(BIN_DIR)/$(BIN) $(BIN_DIR)/srwatchdogd $(BIN_DIR)/vncproxy $(STAGE_DIR)/$@$(PREFIX)/bin
 	@mkdir -p $(STAGE_DIR)/$@$(PREFIX)/lib
 	@cp -P $(LIB_DIR)/libsera.so.1* $(STAGE_DIR)/$@$(PREFIX)/lib
 	@chmod -x $(STAGE_DIR)/$@$(PREFIX)/lib/*
@@ -84,6 +84,7 @@ debian:
 	@cp -r pkg/$@/DEBIAN $(STAGE_DIR)/$@
 	@mkdir -p $(STAGE_DIR)/$@/lib/systemd/system
 	@sed 's#$$PREFIX#$(PREFIX)#g' utils/cumulocity-agent.service > $(STAGE_DIR)/$@/lib/systemd/system/cumulocity-agent.service
+	@sed 's#$$PREFIX#$(PREFIX)#g' utils/cumulocity-remoteaccess.service > $(STAGE_DIR)/$@/lib/systemd/system/cumulocity-remoteaccess.service
 	@find $(STAGE_DIR)/$@ -type d | xargs chmod 755
 	@fakeroot dpkg-deb --build $(STAGE_DIR)/$@ build
 

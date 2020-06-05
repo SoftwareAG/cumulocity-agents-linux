@@ -1,3 +1,4 @@
 ldconfig
 ! test -e /etc/cumulocity-agent.conf && touch /etc/cumulocity-agent.conf
 systemctl enable cumulocity-agent
+systemctl enable cumulocity-remoteaccess

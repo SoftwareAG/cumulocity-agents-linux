@@ -4,6 +4,6 @@ Priority: optional
 Section: embedded
 Maintainer: Cumulocity <support@cumulocity.com>
 Package: cumuloctiy-agent
-Architecture: armhf
-Depends: liblua5.2-0, libstdc++6, libc6, libcurl3
+Architecture: amd64
+Depends: liblua5.3-0, libmodbus5, libstdc++6, libc6, libcurl3-gnutls
 Description: Generic Linux agent for Cumulocity IoT integration.

@@ -1,1 +1,2 @@
 systemctl disable cumulocity-agent
+systemctl disable cumulocity-remoteaccess
