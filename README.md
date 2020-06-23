@@ -19,7 +19,7 @@ Cumulocity Linux agent is a generic agent for connecting Linux-powered devices t
 
     - liblua (>= 5.1)
 
-    - libcurl (>= 7.26.0)
+    - libcurl (>= 7.57.0)
 
     - Systemd (optional, for automatically starting the agent on boot)
 
