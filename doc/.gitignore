@@ -1,0 +1,11 @@
+# Ignore
+.git
+/themes/
+/public/
+/resources/_gen/
+hugo.exe
+hugo.linux
+hugo.darwin
+
+# Exception
+!.gitkeep
