@@ -11,7 +11,7 @@ weight: 102
   - libcurl (>=7.57.0)
 - Optional
   - systemd (for auto-start of the agent on boot)
-  - libmodbus (>= 3.1.2) (only for the use of Modbus)
+  - libmodbus (>= 3.0.8) (only for the use of Modbus)
   - lua-socket (>=3.0) (only for the use of CANopen)
 
 The packages can be installed by using a terminal and the following commands on Ubuntu 18.04.
