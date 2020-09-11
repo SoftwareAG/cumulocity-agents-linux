@@ -13,6 +13,31 @@ apps:
     plugs: [network]
     daemon: simple
 
+  cumulocity-canopen:
+    command: usr/bin/srwatchdogd $SNAP/usr/bin/c8y_canopend 0
+    daemon: simple
+
+  slcan-attach:
+    command: usr/bin/slcan_attach
+
+  slcand:
+    command: usr/bin/slcand
+
+  candump:
+    command: usr/bin/candump
+
+  cansend:
+    command: usr/bin/cansend
+
+  cangen:
+    command: usr/bin/cangen
+
+  cangw:
+    command: usr/bin/cangw
+
+  cansniffer:
+    command: usr/bin/cansniffer
+
 parts:
   cumulocity:
     plugin: dump
@@ -24,5 +49,7 @@ parts:
       lib: usr/lib
       cumulocity-agent.conf: usr/share/cumulocity-agent/cumulocity-agent.conf
     stage-packages:
-      - liblua5.3-0
-      - libcurl4-gnutls-dev
+      - liblua5.2-0
+      - libcurl3
+      - lua-socket
+      - can-utils

@@ -13,6 +13,10 @@ apps:
     plugs: [network]
     daemon: simple
 
+  cumulocity-vncproxy:
+    command: usr/bin/srwatchdogd $SNAP/usr/bin/vncproxy 0
+    daemon: simple
+
 parts:
   cumulocity:
     plugin: dump
@@ -26,3 +30,4 @@ parts:
     stage-packages:
       - liblua5.3-0
       - libcurl4-gnutls-dev
+

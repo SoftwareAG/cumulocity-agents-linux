@@ -86,6 +86,8 @@ mkdir -p %{buildroot}/etc/ld.so.conf.d
 mkdir -p %{buildroot}$TARGET_BASE/lua
 mkdir -p %{buildroot}/usr/lib/systemd/system
 mkdir -p %{buildroot}/usr/share/doc/cumulocity-agent
+mkdir -p %{buildroot}/usr/lib64/lua/5.1
+mkdir -p %{buildroot}/usr/lib64/lua/5.1/posix
 
 #config creation
 touch %{buildroot}/etc/cumulocity-agent.conf
@@ -111,17 +113,27 @@ touch %{buildroot}/usr/lib/systemd/system/cumulocity-agent.service
 #copy copyright file
 cp $SRC_ROOT/COPYRIGHT %{buildroot}/usr/share/doc/cumulocity-agent
 
+#copy luaposix library and its dependency
+cp /usr/lib64/lua/5.1/bit32.so %{buildroot}/usr/lib64/lua/5.1
+cp -r /usr/lib64/lua/5.1/posix/* %{buildroot}/usr/lib64/lua/5.1/posix
+
 sed -r -e 's#[$]PREFIX#'"$PREFIX"'#g' ${SRC_ROOT}/utils/cumulocity-agent.service> %{buildroot}/usr/lib/systemd/system/cumulocity-agent.service
 sed -r -e 's#[$]PKG_DIR#'"$TARGET_BASE"'#g' -e 's#[$]DATAPATH#'"$DATAPATH"'#g' ${SRC_ROOT}/cumulocity-agent.conf > %{buildroot}/etc/cumulocity-agent.conf
 
 %post
 ldconfig
 ln -f -s /etc/cumulocity-agent.conf $TARGET_BASE/cumulocity-agent.conf
+ln -f -s lua/monitoring $TARGET_BASE/monitoring
+ln -f -s $TARGET_BASE/monitoring/hosts.lua /etc/monitoring-hosts.lua
+ln -f -s $TARGET_BASE/monitoring/plugins.lua /etc/monitoring-plugins.lua
 
 systemctl enable cumulocity-agent
 
 %postun
 rm -f $TARGET_BASE/cumulocity-agent.conf
+rm -f /etc/monitoring-hosts.lua
+rm -f /etc/monitoring-plugins.lua
+rm -f $TARGET_BASE/monitoring
 
 
 %clean
@@ -135,6 +147,7 @@ rm -rf %{buildroot}
 /usr/bin/*
 /usr/local/lib/*
 /usr/share/doc/cumulocity-agent/COPYRIGHT
+/usr/lib64/lua/5.1/*
 $TARGET_BASE/*
 
 %changelog
