@@ -185,3 +185,32 @@ The agent starts automatically after installation, also at every time the machin
 
 NOTE: packaging requires snapcraft >= 2.10 because lower versions do not support the confinement property, which is
 required for packaging the agent as a snap.
+
+#### How can I connect the agent through a proxy? ####
+
+On CentOS 7 edit _cumulocity-agent.service_:
+
+```bash
+sudo vim /etc/systemd/system/cumulocity-agent.service
+```
+```
+[Unit]
+Description=cumulocity-agent
+After=network.target
+
+[Service]
+Type=idle
+Environment=http_proxy=http://<host>:<port>
+Environment=https_proxy=http://<host>:<port>
+ExecStart=/usr/bin/srwatchdogd /usr/bin/cumulocity-agent 240
+
+[Install]
+WantedBy=multi-user.target
+```
+Then reload systemd manager configuration and restart the agent.
+```bash
+sudo systemctl daemon-reload
+sudo systemctl stop cumulocity-agent
+ps aux | grep cumulocity-agent
+sudo systemctl start cumulocity-agent
+```
