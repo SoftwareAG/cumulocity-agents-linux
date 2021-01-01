@@ -207,7 +207,7 @@ ExecStart=/usr/bin/srwatchdogd /usr/bin/cumulocity-agent 240
 [Install]
 WantedBy=multi-user.target
 ```
-Then reload systemd manager configuration and restart the agent.
+Then reload systemd manager configuration and restart the agent:
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl stop cumulocity-agent
