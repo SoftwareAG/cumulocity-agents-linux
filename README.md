@@ -210,7 +210,5 @@ WantedBy=multi-user.target
 Then reload systemd manager configuration and restart the agent:
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl stop cumulocity-agent
-ps aux | grep cumulocity-agent
-sudo systemctl start cumulocity-agent
+sudo systemctl restart cumulocity-agent
 ```
