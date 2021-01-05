@@ -27,6 +27,7 @@ local keyPort = 'modbus.tcp.port'
 local keyPollingRate = 'modbus.pollingrate'
 local keyTransmitRate = 'modbus.transmitrate'
 local keyReadonly = 'modbus.readonly'
+local keyTimeout = 'modbus.timeout.usec'
 local keySerPort = 'modbus.serial.port'
 local keySerBaud = 'modbus.serial.baud'
 local keySerData = 'modbus.serial.databits'
@@ -54,6 +55,9 @@ function addDevice(r)
       MB:newRTU(addr, serBaud, serPar, serData, serStop)
    DTYPE = tonumber(string.match(r:value(5), '/(%d+)$'))
    MBDEVICES[device] = {{}, {}, {}, {}, addr, slave, DTYPE, obj}
+
+   local timeout = tonumber(cdb:get(keyTimeout)) or 5000000
+   obj:setTimeout(timeout)
 
    if not MBTYPES[DTYPE] then        -- new unknow modbus type
       local model = MB:newModel()
