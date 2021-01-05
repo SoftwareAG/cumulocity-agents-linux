@@ -6,7 +6,7 @@ TARGET_BASE=/usr/share/cumulocity-agent
 DATAPATH=/var/lib/cumulocity-agent
 PREFIX=/usr
 RPM_BASE=/tmp/rpmbuild
-AGENT_VERSION='4.2.8'
+AGENT_VERSION='4.2.9'
 RPM_RELEASE='1'
 
 
