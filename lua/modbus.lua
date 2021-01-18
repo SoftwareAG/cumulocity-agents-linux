@@ -274,7 +274,7 @@ local function pollData(device, num, msgtbl, flags)
          new[k] = string.format(fmt, new[k])
       end
 
-      for _, myno in pairs({alno, meno, evno, stno}) do
+      for _, myno in pairs({alno, evno}) do
          local msgid = v[myno]
          if msgid then
             flags[msgid] = flags[msgid] or (old[k] ~= new[k])
@@ -341,12 +341,14 @@ local function transmitData(device, isHolding, res)
    local dtype, mbdevice = MBDEVICES[device][dtypeno], MBDEVICES[device]
    local values = isHolding and mbdevice[dhrno] or mbdevice[dirno]
    local data = isHolding and HR or IR
-   for k, v in pairs(data[dtype]) do
-      local msgid = v[meno]
-      if msgid and values[k] then
-         if not res[msgid] then res[msgid] = {} end
-         local tbl = res[msgid]
-         tbl[#tbl + 1] = values[k]
+   for _, myno in pairs({meno, stno}) do
+      for k, v in pairs(data[dtype]) do
+         local msgid = v[myno]
+         if msgid and values[k] then
+            if not res[msgid] then res[msgid] = {} end
+            local tbl = res[msgid]
+            tbl[#tbl + 1] = values[k]
+         end
       end
    end
 end
