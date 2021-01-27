@@ -78,6 +78,11 @@ sudo systemctl start cumulocity-agent
 Modbus support is by default disabled. To enable modbus support, you need to edit the Makefile to set`PLUGIN_MODBUS:=1`.
 The modbus feature requires libmodbus library, make sure you have libdmobus installed before build with modbus support.
 
+Also, add `modbus` to the following line in cumulocity-agent.conf:
+```
+lua.plugins=system,logview,shell,version,modbus
+```
+
 #### How to enable CANopen support in the agent ####
 CANopen is composed of two parts. A Lua plugin, which is included into the agent build by default. However, to actually
 get CANopen support, you would also need to build the Cumulocity CANopen service, which is a C program based on the
