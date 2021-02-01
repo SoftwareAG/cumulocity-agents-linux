@@ -1,6 +1,6 @@
 # Cumulocity Linux Agent #
 
-Cumulocity Linux agent is a generic agent for connecting Linux-powered devices to Cumulocity's IoT platform. It runs on all major Linux distributions (Ubuntu, Debian, Raspbian, CentOS, etc.).
+Cumulocity Linux agent is a generic agent for connecting Linux-powered devices to Cumulocity's IoT platform. It runs on all major Linux distributions (Ubuntu, Debian, Raspberry Pi OS, CentOS, etc.).
 
 ### Current Features ###
 
@@ -77,6 +77,11 @@ sudo systemctl start cumulocity-agent
 #### How to enable Modbus support in the agent ####
 Modbus support is by default disabled. To enable modbus support, you need to edit the Makefile to set`PLUGIN_MODBUS:=1`.
 The modbus feature requires libmodbus library, make sure you have libdmobus installed before build with modbus support.
+
+Also, add `modbus` to the following line in cumulocity-agent.conf:
+```
+lua.plugins=system,logview,shell,version,modbus
+```
 
 #### How to enable CANopen support in the agent ####
 CANopen is composed of two parts. A Lua plugin, which is included into the agent build by default. However, to actually
