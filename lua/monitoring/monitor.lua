@@ -434,6 +434,13 @@ function monitor:new()
             results = { string.match(output, exec_unit.regex) }
 
             if #results == #exec_unit.series then
+               -- convert values in scientific notation
+               for i,v in ipairs(results) do
+                  if v:find('[Ee]') then
+                     local t = string.format("%f", tonumber(v))
+                     results[i] = t:match("^(%-?%d+%.%d%d-)0*$")
+                  end
+               end
                return results
             end
          end

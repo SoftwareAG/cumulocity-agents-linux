@@ -12,6 +12,7 @@ return {
          -- for debugging
          -- "ValueWithTimestampInSeconds",
          -- "ValueWithTimestampInMilliseconds",
+         -- "FloatValueMeasurement",
          -- "NoSeriesMeasurement",
          -- "NoSeriesMeasurementNALC",
          -- "NoSeriesMeasurementNoCustomAlarmText",

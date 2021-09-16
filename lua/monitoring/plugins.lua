@@ -163,6 +163,15 @@ return {
    },
 
    -- for debugging
+   ["FloatValueMeasurement"] = {
+      command="simulation/floatValueMeasurement.lua",
+      regex="value=([%+%-%d%.Ee]+)",
+      series={
+         {name="value", unit="s"}
+      },
+   },
+
+   -- for debugging
    ["NoSeriesMeasurement"] = {
       command="simulation/noSeriesMeasurement.lua",
       params="",
