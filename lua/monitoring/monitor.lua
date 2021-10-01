@@ -19,11 +19,13 @@ function monitor:new()
       private.activeAlarmsTable = {}
       private.noDuplicateAlarms = nil
       private.clearingAlarmsGlobal = nil
-      private.updateAlarmOnTextChangeGlobal = nil
+      private.switchAlarmsDelay = nil
+      private.updateAlarmsOnTextChangeGlobal = nil
       private.refreshAlarmsNow = nil
       private.debugLogLevelVerbose = nil
       private.chefLinkedExternalId = nil
       private.chefAttributesTable = {}
+      private.monitoringInterval = nil
       private.pluginsTimeout = nil
 
       private.hostPlaceholder = nil
@@ -57,14 +59,24 @@ function monitor:new()
             cdb:get('monitoring.alarms.clearing') == 'true'
             and private.noDuplicateAlarms
 
-         private.updateAlarmOnTextChangeGlobal =
-            cdb:get('monitoring.alarm.update_on_text_change') == 'true'
+         private.switchAlarmsDelay =
+            cdb:get('monitoring.alarms.switch.delay') ~= 'false'
+
+         private.updateAlarmsOnTextChangeGlobal =
+            cdb:get('monitoring.alarms.update_on_text_change') == 'true'
 
          private.debugLogLevelVerbose =
             cdb:get('monitoring.log.level.debug.verbose') == 'true'
 
          private.chefLinkedExternalId  =
             cdb:get('monitoring.chef.linked.external.id') == 'true'
+
+         local mi = tonumber(cdb:get('monitoring.interval'))
+         if mi and mi > 0 then
+            private.monitoringInterval = mi
+         else
+            private.monitoringInterval = 60 --default interval in seconds
+         end
 
          private.pluginsTimeout = tonumber(cdb:get('monitoring.plugins.timeout'))
          if private.pluginsTimeout <= 0 then
@@ -236,11 +248,32 @@ function monitor:new()
          exec_unit.use_exit_code = plugin_tbl.use_exit_code == true
          exec_unit.plugin_alarms_clearing =
             plugin_tbl.no_alarms_clearing ~= true
+
+         local monitoring_interval = private.monitoringInterval
+         local create_alarm_delay_sec = tonumber(plugin_tbl.create_alarm_delay_sec)
+         local clear_alarm_delay_sec = tonumber(plugin_tbl.create_alarm_delay_sec)
+         exec_unit.create_ticks = 0
+         exec_unit.clear_ticks = 0
+         if private.switchAlarmsDelay and create_alarm_delay_sec then
+            exec_unit.create_ticks_max =
+               math.floor(create_alarm_delay_sec/monitoring_interval+0.5) --rounding to interger
+         else
+            exec_unit.create_ticks_max = 0
+         end
+         if private.switchAlarmsDelay and clear_alarm_delay_sec then
+            exec_unit.clear_ticks_max =
+               math.floor(clear_alarm_delay_sec/monitoring_interval+0.5) --rounding to interger
+         else
+            exec_unit.clear_ticks_max = 0
+         end
+
          exec_unit.update_alarm_on_text_change =
-            private.updateAlarmOnTextChangeGlobal and
+            private.updateAlarmsOnTextChangeGlobal and
             plugin_tbl.update_alarm_on_text_change ~= false
+
          exec_unit.regex = plugin_tbl.regex
          exec_unit.series = plugin_tbl.series or {}
+
          --true if all active or acknowledged alarms of the given type are cleared
          exec_unit.did_clear_all_alarms = false
 
@@ -504,16 +537,34 @@ function monitor:new()
             local alarm_type = "c8y_"..exec_unit.plugin.."Alarm"
 
             if (exit_code >= 1) then
-               private:sendAlarm(
-                     exec_unit_id,
-                     timestamp,
-                     exit_code,
-                     c8y_id,
-                     alarm_type,
-                     private:getAlarmText(exec_unit_id, exit_code, output)
-                  )
-            elseif (exit_code == 0 and private.noDuplicateAlarms) then
-               private:resetAlarm(exec_unit_id, c8y_id, alarm_type)
+               exec_unit.clear_ticks = 0
+
+               if (exec_unit.create_ticks >= exec_unit.create_ticks_max) then
+                  exec_unit.create_ticks = 0
+                  private:sendAlarm(
+                        exec_unit_id,
+                        timestamp,
+                        exit_code,
+                        c8y_id,
+                        alarm_type,
+                        private:getAlarmText(exec_unit_id, exit_code, output)
+                     )
+               else
+                  exec_unit.create_ticks = exec_unit.create_ticks + 1
+               end
+
+            elseif (exit_code == 0) then
+               exec_unit.create_ticks = 0
+
+               if private.noDuplicateAlarms then
+                  if (exec_unit.clear_ticks >= exec_unit.clear_ticks_max) then
+                     exec_unit.clear_ticks = 0
+                     private:resetAlarm(exec_unit_id, c8y_id, alarm_type)
+                  else
+                     exec_unit.clear_ticks = exec_unit.clear_ticks + 1
+                  end
+               end
+
             end
          end
       end

@@ -10,6 +10,8 @@ return {
          {name="workload", unit="%"}
       },
       update_alarm_on_text_change=true,
+      create_alarm_delay_sec=300,
+      clear_alarm_delay_sec=300,
    },
 
    ["DiskUsageMountedOnRootDisk"] = {
@@ -236,6 +238,18 @@ return {
          warning="This is PERMANENT alarm which changes SEVERITY only",
          critical="This is PERMANENT alarm which changes SEVERITY only"
       },
+   },
+
+   -- for debugging
+   ["RandomMeasurement01"] = {
+      command="simulation/randomValue.lua",
+      regex="^(%d+%.?%d-),(%d+%.?%d-),(%d+%.?%d-)$",
+      series={
+         {name="value1"},
+         {name="value2"},
+         {name="value3"},
+      },
+      update_alarm_on_text_change=true,
    },
 
 }

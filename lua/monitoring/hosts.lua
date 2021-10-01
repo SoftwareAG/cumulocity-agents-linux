@@ -20,6 +20,7 @@ return {
          -- "AlarmUpdateSeverityAndTextAndIgnoreText",
          -- "AlarmUpdateTextOnly",
          -- "AlarmUpdateSeverityOnly",
+         -- "RandomMeasurement01",         
       }
    },
 
