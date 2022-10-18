@@ -74,6 +74,26 @@ sudo systemctl enable cumulocity-agent
 sudo systemctl start cumulocity-agent
 ```
 
+### How to build the agent via Dockerfile? ###
+
+If you want to use docker to build the agent you can use the Dockerfile within the docker directory.
+Make sure to update the id section within the cumulocity-agent.conf.
+
+```bash
+cd docker
+```
+Build via
+
+```bash
+docker build -t linux_agent -f docker/Dockerfile .
+```
+
+You can run the agent via
+
+```bash
+docker run linux_agent
+```
+
 #### How to enable Modbus support in the agent ####
 Modbus support is by default disabled. To enable modbus support, you need to edit the Makefile to set`PLUGIN_MODBUS:=1`.
 The modbus feature requires libmodbus library, make sure you have libdmobus installed before build with modbus support.
