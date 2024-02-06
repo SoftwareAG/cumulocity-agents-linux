@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import argparse, requests, unittest, sys, json
 from requests.auth import HTTPBasicAuth

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 import argparse, requests, unittest, sys, json
 from requests.auth import HTTPBasicAuth
@@ -107,5 +107,5 @@ if __name__ == '__main__':
    del sys.argv[1:]
    testCumulocityAPI = TestCumulocityAPI()
    testCount, time = testCumulocityAPI.tests()
-   print '\nRan {0} tests in {1:1.3f}s'.format(testCount, time)
-   print 'Average response time: {0:1.3f}ms'.format(time*1000/testCount)
+   print('\nRan {0} tests in {1:1.3f}s'.format(testCount, time))
+   print('Average response time: {0:1.3f}ms'.format(time*1000/testCount))
